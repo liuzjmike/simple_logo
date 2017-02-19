@@ -2,7 +2,7 @@ package model.turtle;
 
 import java.util.Collection;
 
-public interface TurtlePool {
+public interface TurtlePool { //Observable
     
     Collection<Turtle> getTurtles();
     
