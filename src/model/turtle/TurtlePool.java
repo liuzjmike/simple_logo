@@ -6,11 +6,11 @@ public interface TurtlePool { //Observable
     
     Collection<Turtle> getTurtles();
     
-    void moveTurtle(double dist);
+    public void moveTurtle(double dist);
     
-    void turnTutle(double degree);
+    public void turnTutle(double degree);
     
-    void setPen(boolean penDown);
+    public void setPen(boolean penDown);
     
-    void setVisible(boolean isVisible);
+    public void setVisible(boolean isVisible);
 }
