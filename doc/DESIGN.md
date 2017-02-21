@@ -19,7 +19,7 @@ work on them separately without worrying about dependencies.
 ### External APIs
 Provides communication between the frontend and backend sub-groups.
 * GUI (frontend): 
- * show();
+ * void show();
  * Observer getPoolObserver();
  * Observer getCommandObserver();
  * Observer getVariableObserver();
@@ -92,7 +92,7 @@ by the frontend PoolView.
 ## User Interface
 
 User types in their commands in the ConsoleView; ConsoleView also saves the User history of commands entered, and (for some of
-the commands) displays the results of their command (eg. ì10î for command ìSUM 5 5î). TurtleViews are displayed in PoolView at
+the commands) displays the results of their command (eg. ‚Äú10‚Äù for command ‚ÄúSUM 5 5‚Äù). TurtleViews are displayed in PoolView at
 their correct coordinates. FunctionsView displays text representations of any function that have been declared by the User.
 VariablesView displays text representations of any variables that have been declared by the User.  
 Errors are displayed as AlertDialogues reported to the user that display the correct error message (passed from back end).  
@@ -125,10 +125,10 @@ image.
 * The PoolView class manages all the TurtleViews and other visual elements such as lines to display the results of the turtles
 executing commands visually. It observes TurtlePool directly so it does not need to communicate with GUI very often. But GUI
 can call its set methods to change visual features such as background color and turtle images.
-* The ConsoleView class takes usersí command input and displays any non-graphical results of the commands. It allows GUI to
+* The ConsoleView class takes users‚Äô command input and displays any non-graphical results of the commands. It allows GUI to
 obtains new texts users type in and add Text to it in order to display text results of some commands.
 * The VariableView and CommandView class displays all the user-defined variables and commands. They observe the containers of
-user-defined commands and variables directly so they donít communicate with GUI very often. But their add methods allow GUI to add new commands and variables to them.
+user-defined commands and variables directly so they don‚Äôt communicate with GUI very often. But their add methods allow GUI to add new commands and variables to them.
 * The OptionsView class displays the different options provided to the users. It will likely hold a handler internally
 implemented by GUI so that it can notify GUI to change the display of GUI and other view classes according to user input.
 
@@ -137,11 +137,11 @@ implemented by GUI so that it can notify GUI to change the display of GUI and ot
 * The Command class has a single method, execute, which executes the command and returns a String about the results of the
 command.
 * The TurtlePool class contains and manages the actions of all the Turtle objects. It is the receiver of a lot of Commands to
-set the state of the turtles. It is also an observable object so it will notify all its observers of the changes in its Turtleís
+set the state of the turtles. It is also an observable object so it will notify all its observers of the changes in its Turtle‚Äôs
 states.
 * The setter methods in the Turtle class is part of the internal interface to allow TurtlePool manages the states of turtles.
 * The workflow of the backend is:
- 1. SLogoModelís interpret method is called
+ 1. SLogoModel‚Äôs interpret method is called
  2. SLogoModel calls the Interpreter to obtain a Command for each command String it receives
  3. SLogoModel executes the command, which may target TurtlePool or the container of user-defined commands and variables or have no receiver at all (math command, etc) and gets back a String about the result of the command
  4. SLogoModel returns the results to its caller
@@ -150,101 +150,101 @@ states.
 
 *Example: The user types 'fd 50' in the command window, and sees the turtle move in the display window leaving a trail, and
 the command is added to the environment's history.*  
-Front end passes raw user input String (ìfd 50î) to Controller, which calls SLogoModelís interpret() method, which calls
-Interpreterís parseCommand() method on the String. This creates an instance of ìfd Commandî, which takes in value ì50î as a
+Front end passes raw user input String (‚Äúfd 50‚Äù) to Controller, which calls SLogoModel‚Äôs interpret() method, which calls
+Interpreter‚Äôs parseCommand() method on the String. This creates an instance of ‚Äúfd Command‚Äù, which takes in value ‚Äú50‚Äù as a
 parameter, which executes the command on TurtlePool. TurtlePool calls moveTurtle(int ID, double dist) method on the specified
 turtle (using a unique String id) in the back end. Whenever any of the turtles are updated, notifyObservers() method of
 Observable class (which TurtlePool extends) notifies PoolView (the observer of TurtlePool) of the update. GUI calls step()
 method on all of the Views (PoolView, TerminalView, VariablesView, FunctionView, OptionsView). PoolView updates the front end
 TurtleViews to reflect updated back end. Each TurtleView has a Pen object which draws the trail if it is down. TerminalView
-stores the userís String input command in the  environmentís history and updates to notify user that it is ready to accept next
+stores the user‚Äôs String input command in the  environment‚Äôs history and updates to notify user that it is ready to accept next
 command. 
 
-*Example: The user types ìLEFT 90î in the command window, and sees the turtle turn 90 degrees left in the display window, and
+*Example: The user types ‚ÄúLEFT 90‚Äù in the command window, and sees the turtle turn 90 degrees left in the display window, and
 the command is added to the environment's history.*  
-Front end passes raw user input String (ìLEFT 90î) to Controller, which calls SLogoModelís interpret() method, which calls
-Interpreterís parseCommand() method on the String. This creates an instance of ìTurn Commandî, which takes in value ì90î and
-ìleftî as parameters, which executes the command on TurtlePool. TurtlePool calls turnTurtle(int ID, double angle) method on the
+Front end passes raw user input String (‚ÄúLEFT 90‚Äù) to Controller, which calls SLogoModel‚Äôs interpret() method, which calls
+Interpreter‚Äôs parseCommand() method on the String. This creates an instance of ‚ÄúTurn Command‚Äù, which takes in value ‚Äú90‚Äù and
+‚Äúleft‚Äù as parameters, which executes the command on TurtlePool. TurtlePool calls turnTurtle(int ID, double angle) method on the
 specified turtle (using a unique String id) in the back end. Whenever any of the turtles are updated, notifyObservers() method
 of Observable class (which TurtlePool extends) notifies PoolView (the observer of TurtlePool) of the update. Controller calls
 update() on GUI calls step() method on all of the Views (PoolView, TerminalView, VariablesView, FunctionView, OptionsView).
-PoolView updates the front end TurtleViews to reflect updated back end. TerminalView stores the userís String input command in
-the  environmentís history and updates to notify user that it is ready to accept next command. 
+PoolView updates the front end TurtleViews to reflect updated back end. TerminalView stores the user‚Äôs String input command in
+the  environment‚Äôs history and updates to notify user that it is ready to accept next command. 
 
-*Example: The user types ìPENUPî in the command window, and the command is added to the environment's history.*  
-Front end passes raw user input String (ìPENUPî) to Controller, which calls SLogoModelís interpret() method, which calls
-Interpreterís parseCommand() method on the String. This creates an instance of ìPen Commandî, which takes in a boolean value as
+*Example: The user types ‚ÄúPENUP‚Äù in the command window, and the command is added to the environment's history.*  
+Front end passes raw user input String (‚ÄúPENUP‚Äù) to Controller, which calls SLogoModel‚Äôs interpret() method, which calls
+Interpreter‚Äôs parseCommand() method on the String. This creates an instance of ‚ÄúPen Command‚Äù, which takes in a boolean value as
 a parameter, which executes the command on TurtlePool. TurtlePool calls setPen(boolean) method on the specified turtle (using a
 unique String id) in the back end. Whenever any of the turtles are updated, notifyObservers() method of Observable class (which
 TurtlePool extends) notifies PoolView (the observer of TurtlePool) of the update. Controller calls update() on GUI calls step()
 method on all of the Views (PoolView, TerminalView, VariablesView, FunctionView, OptionsView). PoolView updates the front end
-TurtleViews to reflect updated back end; specifically, it updates the TurtleViewís Pen instance. TerminalView stores the userís
-String input command in the  environmentís history and updates to notify user that it is ready to accept next command. 
+TurtleViews to reflect updated back end; specifically, it updates the TurtleView‚Äôs Pen instance. TerminalView stores the user‚Äôs
+String input command in the  environment‚Äôs history and updates to notify user that it is ready to accept next command. 
 
-*Example: The user types ìSHOWTURTLEî in the command window, and sees the turtle show up in the display window, returns 1 to
+*Example: The user types ‚ÄúSHOWTURTLE‚Äù in the command window, and sees the turtle show up in the display window, returns 1 to
 TerminalView (console) and the command is added to the environment's history.*  
-Front end passes raw user input String (ìSHOWTURTLEî) to Controller, which calls SLogoModelís interpret() method, which calls
-Interpreterís parseCommand() method on the String. This creates an instance of ìShow Commandî, which takes in a boolean value
-as a parameter, and executes (through execute()) the command on TurtlePool. The execute() method also returns String ì1î and
+Front end passes raw user input String (‚ÄúSHOWTURTLE‚Äù) to Controller, which calls SLogoModel‚Äôs interpret() method, which calls
+Interpreter‚Äôs parseCommand() method on the String. This creates an instance of ‚ÄúShow Command‚Äù, which takes in a boolean value
+as a parameter, and executes (through execute()) the command on TurtlePool. The execute() method also returns String ‚Äú1‚Äù and
 passes to TerminalView. TurtlePool calls setTurtleVisibility(int ID, boolean visibility) method on the specified turtle (using
 a unique String id) in the back end. Whenever any of the turtles are updated, notifyObservers() method of Observable class
 (which TurtlePool extends) notifies PoolView (the observer of TurtlePool) of the update. Controller calls update() on GUI calls
 step() method on all of the Views (PoolView, TerminalView, VariablesView, FunctionView, OptionsView). PoolView updates the
-front end TurtleViews to reflect updated back end; specifically, it sets TurtleViewís boolean visibility instance variable to
-ìtrueî, and thus the user will be able to see the turtleís ImageView on screen. TerminalView displays the String passed from
-Commandís execute method (ì1î), stores the userís String input command in the  environmentís history, and updates to notify
+front end TurtleViews to reflect updated back end; specifically, it sets TurtleView‚Äôs boolean visibility instance variable to
+‚Äútrue‚Äù, and thus the user will be able to see the turtle‚Äôs ImageView on screen. TerminalView displays the String passed from
+Command‚Äôs execute method (‚Äú1‚Äù), stores the user‚Äôs String input command in the  environment‚Äôs history, and updates to notify
 user that it is ready to accept next command. 
 
-*Example: The user types ìSUM 1 1î in the command window, returns the result of the summation to TerminalView (console) and the
+*Example: The user types ‚ÄúSUM 1 1‚Äù in the command window, returns the result of the summation to TerminalView (console) and the
 command is added to the environment's history.*  
-Front end passes raw user input String (ìSUM 1 1î) to Controller, which calls SLogoModelís interpret() method, which calls
-Interpreterís parseCommand() method on the String. This creates an instance of ìSum Commandî, which takes in ì1î as expr1 and
-ì1î as expr2, and executes (through execute()) the command. The execute() method returns String ì2î and passes to Controller.
+Front end passes raw user input String (‚ÄúSUM 1 1‚Äù) to Controller, which calls SLogoModel‚Äôs interpret() method, which calls
+Interpreter‚Äôs parseCommand() method on the String. This creates an instance of ‚ÄúSum Command‚Äù, which takes in ‚Äú1‚Äù as expr1 and
+‚Äú1‚Äù as expr2, and executes (through execute()) the command. The execute() method returns String ‚Äú2‚Äù and passes to Controller.
 Controller calls update() on GUI calls step() method on all of the Views (PoolView, TerminalView, VariablesView, FunctionView,
-OptionsView) and passes String to TerminalView. TerminalView displays the String passed from Commandís execute method (ì2î),
-stores the userís String input command in the  environmentís history, and updates to notify user that it is ready to accept
+OptionsView) and passes String to TerminalView. TerminalView displays the String passed from Command‚Äôs execute method (‚Äú2‚Äù),
+stores the user‚Äôs String input command in the  environment‚Äôs history, and updates to notify user that it is ready to accept
 next command. 
 
-*Example: The user types ìMAKE variable exprî in the command window, and sees the new entry in VariablesView, and the command
+*Example: The user types ‚ÄúMAKE variable expr‚Äù in the command window, and sees the new entry in VariablesView, and the command
 is added to the environment's history.*  
-Front end passes raw user input String (ìMAKE variable exprî) to Controller, which calls SLogoModelís interpret() method,
-which calls Interpreterís parseCommand() method on the String. This creates an instance of ìMakeVariable Commandî, which takes
-in ìvariableî as variable name and ìexprî as the value of the variable, and executes (through execute()) the command. The
-execute() method returns String ìvariable = exprî and passes to Controller. Controller calls update() on GUI calls step()
-method on all of the Views (PoolView, TerminalView, VariablesView, FunctionView, OptionsView) and passes String ìvariable =
-exprî from Command to  VariablesView, which adds the text to its display.  PoolView updates the front end TurtleViews to
-reflect updated back end. Each TurtleView has a Pen object which draws the trail if it is down. TerminalView stores the userís
-String input command in the  environmentís history, and updates to notify user that it is ready to accept next command. 
+Front end passes raw user input String (‚ÄúMAKE variable expr‚Äù) to Controller, which calls SLogoModel‚Äôs interpret() method,
+which calls Interpreter‚Äôs parseCommand() method on the String. This creates an instance of ‚ÄúMakeVariable Command‚Äù, which takes
+in ‚Äúvariable‚Äù as variable name and ‚Äúexpr‚Äù as the value of the variable, and executes (through execute()) the command. The
+execute() method returns String ‚Äúvariable = expr‚Äù and passes to Controller. Controller calls update() on GUI calls step()
+method on all of the Views (PoolView, TerminalView, VariablesView, FunctionView, OptionsView) and passes String ‚Äúvariable =
+expr‚Äù from Command to  VariablesView, which adds the text to its display.  PoolView updates the front end TurtleViews to
+reflect updated back end. Each TurtleView has a Pen object which draws the trail if it is down. TerminalView stores the user‚Äôs
+String input command in the  environment‚Äôs history, and updates to notify user that it is ready to accept next command. 
 
-*Example: The user types ìXCORî in the command window, returns the turtleís x-coordinate to TerminalView (console) and the
+*Example: The user types ‚ÄúXCOR‚Äù in the command window, returns the turtle‚Äôs x-coordinate to TerminalView (console) and the
 command is added to the environment's history.*  
-Front end passes raw user input String (ìXCORî) to Controller, which calls SLogoModelís interpret() method, which calls
-Interpreterís parseCommand() method on the String. This creates an instance of ìGET Commandî, which takes in ìXCORî as a
-parameter, and executes (through execute()) the command. The execute() method returns result of Turtleís getXCor() method and
+Front end passes raw user input String (‚ÄúXCOR‚Äù) to Controller, which calls SLogoModel‚Äôs interpret() method, which calls
+Interpreter‚Äôs parseCommand() method on the String. This creates an instance of ‚ÄúGET Command‚Äù, which takes in ‚ÄúXCOR‚Äù as a
+parameter, and executes (through execute()) the command. The execute() method returns result of Turtle‚Äôs getXCor() method and
 passes to Controller. Controller calls update() on GUI calls step() method on all of the Views (PoolView, TerminalView,
 VariablesView, FunctionView, OptionsView) and passes String to TerminalView. TerminalView displays the String passed from
-Commandís execute method eg.  (ì50.0î), stores the userís String input command in the  environmentís history, and updates to
+Command‚Äôs execute method eg.  (‚Äú50.0‚Äù), stores the user‚Äôs String input command in the  environment‚Äôs history, and updates to
 notify user that it is ready to accept next command. 
 
-*Example: The user types ìSETXY 0 10î in the command window, and user sees the turtle move in the display window leaving a
+*Example: The user types ‚ÄúSETXY 0 10‚Äù in the command window, and user sees the turtle move in the display window leaving a
 trail, the angle the turtle turned printed in the TerminalView, and the command is added to the environment's history.*
 
-Front end passes raw user input String (ìSETXY 0 10î) to Controller, which calls SLogoModelís interpret() method, which calls
-Interpreterís parseCommand() method on the String. This creates an instance of ìSETXY Commandî, which takes in ì0î as x-cor
-parameter and ì10î as y-cor parameter, and executes (through execute()) the command. The execute() method returns result of
-Turtleís calculateAngle() method (eg. ì50.0î) and passes to Controller and TurtlePool. TurtlePool calls moveTurtle(int ID,
+Front end passes raw user input String (‚ÄúSETXY 0 10‚Äù) to Controller, which calls SLogoModel‚Äôs interpret() method, which calls
+Interpreter‚Äôs parseCommand() method on the String. This creates an instance of ‚ÄúSETXY Command‚Äù, which takes in ‚Äú0‚Äù as x-cor
+parameter and ‚Äú10‚Äù as y-cor parameter, and executes (through execute()) the command. The execute() method returns result of
+Turtle‚Äôs calculateAngle() method (eg. ‚Äú50.0‚Äù) and passes to Controller and TurtlePool. TurtlePool calls moveTurtle(int ID,
 double dist) method on the specified turtle (using a unique String id) in the back end. Whenever any of the turtles are updated,
 notifyObservers() method of Observable class (which TurtlePool extends) notifies PoolView (the observer of TurtlePool) of the
 update. Controller calls update() on GUI calls step() method on all of the Views (PoolView, TerminalView, VariablesView,
-FunctionView, OptionsView) and passes String to TerminalView. TerminalView displays the String passed from Commandís execute
-method eg.  (ì50.0î), stores the userís String input command in the  environmentís history, and updates to notify user that it
+FunctionView, OptionsView) and passes String to TerminalView. TerminalView displays the String passed from Command‚Äôs execute
+method eg.  (‚Äú50.0‚Äù), stores the user‚Äôs String input command in the  environment‚Äôs history, and updates to notify user that it
 is ready to accept next command. 
 
 ## Design Considerations
 
 * One potential issue is how to associate backend turtles with their frontend representations. Plans discussed include letting
 PoolView observe both TurtlePool and Turtles so that changes to each Turtle can be reflected separately, and letting PoolView
-observe only TurtlePool so all Turtlesí frontend representations are always updated at the same time. We decided to adopt the
+observe only TurtlePool so all Turtles‚Äô frontend representations are always updated at the same time. We decided to adopt the
 second method because we thought it was more standard MVC architecture and the broadcasting of all all Turtles upon any change
 may allow future developers to do more interesting with the information as opposed to see the changes to each turtle separately.
 However, this design is still subject to change.
