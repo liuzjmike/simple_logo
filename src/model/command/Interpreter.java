@@ -2,5 +2,5 @@ package model.command;
 
 public interface Interpreter {
 
-    public Command parseCommand();
+    public Command parseCommand(String command) throws Exception;
 }
