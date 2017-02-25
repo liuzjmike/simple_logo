@@ -3,6 +3,8 @@ package model.executable;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Environment;
+
 /**
  * Represents a SLogo list
  * When execute is called, returns the value of the final command executed
@@ -22,13 +24,13 @@ public class ExecutableList implements Executable {
     }
 
     @Override
-    public Literal execute() throws Exception {
+    public Literal execute(Environment env) throws Exception {
         if (myExecs.size() == 0) {
             return new Literal(0);
         }
         Literal ret = null;
         for(int i = 0; i < myExecs.size(); i++) {
-            ret = myExecs.get(i).execute();
+            ret = myExecs.get(i).execute(env);
         }
         return ret;
     }

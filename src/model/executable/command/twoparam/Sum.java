@@ -1,15 +1,17 @@
 package model.executable.command.twoparam;
 
+import model.Environment;
 import model.executable.Literal;
 
+/**
+ * Returns sum of the values of expr1 and expr2
+ * @author zhuangbihan
+ *
+ */
 public class Sum extends TwoParamCommand {
 
-	public Sum() {
-		// TODO Auto-generated constructor stub
-	}
-
     @Override
-    protected Literal concreteExecute() throws Exception {
-        return new Literal(getParamValue(0) + getParamValue(1));
+    protected Literal concreteExecute(Environment env) throws Exception {
+        return new Literal(getParamValue(0, env) + getParamValue(1, env));
     }
 }

@@ -3,6 +3,7 @@ package model.executable.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Environment;
 import model.executable.Executable;
 import model.executable.Literal;
 
@@ -15,11 +16,11 @@ public abstract class AbstractCommand implements Command {
     }
     
     @Override
-    public Literal execute() throws Exception {
+    public Literal execute(Environment env) throws Exception {
         if(getParams().size() != numParams()) {
             throw new Exception();
         }
-        return concreteExecute();
+        return concreteExecute(env);
     }
     
     @Override
@@ -34,9 +35,9 @@ public abstract class AbstractCommand implements Command {
         return myParams;
     }
     
-    protected double getParamValue(int index) throws Exception {
-        return getParams().get(index).execute().getValue();
+    protected double getParamValue(int index, Environment env) throws Exception {
+        return getParams().get(index).execute(env).getValue();
     }
     
-    protected abstract Literal concreteExecute() throws Exception;
+    protected abstract Literal concreteExecute(Environment env) throws Exception;
 }
