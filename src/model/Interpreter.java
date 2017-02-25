@@ -8,7 +8,6 @@ import model.executable.Executable;
 import model.executable.ExecutableList;
 import model.executable.Variable;
 import model.executable.command.Command;
-import model.executable.command.twoparam.Sum;
 
 public class Interpreter {
     
@@ -20,10 +19,11 @@ public class Interpreter {
         ExecutableList root = new ExecutableList();
     	while(!expressions.isEmpty()) {
     		String exp = expressions.pop();
+    		// TODO: check expression type literal? variable? command?
     		if(!isCommand(exp)) {
-    			root.add(new Variable());
+    			root.add(new Variable(exp));
     		} else {
-    			Command command = new Sum();
+    			Command command = env.getCommand(exp);
     			for(int i = 0; i < command.numParams(); i++) {
     				command.addParam(parse(expressions, env));
     			}
