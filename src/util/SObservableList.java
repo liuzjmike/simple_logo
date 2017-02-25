@@ -11,6 +11,7 @@ public class SObservableList<E> extends SLogoObservable<List<E>> implements Iter
     private List<E> myList;
     
     public SObservableList() {
+        super();
         myList = new ArrayList<>();
     }
     

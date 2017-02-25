@@ -3,7 +3,16 @@ package model.turtle;
 public class Turtle {
     
     private double myX, myY, myHeading;
-    boolean penDown, isVisible;
+    private boolean penDown, isVisible;
+    private int myID;
+    
+    public Turtle(int id) {
+        myID = id;
+    }
+    
+    public int getID() {
+        return myID;
+    }
 
     public double getX() {
         return myX;
@@ -25,23 +34,23 @@ public class Turtle {
         return isVisible;
     }
     
-    protected void setX(double x) {
+    void setX(double x) {
         myX = x;
     }
     
-    protected void setY(double y) {
+    void setY(double y) {
         myY = y;
     }
     
-    protected void setHeading(double heading) {
+    void setHeading(double heading) {
         myHeading = heading;
     }
     
-    protected void setPen(boolean penDown) {
+    void setPen(boolean penDown) {
         this.penDown = penDown;
     }
     
-    protected void setVisible(boolean isVisible) {
+    void setVisible(boolean isVisible) {
         this.isVisible = isVisible;
     }
 }

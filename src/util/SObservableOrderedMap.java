@@ -1,11 +1,12 @@
 package util;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
 
-public class SObservableOrderedMap<K, V> extends SObservableList<SimpleEntry<K, V>> {
+public class SObservableOrderedMap<K, V> extends SObservableList<Entry<K, V>> {
     
     public V get(K key) throws Exception {
-        for(SimpleEntry<K, V> entry: this) {
+        for(Entry<K, V> entry: this) {
             if(entry.getKey().equals(key)) {
                 return entry.getValue();
             }
@@ -14,7 +15,7 @@ public class SObservableOrderedMap<K, V> extends SObservableList<SimpleEntry<K, 
     }
     
     public void put(K key, V value) {
-        for(SimpleEntry<K, V> entry: this) {
+        for(Entry<K, V> entry: this) {
             if(entry.getKey().equals(key)) {
                 entry.setValue(value);
             }
