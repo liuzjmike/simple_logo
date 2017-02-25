@@ -12,11 +12,11 @@ import model.executable.command.twoparam.Sum;
 
 public class Interpreter {
     
-    public Executable parse(String commands) throws Exception {
-    	return parse(new ArrayDeque<String>(Arrays.asList(commands.split(" "))));
+    public Executable parse(String commands, Environment env) throws Exception {
+    	return parse(new ArrayDeque<String>(Arrays.asList(commands.split(" "))), env);
     }
     
-    private Executable parse(Deque<String> expressions) throws Exception {
+    private Executable parse(Deque<String> expressions, Environment env) throws Exception {
         ExecutableList root = new ExecutableList();
     	while(!expressions.isEmpty()) {
     		String exp = expressions.pop();
@@ -25,7 +25,7 @@ public class Interpreter {
     		} else {
     			Command command = new Sum();
     			for(int i = 0; i < command.numParams(); i++) {
-    				command.addParam(parse(expressions));
+    				command.addParam(parse(expressions, env));
     			}
     			root.add(command);
     		}

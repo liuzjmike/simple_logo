@@ -9,25 +9,53 @@ import model.executable.command.Command;
 import model.turtle.Turtle;
 import util.SLogoObserver;
 
-public interface SLogoModel {
+public class SLogoModel {
     
-    public List<String> interpret(List<String> command) throws Exception;
+    private Environment myEnv;
+    private Interpreter myInterpreter;
     
-    public void addPoolObserver(SLogoObserver<Collection<Turtle>> so);
+    public SLogoModel() {
+        myEnv = new Environment();
+        myInterpreter = new Interpreter();
+    }
     
-    public void removePoolObserver(SLogoObserver<Collection<Turtle>> so);
+    public double interpret(String commands) throws Exception {
+        return myInterpreter.parse(commands, myEnv).execute().getValue();
+    }
     
-    public void addCommandObserver(SLogoObserver<List<SimpleEntry<String, Command>>> so);
+    public void addPoolObserver(SLogoObserver<Collection<Turtle>> so) {
+        
+    }
     
-    public void removeCommandObserver(SLogoObserver<List<SimpleEntry<String, Command>>> so);
+    public void removePoolObserver(SLogoObserver<Collection<Turtle>> so) {
+        
+    }
     
-    public void addVariableObserver(SLogoObserver<List<SimpleEntry<String, Literal>>> so);
+    public void addCommandObserver(SLogoObserver<List<SimpleEntry<String, Command>>> so) {
+        
+    }
     
-    public void removeVariableObserver(SLogoObserver<List<SimpleEntry<String, Literal>>> so);
+    public void removeCommandObserver(SLogoObserver<List<SimpleEntry<String, Command>>> so) {
+        
+    }
     
-    public Collection<Turtle> getTurtles();
+    public void addVariableObserver(SLogoObserver<List<SimpleEntry<String, Literal>>> so) {
+        
+    }
     
-    public List<SimpleEntry<String, Command>> getCommands();
+    public void removeVariableObserver(SLogoObserver<List<SimpleEntry<String, Literal>>> so) {
+        
+    }
     
-    public List<SimpleEntry<String, Literal>> getVariables();
+    public Collection<Turtle> getTurtles() {
+        return null;
+    }
+    
+    public List<SimpleEntry<String, Command>> getCommands() {
+        return null;
+    }
+    
+    public List<SimpleEntry<String, Literal>> getVariables() {
+        return null;
+    }
 }

@@ -1,32 +1,44 @@
 package model;
 
-import java.util.List;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.List;
 
 import model.executable.Literal;
 import model.executable.command.Command;
 import model.turtle.TurtlePool;
 import util.SLogoObserver;
-import util.SObservableList;
+import util.SObservableOrderedMap;
 
 public class Environment {
     
     private TurtlePool myPool;
-    private SObservableList<SimpleEntry<String, Command>> myCommands;
-    private SObservableList<SimpleEntry<String, Literal>> myVariables;
+    private SObservableOrderedMap<String, Command> myCommands;
+    private SObservableOrderedMap<String, Literal> myVariables;
     
     public Environment() {
         myPool = new TurtlePool();
-        myCommands = new SObservableList<>();
-        myVariables = new SObservableList<>();
+        myCommands = new SObservableOrderedMap<>();
+        myVariables = new SObservableOrderedMap<>();
     }
 
     public TurtlePool getPool() {
         return myPool;
     }
     
-    public Command getCommand(String name) {
-        return null;
+    public Command getCommand(String name) throws Exception {
+        return myCommands.get(name);
+    }
+    
+    public Literal getVariable(String name) throws Exception {
+        return myVariables.get(name);
+    }
+    
+    public List<SimpleEntry<String, Command>> getCommands() {
+        return myCommands.getAll();
+    }
+    
+    public List<SimpleEntry<String, Literal>> getVariables() {
+        return myVariables.getAll();
     }
     
     public void addCommandObserver(SLogoObserver<List<SimpleEntry<String, Command>>> so) {

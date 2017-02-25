@@ -32,6 +32,10 @@ public class SObservableList<E> extends SLogoObservable<List<E>> implements Iter
         return myList.get(index);
     }
     
+    public List<E> getAll() {
+        return Collections.unmodifiableList(myList);
+    }
+    
     public E remove(int index) {
         E ret = myList.remove(index);
         notifyObservers();
