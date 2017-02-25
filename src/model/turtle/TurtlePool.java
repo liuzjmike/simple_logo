@@ -2,6 +2,37 @@ package model.turtle;
 
 import java.util.ArrayList;
 import java.util.Collection;
+<<<<<<< HEAD
+import java.util.Observable;
+import java.util.Observer;
+
+
+public class TurtlePool implements Observer { 
+    
+    Collection<Turtle> getTurtles() {
+		return null;
+	}
+    
+    public void moveTurtle(double dist) {
+	}
+    
+    public void turnTutle(double degree) {
+	}
+    
+    public void setPen(boolean penDown) {
+	}
+    
+    public void setVisible(boolean isVisible) {
+	}
+
+	@Override
+	public void update(Observable TurtleView, Object arg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+=======
 import java.util.Collections;
 
 import util.SLogoObservable;
@@ -58,4 +89,5 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
         }
         notifyObservers(myTurtles);
     }
+>>>>>>> cfc70e4f91999f77c2cdb193128b3f19e96bb435
 }

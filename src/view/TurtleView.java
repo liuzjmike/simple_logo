@@ -2,11 +2,14 @@ package view;
 
 import javafx.scene.image.ImageView;
 
-public interface TurtleView {
+public class TurtleView {
 
-    public void setImage(ImageView image);
+    public void setImage(ImageView image) {
+	}
     
-    public void setX(double x);
+    public void setX(double x) {
+	}
     
-    public void setY(double y);
+    public void setY(double y) {
+	}
 }
