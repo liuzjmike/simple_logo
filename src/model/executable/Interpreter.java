@@ -1,33 +1,31 @@
 package model.executable;
 
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 
-import model.executable.math.Sum;
+import model.executable.command.Command;
+import model.executable.command.twoparam.Sum;
 
 public class Interpreter {
 
-    public List<Node> parse(String commands) throws Exception {
+    public Executable parse(String commands) throws Exception {
     	return null;
     }
     
-    private List<Node> parse(Deque<String> expressions) {
-    	List<Node> roots = new ArrayList<>();
+    private Executable parse(Deque<String> expressions) throws Exception {
+        ExecutableList root = new ExecutableList();
     	while(!expressions.isEmpty()) {
     		String exp = expressions.pop();
     		if(!isCommand(exp)) {
-    			roots.add(new Node(new Variable()));
+    			root.add(new Variable());
     		} else {
     			Command command = new Sum();
-    			Node node = new Node(command);
     			for(int i = 0; i < command.numParams(); i++) {
-    				node.addChildren(parse(expressions));
+    				command.addParam(parse(expressions));
     			}
-    			roots.add(node);
+    			root.add(command);
     		}
     	}
-    	return roots;
+    	return root;
     }
     
     private boolean isCommand(String exp) {
