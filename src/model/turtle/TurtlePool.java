@@ -41,12 +41,18 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     
     private Collection<Turtle> myTurtles;
     private int turtleID;
+    private double myWidth, myHeight;
     
-    public TurtlePool() {
+    public TurtlePool(double width, double height) {
         super();
         myTurtles = new ArrayList<>();
         turtleID = 0;
         addTurtle();
+    }
+    
+    public void setSize(double width, double height) {
+        myWidth = width;
+        myHeight = height;
     }
     
     public Collection<Turtle> getTurtles() {
@@ -60,15 +66,43 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     
     public void moveTurtle(double dist) {
         operateOnTurtles(turtle -> {
-            turtle.setX(turtle.getX() + dist * Math.cos(turtle.getHeading()));
-            turtle.setY(turtle.getY() - dist * Math.sin(turtle.getHeading()));
+            turtle.move(dist);
         });
+    }
+    
+    public double setTurtleXY(double x, double y) {
+        operateOnTurtles(turtle -> {
+            turtle.setXY(x % myWidth, y % myHeight);
+        });
+        //TODO
+        return 0;
+    }
+    
+    public double home() {
+        //TODO
+        return 0;
     }
     
     public void turnTutle(double degree) {
         operateOnTurtles(turtle -> {
-            turtle.setHeading((turtle.getHeading() + degree) % (2 * Math.PI));
+            turtle.turn(degree);
         });
+    }
+    
+    public double setTurtleHeading(double heading) {
+        operateOnTurtles(turtle -> {
+            turtle.setHeading(heading);
+        });
+        //TODO
+        return 0;
+    }
+    
+    public double turtleTowards(double x, double y) {
+        operateOnTurtles(turtle -> {
+            turtle.towards(x, y);
+        });
+        //TODO
+        return 0;
     }
     
     public void setPen(boolean penDown) {
@@ -81,6 +115,36 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
         operateOnTurtles(turtle -> {
             turtle.setVisible(isVisible);
         });
+    }
+    
+    public double reset() {
+        //TODO
+        return 0;
+    }
+    
+    public double getHeading() {
+        //TODO
+        return 0;
+    }
+    
+    public double xCor() {
+        //TODO
+        return 0;
+    }
+    
+    public double yCor() {
+        //TODO
+        return 0;
+    }
+    
+    public boolean penDown() {
+        //TODO
+        return true;
+    }
+    
+    public boolean isVisible() {
+        //TODO
+        return true;
     }
     
     private void operateOnTurtles(TurtleOperation operation) {

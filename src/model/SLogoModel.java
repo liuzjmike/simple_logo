@@ -51,8 +51,8 @@ public class SLogoModel {
     private Environment myEnv;
     private Interpreter myInterpreter;
     
-    public SLogoModel() {
-        myEnv = new Environment();
+    public SLogoModel(double width, double height) {
+        myEnv = new Environment(width, height);
         myInterpreter = new Interpreter();
     }
     
@@ -62,6 +62,10 @@ public class SLogoModel {
     
     public void setLanguage(String language) {
         myEnv.setLanguage(language);
+    }
+    
+    public void setSize(double width, double height) {
+        myEnv.getPool().setSize(width, height);
     }
     
     public void addPoolObserver(SLogoObserver<Collection<Turtle>> so) {

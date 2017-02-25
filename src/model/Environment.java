@@ -23,8 +23,8 @@ public class Environment {
     private SObservableOrderedMap<String, Literal> myVariables;
     private List<Entry<String, Pattern>> commandTable;
     
-    public Environment() {
-        myPool = new TurtlePool();
+    public Environment(double width, double height) {
+        myPool = new TurtlePool(width, height);
         myCommands = new SObservableOrderedMap<>();
         myVariables = new SObservableOrderedMap<>();
     }
