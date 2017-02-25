@@ -9,9 +9,8 @@ public class Literal implements Executable {
 	}
 
 	@Override
-	public Literal eval(Executable... exec) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Literal execute() throws Exception {
+		return this;
 	}
 	
 	public double getValue() {

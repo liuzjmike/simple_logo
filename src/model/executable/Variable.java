@@ -7,7 +7,7 @@ public class Variable implements Executable {
 	}
 
 	@Override
-	public Literal eval(Executable...exec) {
+	public Literal execute() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,30 +1,61 @@
 package model;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.List;
-import java.util.Observer;
 
+import model.executable.Literal;
+import model.executable.command.Command;
 import model.turtle.Turtle;
+import util.SLogoObserver;
 
-public interface SLogoModel {
+public class SLogoModel {
     
-    public List<String> interpret(List<String> command) throws Exception;
+    private Environment myEnv;
+    private Interpreter myInterpreter;
     
-    public void addPoolObserver(Observer o);
+    public SLogoModel() {
+        myEnv = new Environment();
+        myInterpreter = new Interpreter();
+    }
     
-    public void removePoolObserver(Observer o);
+    public double interpret(String commands) throws Exception {
+        return myInterpreter.parse(commands, myEnv).execute().getValue();
+    }
     
-    public void addCommandObserver(Observer o);
+    public void addPoolObserver(SLogoObserver<Collection<Turtle>> so) {
+        
+    }
     
-    public void removeCommandObserver(Observer o);
+    public void removePoolObserver(SLogoObserver<Collection<Turtle>> so) {
+        
+    }
     
-    public void addVariableObserver(Observer o);
+    public void addCommandObserver(SLogoObserver<List<SimpleEntry<String, Command>>> so) {
+        
+    }
     
-    public void removeVariableObserver(Observer o);
+    public void removeCommandObserver(SLogoObserver<List<SimpleEntry<String, Command>>> so) {
+        
+    }
     
-    public Collection<Turtle> getTurtles();
+    public void addVariableObserver(SLogoObserver<List<SimpleEntry<String, Literal>>> so) {
+        
+    }
     
-    public List<String> getCommands();
+    public void removeVariableObserver(SLogoObserver<List<SimpleEntry<String, Literal>>> so) {
+        
+    }
     
-    public List<String> getVariables();
+    public Collection<Turtle> getTurtles() {
+        return null;
+    }
+    
+    public List<SimpleEntry<String, Command>> getCommands() {
+        return null;
+    }
+    
+    public List<SimpleEntry<String, Literal>> getVariables() {
+        return null;
+    }
 }
