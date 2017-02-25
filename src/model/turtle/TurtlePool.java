@@ -1,16 +1,36 @@
 package model.turtle;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
-public interface TurtlePool { //Observable
+import util.SLogoObservable;
+
+public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     
-    Collection<Turtle> getTurtles();
+    private Collection<Turtle> myTurtles;
     
-    public void moveTurtle(double dist);
+    public TurtlePool() {
+        myTurtles = new ArrayList<>();
+    }
     
-    public void turnTutle(double degree);
+    Collection<Turtle> getTurtles() {
+        return Collections.unmodifiableCollection(myTurtles);
+    }
     
-    public void setPen(boolean penDown);
+    public void moveTurtle(double dist) {
+        
+    }
     
-    public void setVisible(boolean isVisible);
+    public void turnTutle(double degree) {
+        
+    }
+    
+    public void setPen(boolean penDown) {
+        
+    }
+    
+    public void setVisible(boolean isVisible) {
+        
+    }
 }

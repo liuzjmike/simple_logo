@@ -1,14 +1,19 @@
-package model.executable;
+package model;
 
+import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 
+import model.executable.Executable;
+import model.executable.ExecutableList;
+import model.executable.Variable;
 import model.executable.command.Command;
 import model.executable.command.twoparam.Sum;
 
 public class Interpreter {
-
+    
     public Executable parse(String commands) throws Exception {
-    	return null;
+    	return parse(new ArrayDeque<String>(Arrays.asList(commands.split(" "))));
     }
     
     private Executable parse(Deque<String> expressions) throws Exception {

@@ -23,8 +23,14 @@ public class ExecutableList implements Executable {
 
     @Override
     public Literal execute() throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        if (myExecs.size() == 0) {
+            return new Literal(0);
+        }
+        Literal ret = null;
+        for(int i = 0; i < myExecs.size(); i++) {
+            ret = myExecs.get(i).execute();
+        }
+        return ret;
     }
 
 }
