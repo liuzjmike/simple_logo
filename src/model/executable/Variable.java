@@ -1,15 +1,18 @@
 package model.executable;
 
-public class Variable implements Executable {
+import model.Environment;
 
-	public Variable() {
-		// TODO Auto-generated constructor stub
+public class Variable implements Executable {
+	
+	String myName;
+
+	public Variable(String name) {
+		myName = name;
 	}
 
 	@Override
-	public Literal execute() {
-		// TODO Auto-generated method stub
-		return null;
+	public Literal execute(Environment env) throws Exception {
+		return env.getVariable(myName);
 	}
 
 }

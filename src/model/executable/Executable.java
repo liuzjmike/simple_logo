@@ -1,7 +1,9 @@
 package model.executable;
 
+import model.Environment;
+
 public interface Executable {
 
-	public Literal execute() throws Exception;
+	public Literal execute(Environment env) throws Exception;
 	
 }

@@ -20,7 +20,7 @@ public class SLogoModel {
     }
     
     public double interpret(String commands) throws Exception {
-        return myInterpreter.parse(commands, myEnv).execute().getValue();
+        return myInterpreter.parse(commands, myEnv).execute(myEnv).getValue();
     }
     
     public void addPoolObserver(SLogoObserver<Collection<Turtle>> so) {
