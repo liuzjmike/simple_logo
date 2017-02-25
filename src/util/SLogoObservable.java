@@ -1,14 +1,14 @@
 package util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-public class SLogoObservable<T> {
+public abstract class SLogoObservable<T> {
     
-    private List<SLogoObserver<T>> myObservers;
+    private Set<SLogoObserver<T>> myObservers;
     
     public SLogoObservable() {
-        myObservers = new ArrayList<>();
+        myObservers = new HashSet<>();
     }
     
     public void addObserver(SLogoObserver<T> so) {

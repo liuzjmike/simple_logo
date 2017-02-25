@@ -1,7 +1,11 @@
 package model;
 
-import java.util.AbstractMap.SimpleEntry;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.ResourceBundle;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 import model.executable.Literal;
 import model.executable.command.Command;
@@ -11,9 +15,13 @@ import util.SObservableOrderedMap;
 
 public class Environment {
     
+    public static final String DEFAULT_LANGUAGE_PACKAGE = "resources/languages/";
+    public static final String NO_MATCH = "NO MATCH";
+    
     private TurtlePool myPool;
     private SObservableOrderedMap<String, Command> myCommands;
     private SObservableOrderedMap<String, Literal> myVariables;
+    private List<Entry<String, Pattern>> commandTable;
     
     public Environment() {
         myPool = new TurtlePool();
@@ -26,34 +34,55 @@ public class Environment {
     }
     
     public Command getCommand(String name) throws Exception {
-        return myCommands.get(name);
+        String command = getCommandName(name);
+        return myCommands.get(command.equals(NO_MATCH) ? name : command);
     }
     
     public Literal getVariable(String name) throws Exception {
         return myVariables.get(name);
     }
     
-    public List<SimpleEntry<String, Command>> getCommands() {
+    void setLanguage(String language) {
+        ResourceBundle resources = ResourceBundle.getBundle(language);
+        Enumeration<String> iter = resources.getKeys();
+        while (iter.hasMoreElements()) {
+            String key = iter.nextElement();
+            String regex = resources.getString(key);
+            commandTable.add(new SimpleEntry<>(key, 
+                    Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
+        }
+    }
+    
+    List<Entry<String, Command>> getCommands() {
         return myCommands.getAll();
     }
     
-    public List<SimpleEntry<String, Literal>> getVariables() {
+    List<Entry<String, Literal>> getVariables() {
         return myVariables.getAll();
     }
     
-    public void addCommandObserver(SLogoObserver<List<SimpleEntry<String, Command>>> so) {
+    void addCommandObserver(SLogoObserver<List<Entry<String, Command>>> so) {
         myCommands.addObserver(so);
     }
     
-    public void removeCommandObserver(SLogoObserver<List<SimpleEntry<String, Command>>> so) {
+    void removeCommandObserver(SLogoObserver<List<Entry<String, Command>>> so) {
         myCommands.removeObserver(so);
     }
     
-    public void addVariableObserver(SLogoObserver<List<SimpleEntry<String, Literal>>> so) {
+    void addVariableObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
         myVariables.addObserver(so);
     }
     
-    public void removeVariableObserver(SLogoObserver<List<SimpleEntry<String, Literal>>> so) {
+    void removeVariableObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
         myVariables.removeObserver(so);
+    }
+    
+    private String getCommandName(String name) {
+        for (Entry<String, Pattern> e : commandTable) {
+            if (e.getValue().matcher(name).matches()) {
+                return e.getKey();
+            }
+        }
+        return NO_MATCH;
     }
 }

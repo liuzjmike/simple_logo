@@ -1,8 +1,8 @@
 package model;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map.Entry;
 
 import model.executable.Literal;
 import model.executable.command.Command;
@@ -23,39 +23,43 @@ public class SLogoModel {
         return myInterpreter.parse(commands, myEnv).execute(myEnv).getValue();
     }
     
+    public void setLanguage(String language) {
+        myEnv.setLanguage(language);
+    }
+    
     public void addPoolObserver(SLogoObserver<Collection<Turtle>> so) {
-        
+        myEnv.getPool().addObserver(so);
     }
     
     public void removePoolObserver(SLogoObserver<Collection<Turtle>> so) {
-        
+        myEnv.getPool().removeObserver(so);
     }
     
-    public void addCommandObserver(SLogoObserver<List<SimpleEntry<String, Command>>> so) {
-        
+    public void addCommandObserver(SLogoObserver<List<Entry<String, Command>>> so) {
+        myEnv.addCommandObserver(so);
     }
     
-    public void removeCommandObserver(SLogoObserver<List<SimpleEntry<String, Command>>> so) {
-        
+    public void removeCommandObserver(SLogoObserver<List<Entry<String, Command>>> so) {
+        myEnv.removeCommandObserver(so);
     }
     
-    public void addVariableObserver(SLogoObserver<List<SimpleEntry<String, Literal>>> so) {
-        
+    public void addVariableObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
+        myEnv.addVariableObserver(so);
     }
     
-    public void removeVariableObserver(SLogoObserver<List<SimpleEntry<String, Literal>>> so) {
-        
+    public void removeVariableObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
+        myEnv.removeVariableObserver(so);
     }
     
     public Collection<Turtle> getTurtles() {
-        return null;
+        return myEnv.getPool().getTurtles();
     }
     
-    public List<SimpleEntry<String, Command>> getCommands() {
-        return null;
+    public List<Entry<String, Command>> getCommands() {
+        return myEnv.getCommands();
     }
     
-    public List<SimpleEntry<String, Literal>> getVariables() {
-        return null;
+    public List<Entry<String, Literal>> getVariables() {
+        return myEnv.getVariables();
     }
 }
