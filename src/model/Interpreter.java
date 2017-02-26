@@ -14,7 +14,7 @@ import util.RegexParser;
 
 public class Interpreter {
 	
-	public static final String DEFAULT_SYNTAX = "languages/Syntax";
+	public static final String DEFAULT_SYNTAX = "Syntax";
 	
 	private RegexParser typeParser;
 	

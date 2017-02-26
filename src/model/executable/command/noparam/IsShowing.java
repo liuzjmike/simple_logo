@@ -4,16 +4,15 @@ import model.Environment;
 import model.executable.Literal;
 
 /**
- * Moves turtle to the center of the screen (0 0)
- * Returns the distance turtle moved
+ * Returns 1 if turtle is showing, 0 if it is hiding
  * @author zhuangbihan
  *
  */
-public class Home extends NoParamCommand {
+public class IsShowing extends NoParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		return new Literal(env.getTurtlePool().home());
+		return new Literal((env.getTurtlePool().isVisible()) ? 1 : 0);
 	}
 
 }

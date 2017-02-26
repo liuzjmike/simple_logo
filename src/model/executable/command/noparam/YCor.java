@@ -4,16 +4,15 @@ import model.Environment;
 import model.executable.Literal;
 
 /**
- * Moves turtle to the center of the screen (0 0)
- * Returns the distance turtle moved
+ * Returns the turtle's Y coordinate from the center of the screen
  * @author zhuangbihan
  *
  */
-public class Home extends NoParamCommand {
+public class YCor extends NoParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		return new Literal(env.getTurtlePool().home());
+		return new Literal(env.getTurtlePool().yCor());
 	}
 
 }

@@ -21,6 +21,10 @@ public class VariablePool {
         myStack = new ArrayDeque<>();
     }
     
+    public void add(String name, double value) {
+    	myVariables.put(name, new Literal(value));
+    }
+    
     public Literal get(String name) throws Exception {
         if(myStack.getFirst().containsKey(name)) {
             return myStack.getFirst().get(name);

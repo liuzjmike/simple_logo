@@ -2,6 +2,7 @@ package model;
 
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.ResourceBundle;
 
 import model.executable.command.Command;
 import util.RegexParser;
@@ -11,6 +12,7 @@ import util.SObservableOrderedMap;
 public class CommandPool {
     
     public static final String DEFAULT_LANGUAGE_SUBPACKAGE = "languages/";
+    public static final String DEFAULT_CLASSPATH_FILE = "Classpath";
     
     private SObservableOrderedMap<String, Command> userCommands;
     private RegexParser commandParser;
@@ -33,8 +35,10 @@ public class CommandPool {
         if(command.equals(RegexParser.NO_MATCH)) {
             return userCommands.get(name);
         }
-        //TODO
-        return null;
+        ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_CLASSPATH_FILE);
+		Class<?> clazz = Class.forName(resources.getString(command));
+		Command ret = (Command)clazz.newInstance();
+        return ret;
     }
     
     List<Entry<String, Command>> getUserCommands() {
