@@ -17,7 +17,7 @@ public abstract class AbstractCommand implements Command {
     
     @Override
     public Literal execute(Environment env) throws Exception {
-        if(getParams().size() != numParams()) {
+        if(myParams.size() != numParams()) {
             throw new Exception();
         }
         return concreteExecute(env);
@@ -31,12 +31,17 @@ public abstract class AbstractCommand implements Command {
         myParams.add(exec);
     }
     
-    protected List<Executable> getParams() {
-        return myParams;
+    @Override
+    public void resetParams() {
+    	myParams.clear();
+    }
+    
+    protected Executable getParam(int index) {
+    	return myParams.get(index);
     }
     
     protected double getParamValue(int index, Environment env) throws Exception {
-        return getParams().get(index).execute(env).getValue();
+        return myParams.get(index).execute(env).getValue();
     }
     
     protected abstract Literal concreteExecute(Environment env) throws Exception;

@@ -4,16 +4,16 @@ import model.Environment;
 import model.executable.Literal;
 
 /**
- * Moves turtle forward in its current heading by pixels distance
- * returns the value of pixels
+ * Turns turtle clockwise by degrees angle
+ * Returns the value of degrees
  * @author zhuangbihan
  *
  */
-public class Forward extends OneParamCommand {
-
+public class Right extends OneParamCommand {
+	
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		env.getPool().moveTurtle(getParamValue(0, env));
+		env.getPool().turnTutle(-1*getParamValue(0, env));
 		return new Literal(getParamValue(0, env));
 	}
 

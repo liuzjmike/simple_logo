@@ -9,6 +9,10 @@ public class Variable implements Executable {
 	public Variable(String name) {
 		myName = name;
 	}
+	
+	public String getName() {
+		return myName;
+	}
 
 	@Override
 	public Literal execute(Environment env) throws Exception {
