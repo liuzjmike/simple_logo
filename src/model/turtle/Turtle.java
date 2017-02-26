@@ -1,5 +1,8 @@
 package model.turtle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Turtle {
     
     public static final double RADIAN_PER_DEGREE = Math.PI / 180;
@@ -8,6 +11,8 @@ public class Turtle {
     private double myX, myY, myHeading;
     private boolean penDown, isVisible;
     private int myID;
+    private List<TurtleHist> myTrace;
+    private List<TurtleHist> lastMove;
     
     public Turtle(int id) {
         myID = id;
@@ -16,6 +21,8 @@ public class Turtle {
         myHeading = 0;
         penDown = true;
         isVisible = true;
+        myTrace = new ArrayList<TurtleHist>();
+        lastMove = new ArrayList<TurtleHist>();
     }
     
     public int getID() {
@@ -42,34 +49,66 @@ public class Turtle {
         return isVisible;
     }
     
-    void move(double dist) {
-        myX += dist * Math.cos(radianHeading());
-        myY += dist * Math.sin(radianHeading());
+    /*****Translational movement*****/
+    
+    double move(double dist) {
+        return move(myX + dist * Math.cos(radianHeading()), myY + dist * Math.sin(radianHeading()));
     }
     
-    void setXY(double x, double y) {
+    double setXY(double x, double y) {
+        return move(x, y);
+    }
+    
+    double home() {
+        myHeading = 0;
+        return move(0, 0);
+    }
+    
+    double reset() {
+        double ret = home();
+        lastMove.clear();
+        myTrace.clear();
+        return ret;
+    }
+    
+    private double move(double x, double y) {
+        double ret = Math.hypot(x - myX, y - myY);
+        lastMove.clear();
+        TurtleHist newHist = new TurtleHist(penDown(), x, y);
+        lastMove.add(newHist);
+        myTrace.add(newHist);
         myX = x;
         myY = y;
+        return ret;
     }
     
-    void turn(double degree) {
+    /*****Rotational movement*****/
+    
+    double turn(double degree) {
         myHeading = (myHeading + degree) % ROUND_ANGLE;
+        return degree;
     }
     
-    void setHeading(double heading) {
-        myHeading = heading % ROUND_ANGLE;
+    double setHeading(double heading) {
+        double oldHeading = myHeading;
+        myHeading = heading;
+        return myHeading - oldHeading;
     }
     
-    void towards(double x, double y) {
+    double towards(double x, double y) {
+        double oldHeading = myHeading;
         myHeading = Math.atan2(y - myY, x - myX) / RADIAN_PER_DEGREE;
+        return myHeading - oldHeading;
     }
     
-    void setPen(boolean penDown) {
+    boolean setPen(boolean penDown) {
         this.penDown = penDown;
+        return penDown;
     }
     
-    void setVisible(boolean isVisible) {
+    boolean setVisible(boolean isVisible) {
         this.isVisible = isVisible;
+        return isVisible;
     }
     
     private double radianHeading() {
