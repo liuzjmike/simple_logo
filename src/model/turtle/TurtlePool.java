@@ -36,7 +36,7 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     
     public double moveTurtle(double dist) {
         operateOnTurtles(turtle -> {
-            return turtle.move(dist);
+            return turtle.move(dist, myWidth/2, myHeight/2);
         });
         return dist;
     }
