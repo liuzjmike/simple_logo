@@ -4,16 +4,16 @@ import model.Environment;
 import model.executable.Literal;
 
 /**
- * Moves turtle to the center of the screen (0 0)
+ * Erases turtle's trails and sends it to the home position
  * Returns the distance turtle moved
  * @author zhuangbihan
  *
  */
-public class Home extends NoParamCommand {
+public class ClearScreen extends NoParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		return new Literal(env.getTurtlePool().home());
+		return new Literal(env.getTurtlePool().reset());
 	}
 
 }

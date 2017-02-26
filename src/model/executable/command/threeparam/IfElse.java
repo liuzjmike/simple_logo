@@ -1,25 +1,23 @@
-package model.executable.command.twoparam;
+package model.executable.command.threeparam;
 
 import model.Environment;
 import model.executable.Literal;
 
 /**
- * Runs command(s) given in the list the value of expr number of times
+ * If expr is not 0, runs the trueCommands given in the first list, otherwise runs the falseCommands given in the second list
  * Returns the value of the final command executed (or 0 if no commands are executed)
  * @author zhuangbihan
  *
  */
-public class Repeat extends TwoParamCommand {
-	
-	public static final String REPCOUNT = ":repCount";
+public class IfElse extends ThreeParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
 		Literal ret = new Literal(0);
-		double count = getParamValue(0, env);
-		for (int i=1; i<=count; i++){
-			env.getVariablePool().add(":repCount", i);
+		if (getParamValue(0, env) != 0){
 			ret = getParam(1).execute(env);
+		} else {
+			ret = getParam(2).execute(env);
 		}
 		return ret;
 	}
