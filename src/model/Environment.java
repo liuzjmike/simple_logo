@@ -1,15 +1,12 @@
 package model;
 
-import java.util.Enumeration;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
 
 import model.executable.Literal;
 import model.executable.command.Command;
 import model.turtle.TurtlePool;
+import util.RegexParser;
 import util.SLogoObserver;
 import util.SObservableOrderedMap;
 
@@ -21,12 +18,17 @@ public class Environment {
     private TurtlePool myPool;
     private SObservableOrderedMap<String, Command> myCommands;
     private SObservableOrderedMap<String, Literal> myVariables;
-    private List<Entry<String, Pattern>> commandTable;
+    private RegexParser commandParser;
     
     public Environment(double width, double height) {
         myPool = new TurtlePool(width, height);
         myCommands = new SObservableOrderedMap<>();
         myVariables = new SObservableOrderedMap<>();
+        commandParser = new RegexParser();
+    }
+    
+    public void addCommand(Command toAdd) {
+    	//TODO
     }
 
     public TurtlePool getPool() {
@@ -34,8 +36,16 @@ public class Environment {
     }
     
     public Command getCommand(String name) throws Exception {
-        String command = getCommandName(name);
+        String command = commandParser.getSymbol(name);
         return myCommands.get(command.equals(NO_MATCH) ? name : command);
+    }
+    
+    public void addTempVariable(String name, Literal value) {
+    	//TODO
+    }
+    
+    public void releaseTempVariables(int num) {
+    	//TODO
     }
     
     public Literal getVariable(String name) throws Exception {
@@ -43,14 +53,7 @@ public class Environment {
     }
     
     void setLanguage(String language) {
-        ResourceBundle resources = ResourceBundle.getBundle(language);
-        Enumeration<String> iter = resources.getKeys();
-        while (iter.hasMoreElements()) {
-            String key = iter.nextElement();
-            String regex = resources.getString(key);
-            commandTable.add(new SimpleEntry<>(key, 
-                    Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
-        }
+        commandParser.setPattern(language);
     }
     
     List<Entry<String, Command>> getCommands() {
@@ -75,14 +78,5 @@ public class Environment {
     
     void removeVariableObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
         myVariables.removeObserver(so);
-    }
-    
-    private String getCommandName(String name) {
-        for (Entry<String, Pattern> e : commandTable) {
-            if (e.getValue().matcher(name).matches()) {
-                return e.getKey();
-            }
-        }
-        return NO_MATCH;
     }
 }

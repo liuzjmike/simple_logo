@@ -1,0 +1,42 @@
+package util;
+
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
+import java.util.regex.Pattern;
+
+public class RegexParser {
+	
+	public static final String DEFAULT_LANGUAGE_PACKAGE = "resources/languages/";
+    public static final String NO_MATCH = "NO MATCH";
+    
+    private List<Entry<String, Pattern>> symbolTable;
+
+	public RegexParser() {
+		symbolTable = new ArrayList<>();
+	}
+
+	public void setPattern(String pattern) {
+		symbolTable.clear();
+        ResourceBundle resources = ResourceBundle.getBundle(pattern);
+        Enumeration<String> iter = resources.getKeys();
+        while (iter.hasMoreElements()) {
+            String key = iter.nextElement();
+            String regex = resources.getString(key);
+            symbolTable.add(new SimpleEntry<>(key, 
+                    Pattern.compile(regex, Pattern.CASE_INSENSITIVE)));
+        }
+    }
+	
+	public String getSymbol(String name) {
+        for (Entry<String, Pattern> e : symbolTable) {
+            if (e.getValue().matcher(name).matches()) {
+                return e.getKey();
+            }
+        }
+        return NO_MATCH;
+    }
+}

@@ -12,15 +12,7 @@ public class SetHeading extends OneParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		// TODO
-		return null;
+		return new Literal(env.getPool().setTurtleHeading(getParamValue(0, env)));
 	}
-
-	@Override
-	protected void concreteExecute(double param, Environment env) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 }
