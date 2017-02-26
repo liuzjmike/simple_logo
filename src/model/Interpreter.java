@@ -14,43 +14,55 @@ import util.RegexParser;
 
 public class Interpreter {
 	
-	public static final String COMMAND = "Command";
-	public static final String VAR = "Variable";
-	public static final String CONST = "Constant";
-	public static final String TO = "to";
+	public static final String DEFAULT_SYNTAX = "languages/Syntax";
 	
 	private RegexParser typeParser;
 	
 	public Interpreter() {
 		typeParser = new RegexParser();
+		typeParser.setPattern(DEFAULT_SYNTAX);
 	}
     
     public Executable parse(String commands, Environment env) throws Exception {
-    	return parse(new ArrayDeque<String>(Arrays.asList(commands.trim().split(" "))), env);
+    	Deque<String> dq = new ArrayDeque<>();
+    	for (String s : commands.split(typeParser.getSymbol("Newline"))) {
+    		s.trim();
+    		if (s.startsWith(typeParser.getSymbol("Comment")) || s.isEmpty()) {
+    			continue;
+    		}
+    		dq.addAll(Arrays.asList(s.split(typeParser.getSymbol("Whitespace"))));
+    	}
+    	return parse(dq, env);
     }
     
     private Executable parse(Deque<String> expressions, Environment env) throws Exception {
         ExecutableList root = new ExecutableList();
     	while(!expressions.isEmpty()) {
     		String exp = expressions.pop();
-    		// TODO
-    		if(isVariable(exp)) {
+    		if(isListStart(exp)) {
+    			root.add(parse(expressions, env));
+    		}
+    		else if(isListEnd(exp)) {
+    			return root;
+    		}
+    		else if(isVariable(exp)) {
     			root.add(new Variable(exp));
     		} 
     		else if (isConstant(exp)) {
     			root.add(new Literal(Double.parseDouble(exp)));
-    		} 
-			else if (isTO(exp)) {
-				To to = new To(expressions.pop());
-				for(int i = 0; i < to.numParams(); i++) {
-    				to.addParam(parse(expressions, env));
-    			}
-    			root.add(to);
-			}
+    		}
     		else if (isCommand(exp)) {
-    			Command command = env.getCommand(exp);
+    			Command command;
+    			if (isTO(exp)){
+    				command = new To(expressions.pop());
+    			} else {
+    				command = env.getCommand(exp);
+    			}
     			for(int i = 0; i < command.numParams(); i++) {
     				command.addParam(parse(expressions, env));
+    			}
+    			if (!command.fullParams()){
+    				throw new RuntimeException();
     			}
     			root.add(command);
     		} 
@@ -62,18 +74,26 @@ public class Interpreter {
     }
     
     private boolean isCommand(String exp) {
-    	return typeParser.getSymbol(exp).equals(COMMAND);
+    	return typeParser.getSymbol("Command").equals(exp);
     }
     
     private boolean isVariable(String exp) {
-    	return typeParser.getSymbol(exp).equals(VAR);
+    	return typeParser.getSymbol("Variable").equals(exp);
     }
     
     private boolean isConstant(String exp) {
-    	return typeParser.getSymbol(exp).equals(CONST);
+    	return typeParser.getSymbol("Constant").equals(exp);
     }
     
     private boolean isTO(String exp) {
-    	return exp.equals(TO);
+    	return typeParser.getSymbol("To").equals(exp);
+    }
+    
+    private boolean isListStart(String exp) {
+    	return typeParser.getSymbol("ListStart").equals(exp);
+    }
+    
+    private boolean isListEnd(String exp) {
+    	return typeParser.getSymbol("ListEnd").equals(exp);
     }
 }

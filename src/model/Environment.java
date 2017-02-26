@@ -27,7 +27,7 @@ public class Environment {
         commandParser = new RegexParser();
     }
     
-    public void addCommand(Command toAdd) {
+    public void addCommand(String name, Command toAdd) {
     	//TODO
     }
 

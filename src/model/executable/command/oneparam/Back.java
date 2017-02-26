@@ -13,8 +13,7 @@ public class Back extends OneParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		env.getPool().moveTurtle(-1*getParamValue(0, env));
-		return new Literal(getParamValue(0, env));
+		return new Literal(env.getPool().moveTurtle(-1*getParamValue(0, env)));
 	}
 
 }
