@@ -13,7 +13,7 @@ public class SetXY extends TwoParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		return new Literal(env.getPool().setTurtleXY(getParamValue(0, env), getParamValue(1, env)));
+		return new Literal(env.getTurtlePool().setTurtleXY(getParamValue(0, env), getParamValue(1, env)));
 	}
 
 }

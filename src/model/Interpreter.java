@@ -48,7 +48,7 @@ public class Interpreter {
     			root.add(to);
 			}
     		else if (isCommand(exp)) {
-    			Command command = env.getCommand(exp);
+    			Command command = env.getCommandPool().getCommand(exp);
     			for(int i = 0; i < command.numParams(); i++) {
     				command.addParam(parse(expressions, env));
     			}

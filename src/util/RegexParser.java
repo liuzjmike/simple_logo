@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class RegexParser {
 	
-	public static final String DEFAULT_LANGUAGE_PACKAGE = "resources/languages/";
+	public static final String DEFAULT_PACKAGE = "resources/";
     public static final String NO_MATCH = "NO MATCH";
     
     private List<Entry<String, Pattern>> symbolTable;
@@ -21,7 +21,7 @@ public class RegexParser {
 
 	public void setPattern(String pattern) {
 		symbolTable.clear();
-        ResourceBundle resources = ResourceBundle.getBundle(pattern);
+        ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_PACKAGE + pattern);
         Enumeration<String> iter = resources.getKeys();
         while (iter.hasMoreElements()) {
             String key = iter.nextElement();

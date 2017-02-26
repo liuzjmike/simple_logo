@@ -24,46 +24,46 @@ public class SLogoModel {
     }
     
     public void setLanguage(String language) {
-        myEnv.setLanguage(language);
+        myEnv.getCommandPool().setLanguage(language);
     }
     
     public void setSize(double width, double height) {
-        myEnv.getPool().setSize(width, height);
+        myEnv.getTurtlePool().setSize(width, height);
     }
     
     public void addPoolObserver(SLogoObserver<Collection<Turtle>> so) {
-        myEnv.getPool().addObserver(so);
+        myEnv.getTurtlePool().addObserver(so);
     }
     
     public void removePoolObserver(SLogoObserver<Collection<Turtle>> so) {
-        myEnv.getPool().removeObserver(so);
+        myEnv.getTurtlePool().removeObserver(so);
     }
     
     public void addCommandObserver(SLogoObserver<List<Entry<String, Command>>> so) {
-        myEnv.addCommandObserver(so);
+        myEnv.getCommandPool().addUserObserver(so);
     }
     
     public void removeCommandObserver(SLogoObserver<List<Entry<String, Command>>> so) {
-        myEnv.removeCommandObserver(so);
+        myEnv.getCommandPool().removeObserver(so);
     }
     
     public void addVariableObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
-        myEnv.addVariableObserver(so);
+        myEnv.getVariablePool().addObserver(so);
     }
     
     public void removeVariableObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
-        myEnv.removeVariableObserver(so);
+        myEnv.getVariablePool().removeObserver(so);
     }
     
     public Collection<Turtle> getTurtles() {
-        return myEnv.getPool().getTurtles();
+        return myEnv.getTurtlePool().getTurtles();
     }
     
     public List<Entry<String, Command>> getCommands() {
-        return myEnv.getCommands();
+        return myEnv.getCommandPool().getUserCommands();
     }
     
     public List<Entry<String, Literal>> getVariables() {
-        return myEnv.getVariables();
+        return myEnv.getVariablePool().getVariables();
     }
 }

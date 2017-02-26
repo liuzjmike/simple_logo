@@ -13,7 +13,7 @@ public class HideTurtle extends NoParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		env.getPool().setVisible(false);
+		env.getTurtlePool().setVisible(false);
 		return new Literal(0);
 	}
 
