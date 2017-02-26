@@ -1,6 +1,6 @@
 package model.turtle;
 
-interface TurtleOperation {
+interface TurtleOperation<T> {
     
-    void execute(Turtle turtle);
+    T execute(Turtle turtle);
 }

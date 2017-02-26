@@ -3,12 +3,13 @@ package model.turtle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import util.SLogoObservable;
 
 public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     
-    private Collection<Turtle> myTurtles;
+    private List<Turtle> myTurtles;
     private int turtleID;
     private double myWidth, myHeight;
     
@@ -33,93 +34,109 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
         notifyObservers(myTurtles);
     }
     
-    public void moveTurtle(double dist) {
+    public double moveTurtle(double dist) {
         operateOnTurtles(turtle -> {
-            turtle.move(dist);
+            return turtle.move(dist);
         });
+        return dist;
     }
     
     public double setTurtleXY(double x, double y) {
-        operateOnTurtles(turtle -> {
-            turtle.setXY(x % myWidth, y % myHeight);
+        return operateOnTurtles(turtle -> {
+            return turtle.setXY(x % myWidth, y % myHeight);
         });
-        //TODO
-        return 0;
     }
     
     public double home() {
-        //TODO
-        return 0;
+        return operateOnTurtles(turtle -> {
+            return turtle.home();
+        });
     }
     
-    public void turnTutle(double degree) {
-        operateOnTurtles(turtle -> {
-            turtle.turn(degree);
+    public double turnTutle(double degree) {
+        return operateOnTurtles(turtle -> {
+            return turtle.turn(degree);
         });
     }
     
     public double setTurtleHeading(double heading) {
-        operateOnTurtles(turtle -> {
-            turtle.setHeading(heading);
+        return operateOnTurtles(turtle -> {
+            return turtle.setHeading(heading);
         });
-        //TODO
-        return 0;
     }
     
     public double turtleTowards(double x, double y) {
-        operateOnTurtles(turtle -> {
-            turtle.towards(x, y);
+        return operateOnTurtles(turtle -> {
+            return turtle.towards(x, y);
         });
-        //TODO
-        return 0;
     }
     
     public void setPen(boolean penDown) {
         operateOnTurtles(turtle -> {
-            turtle.setPen(penDown);
+            return turtle.setPen(penDown);
         });
     }
-    
+
     public void setVisible(boolean isVisible) {
         operateOnTurtles(turtle -> {
-            turtle.setVisible(isVisible);
+            return turtle.setVisible(isVisible);
         });
     }
     
     public double reset() {
-        //TODO
-        return 0;
+        return operateOnTurtles(turtle -> {
+            return turtle.reset();
+        });
     }
     
     public double getHeading() {
-        //TODO
-        return 0;
+        return getTurtleProperty(turtle -> {
+            return turtle.getHeading();
+        });
     }
     
     public double xCor() {
-        //TODO
-        return 0;
+        return getTurtleProperty(turtle -> {
+            return turtle.getX();
+        });
     }
     
     public double yCor() {
-        //TODO
-        return 0;
+        return getTurtleProperty(turtle -> {
+            return turtle.getY();
+        });
     }
     
     public boolean penDown() {
-        //TODO
-        return true;
+        return getTurtleProperty(turtle -> {
+            return turtle.penDown();
+        });
     }
     
     public boolean isVisible() {
-        //TODO
-        return true;
+        return getTurtleProperty(turtle -> {
+            return turtle.isVisible();
+        });
     }
     
-    private void operateOnTurtles(TurtleOperation operation) {
+    private <T> T operateOnTurtles(TurtleOperation<T> operation) {
+        validateTurtles();
+        T ret = null;
         for(Turtle turtle: myTurtles) {
-            operation.execute(turtle);
+            ret = operation.execute(turtle);
         }
         notifyObservers(myTurtles);
+        return ret;
+    }
+    
+    private <T> T getTurtleProperty(TurtleOperation<T> operation) {
+        validateTurtles();
+        return operation.execute(myTurtles.get(myTurtles.size() - 1));
+    }
+    
+    private void validateTurtles() {
+        if(myTurtles.isEmpty()) {
+            throw new RuntimeException();
+        }
     }
 }
