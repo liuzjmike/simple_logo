@@ -36,6 +36,11 @@ public abstract class AbstractCommand implements Command {
     	myParams.clear();
     }
     
+    @Override
+    public boolean fullParams() {
+    	return myParams.size() == numParams();
+    }
+    
     protected Executable getParam(int index) {
     	return myParams.get(index);
     }

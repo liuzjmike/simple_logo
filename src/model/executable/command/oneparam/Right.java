@@ -13,8 +13,7 @@ public class Right extends OneParamCommand {
 	
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		env.getTurtlePool().turnTutle(-1*getParamValue(0, env));
-		return new Literal(getParamValue(0, env));
+		return new Literal(env.getTurtlePool().turnTutle(-1*getParamValue(0, env)));
 	}
 
 }
