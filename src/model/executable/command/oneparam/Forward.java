@@ -13,7 +13,7 @@ public class Forward extends OneParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		return new Literal(env.getPool().moveTurtle(getParamValue(0, env)));
+		return new Literal(env.getTurtlePool().moveTurtle(getParamValue(0, env)));
 	}
 
 }

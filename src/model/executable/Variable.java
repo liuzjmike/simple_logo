@@ -16,7 +16,7 @@ public class Variable implements Executable {
 
 	@Override
 	public Literal execute(Environment env) throws Exception {
-		return env.getVariable(myName);
+		return env.getVariablePool().get(myName);
 	}
 
 }

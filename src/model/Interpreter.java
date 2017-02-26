@@ -56,7 +56,7 @@ public class Interpreter {
     			if (isTO(exp)){
     				command = new To(expressions.pop());
     			} else {
-    				command = env.getCommand(exp);
+    				command = env.getCommandPool().getCommand(exp);
     			}
     			for(int i = 0; i < command.numParams(); i++) {
     				command.addParam(parse(expressions, env));

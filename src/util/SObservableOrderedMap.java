@@ -18,6 +18,8 @@ public class SObservableOrderedMap<K, V> extends SObservableList<Entry<K, V>> {
         for(Entry<K, V> entry: this) {
             if(entry.getKey().equals(key)) {
                 entry.setValue(value);
+                notifyObservers();
+                return;
             }
         }
         add(new SimpleEntry<>(key, value));
