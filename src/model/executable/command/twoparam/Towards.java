@@ -13,7 +13,7 @@ public class Towards extends TwoParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		return new Literal(env.getPool().turtleTowards(getParamValue(0, env), getParamValue(1, env)));
+		return new Literal(env.getTurtlePool().turtleTowards(getParamValue(0, env), getParamValue(1, env)));
 	}
 
 }

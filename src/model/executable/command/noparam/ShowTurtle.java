@@ -13,7 +13,7 @@ public class ShowTurtle extends NoParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		env.getPool().setVisible(true);
+		env.getTurtlePool().setVisible(true);
 		return new Literal(1);
 	}
 

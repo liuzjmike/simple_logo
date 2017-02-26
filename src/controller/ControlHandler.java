@@ -25,7 +25,7 @@ public class ControlHandler implements Observer {
 	}
     
     private void setUpObservers() {
-		mySLogoModel.addCommandObserver(myGUI.getCommandObserver());
+		mySLogoModel.addUserCommandObserver(myGUI.getCommandObserver());
 		mySLogoModel.addVariableObserver(myGUI.getVariableObserver());
 		mySLogoModel.addPoolObserver(myGUI.getPoolObserver());
     }

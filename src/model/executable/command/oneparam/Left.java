@@ -12,7 +12,7 @@ public class Left extends OneParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		env.getPool().turnTutle(-1*getParamValue(0, env));
+		env.getTurtlePool().turnTutle(-1*getParamValue(0, env));
 		return new Literal(getParamValue(0, env));
 	}
 
