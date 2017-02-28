@@ -1,7 +1,8 @@
 package view;
 
-import java.util.Collection;
+import java.util.Collection;	
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,7 +23,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import model.executable.Literal;
+import model.executable.command.Command;
 import model.turtle.Turtle;
+import util.SLogoObserver;
 
 public class GUI extends Observable implements Observer {
 	
@@ -30,6 +34,11 @@ public class GUI extends Observable implements Observer {
 	private ConsoleView myConsoleView;
 	private VariableView myVariableView;
 	private CommandView myCommandView;
+	
+	private GridPane myGridPane;
+	
+	private int poolViewRow;
+	private int poolViewCol;
 	
 	private Color backgroundColor;
 	
@@ -39,6 +48,9 @@ public class GUI extends Observable implements Observer {
 		myVariableView = new VariableView();
 		myCommandView = new CommandView();
 		backgroundColor = Color.WHITE;
+    	poolViewRow = 0;
+    	poolViewCol = 0;
+    	myGridPane = getGridPane();
 	}
 
     public void show(Stage stage) {
@@ -75,7 +87,7 @@ public class GUI extends Observable implements Observer {
 
     	root.getRowConstraints().addAll(rcons1, rcons2, rcons3);
     	
-    	root.add(getPoolViewNode(), 0,0,1,1);
+    	root.add(getPoolViewNode(), poolViewRow,poolViewCol,1,1);
     	
     	root.add(getConsoleViewNode(), 0, 1,1,1);
     	
@@ -84,9 +96,25 @@ public class GUI extends Observable implements Observer {
     	root.add(getVariableViewNode(),1, 1,1,2);
     	
     	root.add(getUserBar(), 0, 2,1,1);
-    	
+
     	return root;
     }
+    
+   private double getViewHeight(int row) {
+	   return myGridPane.getRowConstraints().get(row).getPercentHeight()*myGridPane.getHeight();
+   }
+   
+   private double getViewWidth(int col) {
+	   return myGridPane.getColumnConstraints().get(col).getPercentWidth()*myGridPane.getWidth();
+   }
+   
+   public double getPoolViewHeight() {
+	   return getViewHeight(poolViewCol); 
+   }
+   
+   public double getPoolViewWidth() {
+	   return getViewWidth(poolViewRow);
+   }
     
     private Node getPoolViewNode() {
     	return myPoolView.getNode();
@@ -104,15 +132,15 @@ public class GUI extends Observable implements Observer {
     	return myCommandView.getNode();
     }
     
-    public Observer getPoolObserver() {
+    public SLogoObserver<Collection<Turtle>> getPoolObserver() {
 		return myPoolView;
 	}
     
-    public Observer getCommandObserver() {
+    public SLogoObserver<List<Entry<String, Command>>> getCommandObserver() {
     	return myCommandView;
 	}
     
-    public Observer getVariableObserver() {
+    public SLogoObserver<List<Entry<String, Literal>>> getVariableObserver() {
 		return myVariableView;
 	}
     
@@ -138,6 +166,9 @@ public class GUI extends Observable implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o==myConsoleView) {
+			notifyAll();
+		} else if (o==myCommandView) {
+			Command currentCommand = (Command) arg;
 			notifyAll();
 		}
 	}

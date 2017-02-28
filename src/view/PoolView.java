@@ -9,9 +9,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import model.turtle.Turtle;
+import util.SLogoObserver;
 
-public class PoolView implements Observer {
+public class PoolView implements Observer,SLogoObserver<Collection<Turtle>>  {
 
     public void setTurtle(Collection<Turtle> turtles) {
 	}
@@ -29,6 +31,12 @@ public class PoolView implements Observer {
 	}
 	
 	public Node getNode() {
-		return new TextArea("This is PoolView");
+		return new Rectangle();
+	}
+
+	@Override
+	public void update(Collection<Turtle> arg) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -14,9 +14,8 @@ public class ControlHandler implements Observer {
 	
 	public ControlHandler() {
 		myGUI = new GUI();
-		mySLogoModel = new SLogoModel();
+		mySLogoModel = new SLogoModel(myGUI.getPoolViewWidth(), myGUI.getPoolViewHeight());
 		myGUI.addObserver(this);
-		mySLogoModel.addObserver(this);
 		setUpObservers();
 	}
 	
@@ -25,24 +24,22 @@ public class ControlHandler implements Observer {
 	}
     
     private void setUpObservers() {
-		mySLogoModel.addUserCommandObserver(myGUI.getCommandObserver());
-		mySLogoModel.addVariableObserver(myGUI.getVariableObserver());
-		mySLogoModel.addPoolObserver(myGUI.getPoolObserver());
+    	mySLogoModel.addCommandObserver(myGUI.getCommandObserver());
+    	mySLogoModel.addPoolObserver(myGUI.getPoolObserver());
+    	mySLogoModel.addVariableObserver(myGUI.getVariableObserver());
     }
 
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o==myGUI) {
 			try {
-				String retToConsole = mySLogoModel.interpret(myGUI.getActiveConsoleText());
-				if (!retToConsole.equals("")) {
-					myGUI.addTextToConsole(retToConsole);
-				}
+				//what is returned when command returns nothing?
+				double retToConsole = mySLogoModel.interpret(myGUI.getActiveConsoleText());
+				myGUI.addTextToConsole(Double.toString(retToConsole));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else if (o==mySLogoModel) {
 		}
 	}
 
