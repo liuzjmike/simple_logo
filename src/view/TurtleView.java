@@ -1,18 +1,20 @@
 package view;
 
+
+
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import util.Constants;
 
 public class TurtleView {
 	public static final String TURTLE_IMAGE = "TurtleImge.png";
+	public static final Color defaultColor = Color.BLACK;
 
-	private boolean penDown, isVisible;
 	private ImageView myTurtle;
-	private int myID;
+	private Pen myPen;
 	
 	public TurtleView(){
-		penDown = true;
-		isVisible = true;
+		myPen = new Pen(true, defaultColor);
 		setHeading(0);
 	}
 
@@ -20,10 +22,9 @@ public class TurtleView {
     	myTurtle = image;
 	}
     
-//    public void setPen(boolean penDown){
-//    	this.penDown = penDown;
-//    }
-    //TODO: MAKE PEN CLASS
+    public void setPen(boolean penDown){
+    	myPen.setPen(penDown);
+    }
     
     public void setVisible(boolean isVisible){
     	myTurtle.setVisible(isVisible);
@@ -36,7 +37,6 @@ public class TurtleView {
 	}
     
     /*****Rotational movement*****/
-
     public void setHeading(double heading){
     	myTurtle.setRotate(heading%Constants.ROUND_ANGLE);
     }
