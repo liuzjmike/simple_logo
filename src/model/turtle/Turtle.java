@@ -67,12 +67,12 @@ public class Turtle {
     }
     
     double setXY(double x, double y) {
-        return move(x, y, penDown(), true);
+        return move(x, y, penDown());
     }
     
     double home() {
         myHeading = 0;
-        return move(0, 0, penDown(), true);
+        return move(0, 0, penDown());
     }
     
     double reset() {
@@ -95,18 +95,16 @@ public class Turtle {
         move(getInboundPos(myX, myY, wRadius, hRadius));
         dx -= myX - oldX;
         dy -= myY - oldY;
-        move(switchSide(myX, dx, wRadius), switchSide(myY, dy, hRadius), penDown(), false);
+        move(new TurtleHist(penDown(), switchSide(myX, dx, wRadius), switchSide(myY, dy, hRadius)));
         dx = updateDiff(oldX, myX, dx);
         dy = updateDiff(oldY, myY, dy);
         move(dx, dy, wRadius, hRadius);
     }
 
-    private double move(double x, double y, boolean penDown, boolean clearLast) {
+    private double move(double x, double y, boolean penDown) {
         double ret = Math.hypot(x - myX, y - myY);
-        if(clearLast) {
-            lastMove.clear();
-            lastMove.add(new TurtleHist(penDown, myX, myY));
-        }
+        lastMove.clear();
+        lastMove.add(new TurtleHist(penDown, myX, myY));
         move(new TurtleHist(penDown, x, y));
         return ret;
     }
@@ -158,7 +156,7 @@ public class Turtle {
     private TurtleHist getInboundPos(double x, double y, double wRadius, double hRadius) {
         double yIntersect = myY + Math.copySign((wRadius - myX) * Math.tan(radianHeading()),
                 Math.cos(radianHeading()));
-        if(yIntersect < -hRadius || yIntersect >= hRadius) {
+        if(yIntersect <= -hRadius || yIntersect >= hRadius) {
             y = y < 0 ? -hRadius : hRadius-1;
             return new TurtleHist(false, x + Math.copySign((y - myY) / Math.tan(radianHeading()),
                     Math.sin(radianHeading())), y);
