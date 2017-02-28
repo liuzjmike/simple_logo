@@ -94,11 +94,11 @@ public class ConsoleView extends Observable {
     }
     
     public void addText(String retToConsole) {
-    	output.getChildren().add(new Text(retToConsole));
+    	outputVBox.getChildren().add(new Text(retToConsole));
     }
     
     public void addText(CommandTextView myCommandTextView) {
-    	output.getChildren().add(myCommandTextView.getText());
+    	outputVBox.getChildren().add(myCommandTextView.getText());
     }
 	
 	public Node getNode() {
