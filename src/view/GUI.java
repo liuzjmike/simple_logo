@@ -42,6 +42,7 @@ public class GUI extends Observable implements Observer {
 		myPoolView = new PoolView();
 		myConsoleView = new ConsoleView();
 		myVariableView = new VariableView();
+		myVariableView.addObserver(this);
 		myCommandView = new CommandView();
 		backgroundColor = Color.WHITE;
     	poolViewRow = 0;
@@ -83,7 +84,7 @@ public class GUI extends Observable implements Observer {
 
     	root.getRowConstraints().addAll(rcons1, rcons2, rcons3);
     	
-    	root.add(getPoolViewNode(), poolViewRow,poolViewCol,1,1);
+    	root.add(getPoolViewNode(), poolViewCol, poolViewRow,1,1);
     	
     	root.add(getConsoleViewNode(), 0, 1,1,1);
     	
@@ -140,13 +141,9 @@ public class GUI extends Observable implements Observer {
 		return myVariableView;
 	}
     
-    public void addCommand(String command) {
-    	myCommandView.addCommand(command);
-	}
-    
-    public void addVariable(String variable) {
-    	myVariableView.addVariable(variable);
-	}
+//    public void addVariable(String variable) {
+//    	myVariableView.addVariable(variable);
+//	}
     
     public void setTurtles(Collection<Turtle> turtles) {
     	myPoolView.setTurtle(turtles);
@@ -163,10 +160,12 @@ public class GUI extends Observable implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o==myConsoleView) {
-			notifyAll();
+			notifyObservers();
 		} else if (o==myCommandView) {
-			currentCommand = (Command) arg;
-			notifyAll();
+			currentCommand = myCommandView.getActiveCommand();
+			notifyObservers();
+		} else if(o==myVariableView) {
+			addTextToConsole(myVariableView.getActiveVariable().toString());
 		}
 	}
 	

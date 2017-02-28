@@ -24,6 +24,14 @@ public class CommandTextView extends Observable{
 		return command;
 	}
 
+	public Text getText() {
+		return text;
+	}
+
+	public void setText(Text text) {
+		this.text = text;
+	}
+
 	public void setCommand(Command command) {
 		this.command = command;
 	}
