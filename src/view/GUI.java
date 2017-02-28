@@ -1,21 +1,15 @@
 package view;
 
-import java.util.Collection;	
+import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
 
-import controller.ControlHandler;
-import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -41,6 +35,8 @@ public class GUI extends Observable implements Observer {
 	private int poolViewCol;
 	
 	private Color backgroundColor;
+	
+	Command currentCommand;
 	
 	public GUI() {
 		myPoolView = new PoolView();
@@ -145,6 +141,7 @@ public class GUI extends Observable implements Observer {
 	}
     
     public void addCommand(String command) {
+    	myCommandView.addCommand(command);
 	}
     
     public void addVariable(String variable) {
@@ -168,7 +165,7 @@ public class GUI extends Observable implements Observer {
 		if(o==myConsoleView) {
 			notifyAll();
 		} else if (o==myCommandView) {
-			Command currentCommand = (Command) arg;
+			currentCommand = (Command) arg;
 			notifyAll();
 		}
 	}
@@ -180,6 +177,14 @@ public class GUI extends Observable implements Observer {
 		Button showReferenceButton = new Button("SLogo Reference");
 		userBar.getChildren().addAll(changeColorButton,showReferenceButton);
 		return userBar;
+	}
+
+	public Command getCurrentCommand() {
+		return currentCommand;
+	}
+
+	public void setCurrentCommand(Command currentCommand) {
+		this.currentCommand = currentCommand;
 	}
 
 }
