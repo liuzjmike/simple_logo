@@ -3,10 +3,9 @@ package model.turtle;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.Constants;
+
 public class Turtle {
-    
-    public static final double RADIAN_PER_DEGREE = Math.PI / 180;
-    public static final double ROUND_ANGLE = 360;
     
     private double myX, myY, myHeading;
     private boolean penDown, isVisible;
@@ -121,7 +120,7 @@ public class Turtle {
     /*****Rotational movement*****/
     
     double turn(double degree) {
-        myHeading = (myHeading + degree) % ROUND_ANGLE;
+        myHeading = (myHeading + degree) % Constants.ROUND_ANGLE;
         return degree;
     }
     
@@ -133,7 +132,7 @@ public class Turtle {
     
     double towards(double x, double y) {
         double oldHeading = myHeading;
-        myHeading = Math.atan2(y - myY, x - myX) / RADIAN_PER_DEGREE;
+        myHeading = Math.atan2(y - myY, x - myX) / Constants.RADIAN_PER_DEGREE;
         return myHeading - oldHeading;
     }
     
@@ -148,7 +147,7 @@ public class Turtle {
     }
     
     private double radianHeading() {
-        return myHeading * RADIAN_PER_DEGREE;
+        return myHeading * Constants.RADIAN_PER_DEGREE;
     }
     
     private boolean inBounds(double x, double y, double wRadius, double hRadius) {
