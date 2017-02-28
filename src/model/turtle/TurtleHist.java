@@ -2,13 +2,13 @@ package model.turtle;
 
 public class TurtleHist {
     
-    private boolean penDown;
     private double myX, myY;
+    private boolean penDown;
     
-    public TurtleHist(boolean penDown, double x, double y) {
-        this.penDown = penDown;
+    public TurtleHist(double x, double y, boolean penDown) {
         myX = x;
         myY = y;
+        this.penDown = penDown;
     }
 
     public boolean penDown() {

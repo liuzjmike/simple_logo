@@ -1,7 +1,6 @@
 import controller.ControlHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import view.GUI;
 
 public class Main extends Application {
 

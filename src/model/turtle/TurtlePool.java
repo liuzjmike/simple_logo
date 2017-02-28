@@ -9,7 +9,7 @@ import util.SLogoObservable;
 
 public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     
-    private List<Turtle> myTurtles;
+    private List<AbstractTurtle> myTurtles;
     private int turtleID;
     private double myWidth, myHeight;
     
@@ -30,13 +30,13 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     }
     
     public void addTurtle() {
-        myTurtles.add(new Turtle(turtleID++));
-        notifyObservers(myTurtles);
+        myTurtles.add(new ToroidalTurtle(turtleID++));
+        notifyObservers();
     }
     
     public double moveTurtle(double dist) {
         operateOnTurtles(turtle -> {
-            return turtle.move(dist, myWidth/2, myHeight/2);
+             return turtle.move(dist, myWidth/2, myHeight/2);
         });
         return dist;
     }
@@ -84,9 +84,16 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     }
     
     public double reset() {
-        return operateOnTurtles(turtle -> {
-            return turtle.reset();
+        double ret = operateOnTurtles(turtle -> {
+            double dist = turtle.home();
+            turtle.clearHist();
+            turtle.setReset();
+            return dist;
         });
+        for(AbstractTurtle turtle: myTurtles) {
+            turtle.clearReset();
+        }
+        return ret;
     }
     
     public double getHeading() {
@@ -122,10 +129,10 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     private <T> T operateOnTurtles(TurtleOperation<T> operation) {
         validateTurtles();
         T ret = null;
-        for(Turtle turtle: myTurtles) {
+        for(AbstractTurtle turtle: myTurtles) {
             ret = operation.execute(turtle);
         }
-        notifyObservers(myTurtles);
+        notifyObservers();
         return ret;
     }
     
@@ -138,5 +145,10 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
         if(myTurtles.isEmpty()) {
             throw new RuntimeException();
         }
+    }
+    
+    @SuppressWarnings("unchecked")
+    private void notifyObservers() {
+        notifyObservers((Collection<Turtle>)(Collection<?>)myTurtles);
     }
 }

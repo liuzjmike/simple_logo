@@ -2,5 +2,5 @@ package model.turtle;
 
 interface TurtleOperation<T> {
     
-    T execute(Turtle turtle);
+    T execute(AbstractTurtle turtle);
 }
