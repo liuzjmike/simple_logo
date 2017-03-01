@@ -5,6 +5,7 @@ package view;
 import java.util.List;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.turtle.Turtle;
 import model.turtle.TurtleHist;
@@ -17,14 +18,15 @@ public class TurtleView {
 	private Pen myPen;
 	private List<TurtleHist> lastMove;
 
-	public TurtleView(ImageView image, Turtle turtle){
-		myPen = new Pen(true, defaultColor);
+	public TurtleView(ImageView image, Turtle turtle, Pane pane){
+		myPen = new Pen(true, defaultColor, pane);
 		//setHeading(turtle.getHeading());
 		setImage(image);
 		setScale(0.1);
 		setVisible(turtle.isVisible());
 		lastMove = turtle.getLastMove();
 		drawLines();
+		
 	}
 
     public void setImage(ImageView image) {
@@ -48,9 +50,8 @@ public class TurtleView {
     	for(int i=0; i<lastMove.size();i++){
     		if(lastMove.get(i).penDown()){
     			setXY(lastMove.get(i).getX(),lastMove.get(i).getY());
-    			System.out.println(lastMove.get(i).getX());
     			if(i+1<lastMove.size()){
-    				draw(lastMove.get(i).getX(),lastMove.get(i).getY(),lastMove.get(i+1).getX(),lastMove.get(i+1).getY());  
+    				draw(lastMove.get(i).getX(),lastMove.get(i+1).getX(), lastMove.get(i).getY(),lastMove.get(i+1).getY());  
     			}		 			
     		}
     	}
