@@ -27,9 +27,12 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
 	
     public void setTurtle(Collection<Turtle> turtles) {
     	for(Turtle turtle: turtles){
-    		ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
-    		myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle, myPane));
-    		myPane.getChildren().add(turtleImage);
+    		if(!myTurtles.containsKey(turtle.getID())){
+    			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
+    			myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle, myPane));
+        		myPane.getChildren().add(turtleImage);
+    		}
+    		
     	}
 	}
     
@@ -42,6 +45,7 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
     //TODO: Create CSS sheet
     public void setBackgroundColor(Color color) {
     	myPane.setStyle("-fx-background-color: white");
+    	//myPane.getStylesheets().add(PoolView.class.getResource(""));
 	}
 	
 	public Node getNode() {

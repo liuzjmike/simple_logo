@@ -27,6 +27,7 @@ public class Pen {
 			line.setStartY(y1);
 			line.setEndX(x2);
 			line.setEndY(y2);
+			line.setStrokeWidth(1);
 			setColor(line);
 			myPane.getChildren().add(line);
 		}		
