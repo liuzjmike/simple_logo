@@ -2,10 +2,9 @@ package view;
 
 import javafx.scene.text.Text;
 import model.executable.command.Command;
+import util.SLogoObservable;
 
-import java.util.Observable;
-
-public class CommandTextView extends Observable{
+public class CommandTextView extends SLogoObservable<Command> {
 	
 	private Text text;
 	private Command command;

@@ -20,9 +20,10 @@ import javafx.stage.Stage;
 import model.executable.Literal;
 import model.executable.command.Command;
 import model.turtle.Turtle;
+import util.SLogoObservable;
 import util.SLogoObserver;
 
-public class GUI extends Observable implements Observer {
+public class GUI extends SLogoObservable implements SLogoObserver {
 	
 	private PoolView myPoolView;
 	private ConsoleView myConsoleView;
@@ -157,17 +158,17 @@ public class GUI extends Observable implements Observer {
     	return myConsoleView.getActiveText();
     }
 
-	@Override
-	public void update(Observable o, Object arg) {
-		if(o==myConsoleView) {
-			notifyObservers();
-		} else if (o==myCommandView) {
-			currentCommand = myCommandView.getActiveCommand();
-			notifyObservers();
-		} else if(o==myVariableView) {
-			addTextToConsole(myVariableView.getActiveVariable().toString());
-		}
-	}
+//	@Override
+//	public void update(Observable o, Object arg) {
+//		if(o==myConsoleView) {
+//			notifyObservers();
+//		} else if (o==myCommandView) {
+//			currentCommand = myCommandView.getActiveCommand();
+//			notifyObservers();
+//		} else if(o==myVariableView) {
+//			addTextToConsole(myVariableView.getActiveVariable().toString());
+//		}
+//	}
 	
 	public HBox getUserBar() {
 		HBox userBar = new HBox();
@@ -184,6 +185,23 @@ public class GUI extends Observable implements Observer {
 
 	public void setCurrentCommand(Command currentCommand) {
 		this.currentCommand = currentCommand;
+	}
+
+	@Override
+	public void update(Object arg) {
+		myConsoleView = arg -> {
+			if (!arg.isEmpty()) {
+				notifyObservers();
+			}
+		};
+		
+		myCommandView = arg -> {
+			if (!arg.isEmpty()) {
+				currentCommand = myCommandView.getActiveCommand();
+				notifyObservers
+			}
+		}
+		
 	}
 
 }

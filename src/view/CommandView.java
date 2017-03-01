@@ -13,13 +13,16 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.executable.command.Command;
+import util.SLogoObservable;
 import util.SLogoObserver;
 
-public class CommandView extends Observable implements SLogoObserver<List<Entry<String, Command>>>, Observer{
+public class CommandView extends SLogoObservable<Command> {
 	
 	private VBox vBox;
 	private ScrollPane myPane;
 	private Command activeCommand;
+	private SLogoObserver<CommandTextView> myCommandTextObserver;
+	private SLogoObserver<List<Entry<String, Command>>> myCommandObserver;
 	
 	private List<CommandTextView> myCommandTextViews;
 	
@@ -29,6 +32,13 @@ public class CommandView extends Observable implements SLogoObserver<List<Entry<
 		myPane = new ScrollPane(vBox);
 		Text text = new Text("Commands:\n");
 		vBox.getChildren().add(text);
+		myCommandTextObserver = arg -> {
+			arg.getCommand();
+			notifyObservers();
+		}
+		myCommandObserver = arg -> {
+			
+		};
 	}
 
     private void addCommandToScreen(CommandTextView myCommandTextView) {
@@ -50,6 +60,7 @@ public class CommandView extends Observable implements SLogoObserver<List<Entry<
 		myCommandTextViews.add(myCommandTextView);
 		addCommandToScreen(myCommandTextView);
 		myCommandTextView.addObserver(this);
+//		myCommandTextView.addObserver(this);
 	}
 	
 	public Command getActiveCommand() {
