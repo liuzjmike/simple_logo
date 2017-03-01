@@ -26,14 +26,18 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
 	}
 	
     public void setTurtle(Collection<Turtle> turtles) {
-    	int id = 0;
     	for(Turtle turtle: turtles){
     		ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
-    		myTurtles.put(id, new TurtleView(turtleImage,turtle));
+    		myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle, myPane));
     		myPane.getChildren().add(turtleImage);
-    		id++;
     	}
 	}
+    
+    public void drawTurtle(){
+    	for(Integer id: myTurtles.keySet()){
+    		myTurtles.get(id).drawLines();
+    	}
+    }
     
     //TODO: Create CSS sheet
     public void setBackgroundColor(Color color) {
@@ -47,6 +51,6 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
 	@Override
 	public void update(Collection<Turtle> arg) {
 		setTurtle(arg);
-		
+		drawTurtle();
 	}
 }
