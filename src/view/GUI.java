@@ -145,9 +145,9 @@ public class GUI extends Observable implements Observer {
 //    	myVariableView.addVariable(variable);
 //	}
     
-    public void setTurtles(Collection<Turtle> turtles) {
-    	myPoolView.setTurtle(turtles);
-	}
+//    public void setTurtles(Collection<Turtle> turtles) {
+//    	myPoolView.setTurtle(turtles);
+//	}
     
     public void addTextToConsole(String retToConsole) {
     	myConsoleView.addText(retToConsole);
@@ -167,6 +167,7 @@ public class GUI extends Observable implements Observer {
 		} else if(o==myVariableView) {
 			addTextToConsole(myVariableView.getActiveVariable().toString());
 		}
+		
 	}
 	
 	public HBox getUserBar() {
