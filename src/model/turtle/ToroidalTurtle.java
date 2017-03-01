@@ -7,7 +7,7 @@ public class ToroidalTurtle extends AbstractTurtle {
     }
     
     @Override
-    void move(double dx, double dy, double wRadius, double hRadius) {
+    protected void move(double dx, double dy, double wRadius, double hRadius) {
         double newX = getX() + dx;
         double newY = getY() + dy;
         if(inBounds(newX, newY, wRadius, hRadius)) {
