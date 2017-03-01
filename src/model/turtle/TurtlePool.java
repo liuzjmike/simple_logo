@@ -146,9 +146,10 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
             throw new RuntimeException();
         }
     }
-    
+
+    @Override
     @SuppressWarnings("unchecked")
-    private void notifyObservers() {
-        notifyObservers((Collection<Turtle>)(Collection<?>)myTurtles);
+    protected Collection<Turtle> notification() {
+        return (Collection<Turtle>)(Collection<?>)Collections.unmodifiableCollection(myTurtles);
     }
 }

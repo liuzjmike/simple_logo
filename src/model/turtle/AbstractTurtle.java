@@ -71,7 +71,7 @@ public abstract class AbstractTurtle implements Turtle {
         return dist;
     }
     
-    abstract void move(double dx, double dy, double wRadius, double hRadius);
+    protected abstract void move(double dx, double dy, double wRadius, double hRadius);
     
     protected double moveOn(double x, double y, boolean penDown) {
         double ret = Math.hypot(x - myX, y - myY);
@@ -85,18 +85,18 @@ public abstract class AbstractTurtle implements Turtle {
         lastMove.add(hist);
     }
 
-    private double move(double x, double y, boolean penDown) {
+    private double newMove(double x, double y, boolean penDown) {
         clearHist();
         return moveOn(x, y, penDown);
     }
 
     double setXY(double x, double y) {
-        return move(x, y, penDown());
+        return newMove(x, y, penDown());
     }
 
     double home() {
         myHeading = 0;
-        return move(0, 0, penDown());
+        return newMove(0, 0, penDown());
     }
     
     void clearHist() {
