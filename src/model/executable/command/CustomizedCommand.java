@@ -24,7 +24,7 @@ public class CustomizedCommand extends AbstractCommand {
 	protected Literal concreteExecute(Environment env) throws Exception {
 	    env.getVariablePool().allocTemp();
 		for(int i = 0; i < varParams.size(); i++) {
-			Variable var = (Variable)varParams.get(i);
+			Variable var = (Variable)((ExecutableList)varParams.get(i)).get(0);
 			env.getVariablePool().addTemp(var.getName(), getParam(i).execute(env));
 		}
 		Literal ret = new Literal(0);

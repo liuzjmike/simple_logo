@@ -1,5 +1,6 @@
 package view;
 
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
@@ -7,10 +8,12 @@ public class Pen {
 	
 	private boolean penDown;
 	private Color color;
+	private Pane myPane;
 	
-	public Pen(boolean penDown, Color defaultcolor){
+	public Pen(boolean penDown, Color defaultcolor, Pane pane){
 		this.penDown = penDown;
 		this.color = defaultcolor;
+		myPane = pane;
 	}
 	
 	public void setPen(boolean penDown){
@@ -24,7 +27,9 @@ public class Pen {
 			line.setStartY(y1);
 			line.setEndX(x2);
 			line.setEndY(y2);
+			line.setStrokeWidth(1);
 			setColor(line);
+			myPane.getChildren().add(line);
 		}		
 	}
 	

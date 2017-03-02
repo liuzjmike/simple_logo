@@ -7,6 +7,7 @@ import java.util.Observer;
 import java.util.Map.Entry;
 
 import controller.ControlHandler;
+import controller.Controller;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -27,8 +28,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.executable.Literal;
 import model.executable.command.Command;
+import util.SLogoObservable;
+import util.SLogoObserver;
 
-public class ConsoleView extends Observable {
+public class ConsoleView {
 	
 	VBox outputVBox;
 	
@@ -42,9 +45,11 @@ public class ConsoleView extends Observable {
 	
 	Button enterButton;
 	
-	ControlHandler myControlHandler;
+	Controller myControlHandler;
 	
 	String activeText;
+	
+	private ControlHandler myHandler;
 	
 	public ConsoleView() {
 		
@@ -84,45 +89,58 @@ public class ConsoleView extends Observable {
 		GridPane.setValignment(enterButton,VPos.CENTER);
     	GridPane.setHalignment(enterButton,HPos.CENTER);
 	}
+	
+	public void setHandler(ControlHandler myHandler) {
+		this.myHandler = myHandler;
+	}
 
     public String getActiveText() {
-		return activeText;
+		return input.getText();
     }
-    
-    private void setActiveText() {
-    	activeText = input.getText();
-    }
-    
+   
     public void addText(String retToConsole) {
     	outputVBox.getChildren().add(new Text(retToConsole));
     }
     
-    public void addText(CommandTextView myCommandTextView) {
-    	outputVBox.getChildren().add(myCommandTextView.getText());
+    public void addCommandToScreen(String myCommand) {
+    	Text myCommandText = new Text(myCommand);
+    	installHandler(myCommandText);
+    	outputVBox.getChildren().add(myCommandText);
     }
+    
+    private void installHandler(Text myText) {
+		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, 
+		    new EventHandler<MouseEvent>() {
+		        public void handle(MouseEvent e) {
+		        	try {
+						myHandler.execute(myText.getText());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		        }
+		});
+	}
 	
 	public Node getNode() {
 		return root;
 	}
 	
 	private void installEnterButtonHandler() {
-		DropShadow shadow = new DropShadow();
 		enterButton.addEventHandler(MouseEvent.MOUSE_PRESSED, 
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
-		        	enterButton.setEffect(shadow);
-		        	setActiveText();
+		        	try {
+						myHandler.execute(getActiveText());
+						addCommandToScreen(getActiveText());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 		        	input.clear();
-		        	notifyObservers();
-		        }
-		});
-		
-		enterButton.addEventHandler(MouseEvent.MOUSE_EXITED, 
-		    new EventHandler<MouseEvent>() {
-		        public void handle(MouseEvent e) {
-		        	enterButton.setEffect(null);
 		        }
 		});
 	}
+
 	
 }
