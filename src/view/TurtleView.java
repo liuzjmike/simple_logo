@@ -84,7 +84,7 @@ public class TurtleView {
     
     /*****Rotational movement*****/
     private void setHeading(double heading){
-    	myImage.setRotate((heading+90)%Constants.ROUND_ANGLE);
+    	myImage.setRotate((-heading+90)%Constants.ROUND_ANGLE);
     }
     
     private double transformX(double x) {
@@ -92,7 +92,7 @@ public class TurtleView {
     }
     
     private double transformY(double y) {
-        return y + yOffset;
+        return - y + yOffset;
     }
     
 }

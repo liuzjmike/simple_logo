@@ -16,7 +16,7 @@ public class ToroidalTurtle extends AbstractTurtle {
         }
         double oldX = getX();
         double oldY = getY();
-        moveOn(getInboundPos(getX(), getY(), wRadius, hRadius));
+        moveOn(getInboundPos(newX, newY, wRadius, hRadius));
         dx -= getX() - oldX;
         dy -= getY() - oldY;
         moveOn(switchSide(getX(), dx, wRadius), switchSide(getY(), dy, hRadius), penDown());
@@ -30,20 +30,26 @@ public class ToroidalTurtle extends AbstractTurtle {
     }
     
     private TurtleHist getInboundPos(double x, double y, double wRadius, double hRadius) {
-        double yIntersect = getY() + Math.copySign((wRadius - getX()) * Math.tan(radianHeading()),
-                Math.cos(radianHeading()));
-        if(yIntersect <= -hRadius || yIntersect >= hRadius) {
-            y = y < 0 ? -hRadius : hRadius-1;
-            return new TurtleHist(x + Math.copySign((y - getY()) / Math.tan(radianHeading()),
-                    Math.sin(radianHeading())), y, false);
+        double dx = Math.cos(radianHeading()) > 0 ? wRadius - getX() : wRadius + getX();
+        double yIntersect = getY() + Math.copySign(dx * Math.tan(radianHeading()),
+                Math.sin(radianHeading()));
+        if(yIntersect < -hRadius || yIntersect > hRadius) {
+            double dy = Math.sin(radianHeading()) > 0 ? hRadius - getY() : hRadius + getY();
+            return new TurtleHist(getX() + Math.copySign(dy / Math.tan(radianHeading()),
+                    Math.cos(radianHeading())), y < 0 ? -hRadius : hRadius-1, false);
         } else {
             return new TurtleHist(x < 0 ? -wRadius : wRadius-1, yIntersect, false);
         }
     }
     
     private double switchSide(double pos, double dpos, double radius) {
-        if((pos == -radius || pos >= radius-1) && dpos != 0) {
-            return - (pos + 1);
+        if(dpos != 0) {
+            if(pos <= -radius) {
+                return radius - 1.1;
+            }
+            else if(pos >= radius-1) {
+                return -pos + 0.1;
+            }
         }
         return pos;
     }
