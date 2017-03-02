@@ -18,12 +18,13 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
         super();
         myTurtles = new ArrayList<>();
         turtleID = 0;
+        myWidth = width;
+        myHeight = height;
         addTurtle();
     }
     
     public void addObserver(SLogoObserver<Collection<Turtle>> so) {
         super.addObserver(so);
-        
     }
     
     public void setSize(double width, double height) {

@@ -4,9 +4,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.turtle.Turtle;
@@ -43,10 +47,8 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
     	}
     }
     
-    //TODO: Create CSS sheet
     public void setBackgroundColor(Color color) {
-    	myPane.getStylesheets().add(CSS_FILE);
-    	myPane.getStyleClass().add("background");
+    	myPane.setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
 	}
 	
 	public Node getNode() {
