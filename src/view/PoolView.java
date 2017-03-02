@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -30,7 +29,7 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
     	for(Turtle turtle: turtles){
     		if(!myTurtles.containsKey(turtle.getID())){
     			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
-    			myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle, myPane));
+    			myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle));
         		myPane.getChildren().add(turtleImage);
     		}
     		
@@ -49,7 +48,7 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
     	myPane.getStyleClass().add("background");
 	}
 	
-	public Node getNode() {
+	public Pane getRoot() {
 		return myPane;
 	}
 

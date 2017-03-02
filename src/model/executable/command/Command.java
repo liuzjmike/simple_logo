@@ -9,6 +9,4 @@ public interface Command extends Executable {
 	public void addParam(Executable exec) throws Exception;
 	
 	public void resetParams();
-	
-	public boolean fullParams();
 }

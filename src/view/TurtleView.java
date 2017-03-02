@@ -3,21 +3,21 @@ package view;
 import java.util.List;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.turtle.Turtle;
 import model.turtle.TurtleHist;
 import util.Constants;
 
 public class TurtleView {
-	public static final Color defaultColor = Color.BLACK;
+    
+	public static final Color DEFAULT_COLOR = Color.BLACK;
 
 	private ImageView myTurtle;
 	private Pen myPen;
 	private List<TurtleHist> lastMove;
 
-	public TurtleView(ImageView image, Turtle turtle, Pane pane){
-		myPen = new Pen(true, defaultColor, pane);
+	public TurtleView(ImageView image, Turtle turtle){
+		myPen = new Pen(DEFAULT_COLOR);
 		setImage(image);
 		setHeading(turtle.getHeading());
 		setScale(0.1);
@@ -47,7 +47,6 @@ public class TurtleView {
     			}		 			
     		}
     	}
-    	
     }
     
     private void draw(double x1, double x2, double y1, double y2){
@@ -56,8 +55,8 @@ public class TurtleView {
     
     /*****Translational movement*****/
     private void setXY(double x, double y) {
-    	myTurtle.setX(x-170);
-    	myTurtle.setY(y-200);
+    	myTurtle.setX(x+170);
+    	myTurtle.setY(y+200);
 	}
     
     /*****Rotational movement*****/

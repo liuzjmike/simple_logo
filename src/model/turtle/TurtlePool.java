@@ -18,6 +18,8 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
         super();
         myTurtles = new ArrayList<>();
         turtleID = 0;
+        myWidth = width;
+        myHeight = height;
         addTurtle();
     }
     

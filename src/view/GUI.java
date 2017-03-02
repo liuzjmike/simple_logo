@@ -117,7 +117,7 @@ public class GUI implements SLogoObserver<String> {
    }
     
     private Node getPoolViewNode() {
-    	return myPoolView.getNode();
+    	return myPoolView.getRoot();
     }
     
     private Node getConsoleViewNode() {

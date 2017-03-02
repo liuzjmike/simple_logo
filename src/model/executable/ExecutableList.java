@@ -31,6 +31,10 @@ public class ExecutableList implements Executable, Iterable<Executable> {
     public Executable get(int index) {
     	return myExecs.get(index);
     }
+    
+    public boolean isEmpty() {
+        return size() == 0;
+    }
 
     @Override
     public Literal execute(Environment env) throws Exception {
