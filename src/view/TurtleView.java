@@ -1,7 +1,5 @@
 package view;
 
-
-
 import java.util.List;
 
 import javafx.scene.image.ImageView;
@@ -20,28 +18,22 @@ public class TurtleView {
 
 	public TurtleView(ImageView image, Turtle turtle, Pane pane){
 		myPen = new Pen(true, defaultColor, pane);
-		//setHeading(turtle.getHeading());
 		setImage(image);
+		setHeading(turtle.getHeading());
 		setScale(0.1);
 		setVisible(turtle.isVisible());
-		lastMove = turtle.getLastMove();
-		drawLines();
-		
+		lastMove = turtle.getLastMove();	
 	}
 
-    public void setImage(ImageView image) {
+    private void setImage(ImageView image) {
     	myTurtle = image;
 	}
     
-    public void setPen(boolean penDown){
-    	myPen.setPen(penDown);
-    }
-    
-    public void setVisible(boolean isVisible){
+    private void setVisible(boolean isVisible){
     	myTurtle.setVisible(isVisible);
     }
     
-    public void setScale(double scale){
+    private void setScale(double scale){
     	myTurtle.setScaleX(scale);
     	myTurtle.setScaleY(scale);
     }
@@ -63,14 +55,14 @@ public class TurtleView {
     }
     
     /*****Translational movement*****/
-    public void setXY(double x, double y) {
-    	myTurtle.setX(x);
-    	myTurtle.setY(y);
+    private void setXY(double x, double y) {
+    	myTurtle.setX(x-170);
+    	myTurtle.setY(y-200);
 	}
     
     /*****Rotational movement*****/
-    public void setHeading(double heading){
-    	myTurtle.setRotate(heading%Constants.ROUND_ANGLE);
+    private void setHeading(double heading){
+    	myTurtle.setRotate((heading+90)%Constants.ROUND_ANGLE);
     }
     
 }

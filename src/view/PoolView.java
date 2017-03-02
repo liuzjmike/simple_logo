@@ -15,6 +15,7 @@ import util.SLogoObserver;
 public class PoolView implements SLogoObserver<Collection<Turtle>> {
 	public static final String TURTLE_IMAGE = "TurtleImage.png";
 	public static final String DEFAULT_BACKGROUND_COLOR = "white";
+	public static final String CSS_FILE = "resources/PaneColor.css";
 
 	private Pane myPane;
 	private Map<Integer, TurtleView> myTurtles;
@@ -27,9 +28,12 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
 	
     public void setTurtle(Collection<Turtle> turtles) {
     	for(Turtle turtle: turtles){
-    		ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
-    		myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle, myPane));
-    		myPane.getChildren().add(turtleImage);
+    		if(!myTurtles.containsKey(turtle.getID())){
+    			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
+    			myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle, myPane));
+        		myPane.getChildren().add(turtleImage);
+    		}
+    		
     	}
 	}
     
@@ -41,7 +45,8 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
     
     //TODO: Create CSS sheet
     public void setBackgroundColor(Color color) {
-    	myPane.setStyle("-fx-background-color: white");
+    	myPane.getStylesheets().add(CSS_FILE);
+    	myPane.getStyleClass().add("background");
 	}
 	
 	public Node getNode() {
