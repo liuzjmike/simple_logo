@@ -45,11 +45,11 @@ public class CommandView extends Observable implements SLogoObserver<List<Entry<
 	 */
 	@Override
 	public void update(List<Entry<String, Command>> arg) {
-		Entry<String,Command> entry = arg.get(arg.lastIndexOf(arg));
-		CommandTextView myCommandTextView = new CommandTextView(entry.getKey(),entry.getValue());
-		myCommandTextViews.add(myCommandTextView);
-		addCommandToScreen(myCommandTextView);
-		myCommandTextView.addObserver(this);
+	    Entry<String,Command> entry = arg.get(arg.lastIndexOf(arg));
+        CommandTextView myCommandTextView = new CommandTextView(entry.getKey(),entry.getValue());
+        myCommandTextViews.add(myCommandTextView);
+        addCommandToScreen(myCommandTextView);
+        myCommandTextView.addObserver(this);
 	}
 	
 	public Command getActiveCommand() {

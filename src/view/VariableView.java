@@ -34,8 +34,8 @@ public class VariableView extends Observable implements SLogoObserver<List<Entry
 
 	@Override
 	public void update(List<Entry<String, Literal>> arg) {
-		Entry<String, Literal> entry = arg.get(arg.lastIndexOf(arg));
-		vBox.getChildren().add(getVariableText(entry));
+	    Entry<String, Literal> entry = arg.get(arg.lastIndexOf(arg));
+        vBox.getChildren().add(getVariableText(entry));
 	}
 	
 	public Text getVariableText(Entry<String,Literal> entry) {
