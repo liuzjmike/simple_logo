@@ -1,4 +1,4 @@
-import controller.ControlHandler;
+import controller.Controller;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage arg0) throws Exception {
-        ControlHandler myControlHandler = new ControlHandler();
+        Controller myControlHandler = new Controller();
         myControlHandler.start(arg0);
     }
 

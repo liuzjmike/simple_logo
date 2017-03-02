@@ -25,12 +25,12 @@ public class Interpreter {
     
     public Executable parse(String commands, Environment env) throws Exception {
     	Deque<String> dq = new ArrayDeque<>();
-    	for (String s : commands.split(typeParser.getSymbol("Newline"))) {
+    	for (String s : commands.split("\\n")) {
     		s.trim();
     		if (s.startsWith(typeParser.getSymbol("Comment")) || s.isEmpty()) {
     			continue;
     		}
-    		dq.addAll(Arrays.asList(s.split(typeParser.getSymbol("Whitespace"))));
+    		dq.addAll(Arrays.asList(s.split("\\s+")));
     	}
     	return parse(dq, env);
     }
@@ -52,6 +52,7 @@ public class Interpreter {
     			root.add(new Literal(Double.parseDouble(exp)));
     		}
     		else if (isCommand(exp)) {
+    			System.out.println(exp);
     			Command command;
     			if (isTO(exp)){
     				command = new To(expressions.pop());
@@ -74,26 +75,27 @@ public class Interpreter {
     }
     
     private boolean isCommand(String exp) {
-    	return typeParser.getSymbol("Command").equals(exp);
+    	System.out.println(exp);
+    	return typeParser.getSymbol(exp).equals("Command");
     }
     
     private boolean isVariable(String exp) {
-    	return typeParser.getSymbol("Variable").equals(exp);
+    	return typeParser.getSymbol(exp).equals("Variable");
     }
     
     private boolean isConstant(String exp) {
-    	return typeParser.getSymbol("Constant").equals(exp);
+    	return typeParser.getSymbol(exp).equals("Constant");
     }
     
     private boolean isTO(String exp) {
-    	return typeParser.getSymbol("To").equals(exp);
+    	return exp.toLowerCase().equals("to");
     }
     
     private boolean isListStart(String exp) {
-    	return typeParser.getSymbol("ListStart").equals(exp);
+    	return typeParser.getSymbol(exp).equals("ListStart");
     }
     
     private boolean isListEnd(String exp) {
-    	return typeParser.getSymbol("ListEnd").equals(exp);
+    	return typeParser.getSymbol(exp).equals("ListEnd");
     }
 }

@@ -1,11 +1,8 @@
 package view;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Observable;
-import java.util.Observer;
 
+import controller.ControlHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -17,12 +14,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import model.executable.Literal;
 import model.executable.command.Command;
 import model.turtle.Turtle;
 import util.SLogoObserver;
 
-public class GUI extends Observable implements Observer {
+public class GUI implements SLogoObserver<String> {
 	
 	private PoolView myPoolView;
 	private ConsoleView myConsoleView;
@@ -36,13 +32,13 @@ public class GUI extends Observable implements Observer {
 	
 	private Color backgroundColor;
 	
-	Command currentCommand;
+	private Command currentCommand;
+	private ControlHandler myHandler;
 	
 	public GUI() {
 		myPoolView = new PoolView();
 		myConsoleView = new ConsoleView();
 		myVariableView = new VariableView();
-		myVariableView.addObserver(this);
 		myCommandView = new CommandView();
 		backgroundColor = Color.WHITE;
     	poolViewRow = 0;
@@ -56,6 +52,13 @@ public class GUI extends Observable implements Observer {
     	stage.setScene(myScene);
     	stage.show();
 	}
+    
+    public void setHandler(ControlHandler handler) {
+    	myHandler = handler;
+    	myConsoleView.setHandler(handler);
+    	myCommandView.setHandler(handler);
+    	myVariableView.setHandler(handler);
+    }
     
     private GridPane getGridPane() {
     	GridPane root = new GridPane();
@@ -133,22 +136,6 @@ public class GUI extends Observable implements Observer {
 		return myPoolView;
 	}
     
-    public SLogoObserver<List<Entry<String, Command>>> getCommandObserver() {
-    	return myCommandView;
-	}
-    
-    public SLogoObserver<List<Entry<String, Literal>>> getVariableObserver() {
-		return myVariableView;
-	}
-    
-//    public void addVariable(String variable) {
-//    	myVariableView.addVariable(variable);
-//	}
-    
-//    public void setTurtles(Collection<Turtle> turtles) {
-//    	myPoolView.setTurtle(turtles);
-//	}
-    
     public void addTextToConsole(String retToConsole) {
     	myConsoleView.addText(retToConsole);
     }
@@ -156,27 +143,19 @@ public class GUI extends Observable implements Observer {
     public String getActiveConsoleText() {
     	return myConsoleView.getActiveText();
     }
-
-	@Override
-	public void update(Observable o, Object arg) {
-		if(o==myConsoleView) {
-			notifyObservers();
-		} else if (o==myCommandView) {
-			currentCommand = myCommandView.getActiveCommand();
-			notifyObservers();
-		} else if(o==myVariableView) {
-			addTextToConsole(myVariableView.getActiveVariable().toString());
-		}
-		
-	}
 	
 	public HBox getUserBar() {
 		HBox userBar = new HBox();
 		userBar.setAlignment(Pos.CENTER_LEFT);
 		Button changeColorButton = new Button("Change Background Color");
+		changeColorButton.setOnMouseClicked(onClick -> promptForBackgroundColorChange());
 		Button showReferenceButton = new Button("SLogo Reference");
 		userBar.getChildren().addAll(changeColorButton,showReferenceButton);
 		return userBar;
+	}
+	
+	private void promptForBackgroundColorChange() {
+		
 	}
 
 	public Command getCurrentCommand() {
@@ -185,6 +164,18 @@ public class GUI extends Observable implements Observer {
 
 	public void setCurrentCommand(Command currentCommand) {
 		this.currentCommand = currentCommand;
+	}
+
+	@Override
+	public void update(String arg) {
+		try {
+			myHandler.execute(arg);
+			addTextToConsole(arg);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }
