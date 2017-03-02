@@ -25,7 +25,6 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     
     public void addObserver(SLogoObserver<Collection<Turtle>> so) {
         super.addObserver(so);
-        
     }
     
     public void setSize(double width, double height) {

@@ -12,9 +12,10 @@ public class Controller {
 	public Controller() {
 		myGUI = new GUI();
 		mySLogoModel = new SLogoModel(myGUI.getPoolViewWidth(), myGUI.getPoolViewHeight());
-		myGUI.setHandler(command -> {
+		myGUI.setViewHandler(command -> {
 			myGUI.addTextToConsole(Double.toString(mySLogoModel.interpret(command)));
 		});
+		myGUI.setGUIHandler(new GUIControlHandler(mySLogoModel));
 		setUpObservers();
 	}
 	

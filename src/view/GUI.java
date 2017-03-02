@@ -1,18 +1,28 @@
 package view;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import controller.ControlHandler;
+import controller.GUIControlHandler;
+import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import model.executable.command.Command;
 import model.turtle.Turtle;
@@ -35,6 +45,8 @@ public class GUI implements SLogoObserver<String> {
 	private Command currentCommand;
 	private ControlHandler myHandler;
 	
+	private GUIControlHandler myGUIHandler;
+	
 	public GUI() {
 		myPoolView = new PoolView();
 		myConsoleView = new ConsoleView();
@@ -53,15 +65,21 @@ public class GUI implements SLogoObserver<String> {
     	stage.show();
 	}
     
-    public void setHandler(ControlHandler handler) {
+    public void setViewHandler(ControlHandler handler) {
     	myHandler = handler;
     	myConsoleView.setHandler(handler);
     	myCommandView.setHandler(handler);
     	myVariableView.setHandler(handler);
     }
     
+    public void setGUIHandler(GUIControlHandler handler) {
+    	myGUIHandler = handler;
+    }
+    
     private GridPane getGridPane() {
     	GridPane root = new GridPane();
+    	root.setPrefHeight(800);
+    	root.setPrefWidth(1200);
     	
     	ColumnConstraints cons1 = new ColumnConstraints();
     	cons1.setHgrow(Priority.NEVER);
@@ -101,11 +119,11 @@ public class GUI implements SLogoObserver<String> {
     }
     
    private double getViewHeight(int row) {
-	   return myGridPane.getRowConstraints().get(row).getPercentHeight()*myGridPane.getHeight();
+	   return myGridPane.getRowConstraints().get(row).getPercentHeight()/100*myGridPane.getPrefHeight();
    }
    
    private double getViewWidth(int col) {
-	   return myGridPane.getColumnConstraints().get(col).getPercentWidth()*myGridPane.getWidth();
+	   return myGridPane.getColumnConstraints().get(col).getPercentWidth()/100*myGridPane.getPrefWidth();
    }
    
    public double getPoolViewHeight() {
@@ -150,12 +168,90 @@ public class GUI implements SLogoObserver<String> {
 		Button changeColorButton = new Button("Change Background Color");
 		changeColorButton.setOnMouseClicked(onClick -> promptForBackgroundColorChange());
 		Button showReferenceButton = new Button("SLogo Reference");
-		userBar.getChildren().addAll(changeColorButton,showReferenceButton);
+		showReferenceButton.setOnMouseClicked(onClick -> promptForReference());
+		Button changeLanguageButton = new Button("Change Language");
+		changeLanguageButton.setOnMouseClicked(onClick -> promptLanguage());
+		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton);
 		return userBar;
 	}
 	
-	private void promptForBackgroundColorChange() {
+	private void promptForReference() {
+		class HelpViewer extends Application {
+			   private WebEngine webEngine;
+			   private WebView   webView;
+			@Override
+			public void start(Stage primaryStage) throws Exception {
+				// TODO Auto-generated method stub
+				 webView = new WebView();
+			      webView.setVisible(true);
+			      webEngine = webView.getEngine();
+			      webEngine.setJavaScriptEnabled(true);
+			      webEngine.load(getClass().getClassLoader().getResource("reference.html").toExternalForm());
+
+			      Scene scene = new Scene(webView, 500, 300);
+
+			      primaryStage.setTitle("Commands Reference");
+			      primaryStage.setScene(scene);
+			      primaryStage.show();
+			}
+		}
 		
+		HelpViewer myHelpViewer = new HelpViewer();
+		try {
+			myHelpViewer.start(new Stage());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void promptLanguage() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Change Language");
+		alert.setHeaderText(null);
+		alert.setContentText("Choose a language");
+		
+		ButtonType buttonTypeChinese = new ButtonType("Chinese");
+		ButtonType buttonTypeEnglish = new ButtonType("English");
+		ButtonType buttonTypeFrench= new ButtonType("French");
+		ButtonType buttonTypeGerman = new ButtonType("German");
+		ButtonType buttonTypeItalian = new ButtonType("Italian");
+		ButtonType buttonTypePortugese = new ButtonType("Portugese");
+		ButtonType buttonTypeRussian = new ButtonType("Russian");
+		ButtonType buttonTypeSpanish = new ButtonType("Spanish");
+		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+		alert.getButtonTypes().setAll(buttonTypeChinese, buttonTypeEnglish, buttonTypeFrench, buttonTypeGerman,buttonTypeItalian,buttonTypePortugese,buttonTypeRussian,buttonTypeSpanish,buttonTypeCancel);
+		
+		ButtonType buttonSelected = alert.showAndWait().get();
+		myGUIHandler.changeLanguage(buttonSelected.getText());
+	}
+
+	
+	private void promptForBackgroundColorChange() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Change Background Color");
+		alert.setHeaderText(null);
+		alert.setContentText("Choose a color");
+		
+		ButtonType buttonTypeBlue = new ButtonType("Blue");
+		ButtonType buttonTypeBlack = new ButtonType("Black");
+		ButtonType buttonTypeRed = new ButtonType("Red");
+		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+		
+		alert.getButtonTypes().setAll(buttonTypeBlue, buttonTypeBlack, buttonTypeRed, buttonTypeCancel);
+		
+		Optional<ButtonType> result = alert.showAndWait();
+		
+		if (result.get() == buttonTypeBlue){
+		    myPoolView.setBackgroundColor(Color.BLUE);
+		} else if (result.get() == buttonTypeBlack) {
+			myPoolView.setBackgroundColor(Color.BLACK);
+		} else if (result.get() == buttonTypeRed) {
+			myPoolView.setBackgroundColor(Color.RED);
+		} else {
+		    return;
+		}
+
 	}
 
 	public Command getCurrentCommand() {

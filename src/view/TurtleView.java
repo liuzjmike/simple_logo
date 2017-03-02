@@ -55,8 +55,8 @@ public class TurtleView {
     
     /*****Translational movement*****/
     private void setXY(double x, double y) {
-    	myTurtle.setX(x+170);
-    	myTurtle.setY(y+200);
+    	myTurtle.setX(x);
+    	myTurtle.setY(y);
 	}
     
     /*****Rotational movement*****/
