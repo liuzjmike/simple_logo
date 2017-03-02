@@ -12,10 +12,19 @@ public class Controller {
 	public Controller() {
 		myGUI = new GUI();
 		mySLogoModel = new SLogoModel(myGUI.getPoolViewWidth(), myGUI.getPoolViewHeight());
-		myGUI.setViewHandler(command -> {
-			myGUI.addTextToConsole(Double.toString(mySLogoModel.interpret(command)));
+		myGUI.setViewHandler(new ControlHandler() {
+
+            @Override
+            public void execute(String command) throws Exception {
+                mySLogoModel.interpret(command);
+            }
+
+            @Override
+            public void setLanguage(String language) {
+                mySLogoModel.setLanguage(language);
+            }
+		    
 		});
-		myGUI.setGUIHandler(new GUIControlHandler(mySLogoModel));
 		setUpObservers();
 	}
 	
@@ -25,5 +34,7 @@ public class Controller {
     
     private void setUpObservers() {
     	mySLogoModel.addPoolObserver(myGUI.getPoolObserver());
+    	mySLogoModel.addVariableObserver(myGUI.getVariableObserver());
+    	mySLogoModel.addCommandObserver(myGUI.getCommandObserver());
     }
 }

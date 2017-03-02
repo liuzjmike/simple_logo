@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Environment;
-import model.executable.Executable;
+import model.executable.ExecutableList;
 import model.executable.Literal;
 
 public abstract class AbstractCommand implements Command {
 
-    List<Executable> myParams;
+    List<ExecutableList> myParams;
     
     public AbstractCommand() {
         myParams = new ArrayList<>();
@@ -24,7 +24,7 @@ public abstract class AbstractCommand implements Command {
     }
     
     @Override
-    public void addParam(Executable exec) throws Exception {
+    public void addParam(ExecutableList exec) throws Exception {
         if(myParams.size() >= numParams()) {
             throw new Exception();
         }
@@ -36,12 +36,7 @@ public abstract class AbstractCommand implements Command {
     	myParams.clear();
     }
     
-    @Override
-    public boolean fullParams() {
-    	return myParams.size() == numParams();
-    }
-    
-    protected Executable getParam(int index) {
+    protected ExecutableList getParam(int index) {
     	return myParams.get(index);
     }
     

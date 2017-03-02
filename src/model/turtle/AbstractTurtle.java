@@ -88,18 +88,18 @@ public abstract class AbstractTurtle implements Turtle {
         lastMove.add(hist);
     }
 
-    private double newMove(double x, double y, boolean penDown) {
+    private double startMove(double x, double y, boolean penDown) {
         clearHist();
         return moveOn(x, y, penDown);
     }
 
     double setXY(double x, double y) {
-        return newMove(x, y, penDown());
+        return startMove(x, y, penDown());
     }
 
     double home() {
         myHeading = 0;
-        return newMove(0, 0, penDown());
+        return startMove(0, 0, penDown());
     }
     
     void clearHist() {

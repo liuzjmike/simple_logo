@@ -9,8 +9,7 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 public class RegexParser {
-	
-	public static final String DEFAULT_PACKAGE = "resources/";
+    
     public static final String NO_MATCH = "NO MATCH";
     
     private List<Entry<String, Pattern>> symbolTable;
@@ -21,7 +20,7 @@ public class RegexParser {
 
 	public void setPattern(String pattern) {
 		symbolTable.clear();
-        ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_PACKAGE + pattern);
+        ResourceBundle resources = ResourceBundle.getBundle(Constants.DEFAULT_RESOURCE_PACKAGE + pattern);
         Enumeration<String> iter = resources.getKeys();
         while (iter.hasMoreElements()) {
             String key = iter.nextElement();
@@ -39,4 +38,13 @@ public class RegexParser {
         }
         return NO_MATCH;
     }
+	
+	public String getRegex(String symbol) {
+	    for (Entry<String, Pattern> e : symbolTable) {
+            if (e.getKey().equals(symbol)) {
+                return e.getValue().toString();
+            }
+        }
+        return NO_MATCH;
+	}
 }

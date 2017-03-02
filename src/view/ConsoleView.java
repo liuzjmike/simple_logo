@@ -1,24 +1,14 @@
 package view;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Map.Entry;
 
-import controller.ControlHandler;
-import controller.Controller;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -26,10 +16,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import model.executable.Literal;
-import model.executable.command.Command;
-import util.SLogoObservable;
-import util.SLogoObserver;
 
 public class ConsoleView {
 	
@@ -45,11 +31,9 @@ public class ConsoleView {
 	
 	Button enterButton;
 	
-	Controller myControlHandler;
-	
 	String activeText;
 	
-	private ControlHandler myHandler;
+	private GUIHandler myHandler;
 	
 	public ConsoleView() {
 		
@@ -90,8 +74,8 @@ public class ConsoleView {
     	GridPane.setHalignment(enterButton,HPos.CENTER);
 	}
 	
-	public void setHandler(ControlHandler myHandler) {
-		this.myHandler = myHandler;
+	public void setHandler(GUIHandler handler) {
+		myHandler = handler;
 	}
 
     public String getActiveText() {
@@ -130,13 +114,8 @@ public class ConsoleView {
 		enterButton.addEventHandler(MouseEvent.MOUSE_PRESSED, 
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
-		        	try {
-						myHandler.execute(getActiveText());
-						addCommandToScreen(getActiveText());
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+		            myHandler.execute(getActiveText());
+		            addCommandToScreen(getActiveText());
 		        	input.clear();
 		        }
 		});

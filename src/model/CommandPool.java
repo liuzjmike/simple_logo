@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import model.executable.command.Command;
+import util.Constants;
 import util.RegexParser;
 import util.SLogoObserver;
 import util.SObservableOrderedMap;
@@ -37,8 +38,8 @@ public class CommandPool {
         if(command.equals(RegexParser.NO_MATCH)) {
             return userCommands.get(name);
         }
-        ResourceBundle resources = ResourceBundle.getBundle(RegexParser.DEFAULT_PACKAGE + DEFAULT_CLASSPATH_FILE);
-        //TODO
+        ResourceBundle resources = ResourceBundle.getBundle(Constants.DEFAULT_RESOURCE_PACKAGE
+                + DEFAULT_CLASSPATH_FILE);
 		Class<?> clazz = Class.forName(resources.getString(command));
 		Command ret = (Command)clazz.newInstance();
         return ret;

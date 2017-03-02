@@ -1,40 +1,25 @@
 package view;
 
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public class Pen {
 	
-	private boolean penDown;
 	private Color color;
-	private Pane myPane;
 	
-	public Pen(boolean penDown, Color defaultcolor, Pane pane){
-		this.penDown = penDown;
-		this.color = defaultcolor;
-		myPane = pane;
+	public Pen(Color color){
+		this.color = color;
 	}
 	
-	public void setPen(boolean penDown){
-		this.penDown = penDown;
-	}
-	
-	public void drawLine(double x1, double x2, double y1, double y2){
-		if(penDown){
-			Line line = new Line();
-			line.setStartX(x1);
-			line.setStartY(y1);
-			line.setEndX(x2);
-			line.setEndY(y2);
-			line.setStrokeWidth(1);
-			setColor(line);
-			myPane.getChildren().add(line);
-		}		
-	}
-	
-	private void setColor(Line line){
-		line.setStroke(color);
+	public Line drawLine(double x1, double y1, double x2, double y2){
+	    Line line = new Line();
+        line.setStartX(x1);
+        line.setStartY(y1);
+        line.setEndX(x2);
+        line.setEndY(y2);
+        line.setStrokeWidth(1);
+        line.setStroke(color);
+        return line;
 	}
 
 }

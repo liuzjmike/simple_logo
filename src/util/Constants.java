@@ -5,6 +5,8 @@ public class Constants {
 	public static final double DEGREES_PER_RADIAN = 180 / Math.PI;
 	public static final double RADIAN_PER_DEGREE = Math.PI / 180;
 	public static final double ROUND_ANGLE = 360;
+	
+	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 
 	private Constants(){
 		

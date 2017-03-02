@@ -14,7 +14,7 @@ public class Make extends TwoParamCommand {
 
 	@Override
 	protected Literal concreteExecute(Environment env) throws Exception {
-		env.getVariablePool().add(((Variable)getParam(0)).getName(), getParamValue(1, env));
+		env.getVariablePool().add(((Variable)getParam(0).get(0)).getName(), getParamValue(1, env));
 		return new Literal(getParamValue(1, env));
 	}
 }

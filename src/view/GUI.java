@@ -1,10 +1,11 @@
 package view;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.Map.Entry;
 
 import controller.ControlHandler;
-import controller.GUIControlHandler;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -23,11 +24,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import model.executable.Literal;
 import model.executable.command.Command;
 import model.turtle.Turtle;
 import util.SLogoObserver;
 
-public class GUI implements SLogoObserver<String> {
+public class GUI {
 	
 	private PoolView myPoolView;
 	private ConsoleView myConsoleView;
@@ -44,10 +46,10 @@ public class GUI implements SLogoObserver<String> {
 	private Command currentCommand;
 	private ControlHandler myHandler;
 	
-	private GUIControlHandler myGUIHandler;
+	private GUIHandler myGUIHandler;
 	
 	public GUI() {
-		myPoolView = new PoolView();
+		myPoolView = new PoolView(900, 480);
 		myConsoleView = new ConsoleView();
 		myVariableView = new VariableView();
 		myCommandView = new CommandView();
@@ -65,14 +67,18 @@ public class GUI implements SLogoObserver<String> {
 	}
     
     public void setViewHandler(ControlHandler handler) {
+        myGUIHandler = command -> {
+            try {
+                handler.execute(command);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            myConsoleView.addCommandToScreen(command);
+        };
     	myHandler = handler;
-    	myConsoleView.setHandler(handler);
-    	myCommandView.setHandler(handler);
-    	myVariableView.setHandler(handler);
-    }
-    
-    public void setGUIHandler(GUIControlHandler handler) {
-    	myGUIHandler = handler;
+    	myConsoleView.setHandler(myGUIHandler);
+    	myCommandView.setHandler(myGUIHandler);
+    	myVariableView.setHandler(myGUIHandler);
     }
     
     private GridPane getGridPane() {
@@ -134,7 +140,7 @@ public class GUI implements SLogoObserver<String> {
    }
     
     private Node getPoolViewNode() {
-    	return myPoolView.getNode();
+    	return myPoolView.getRoot();
     }
     
     private Node getConsoleViewNode() {
@@ -152,6 +158,14 @@ public class GUI implements SLogoObserver<String> {
     public SLogoObserver<Collection<Turtle>> getPoolObserver() {
 		return myPoolView;
 	}
+    
+    public SLogoObserver<List<Entry<String, Literal>>> getVariableObserver() {
+        return myVariableView;
+    }
+    
+    public SLogoObserver<List<Entry<String, Command>>> getCommandObserver() {
+        return myCommandView;
+    }
     
     public void addTextToConsole(String retToConsole) {
     	myConsoleView.addText(retToConsole);
@@ -222,7 +236,7 @@ public class GUI implements SLogoObserver<String> {
 		alert.getButtonTypes().setAll(buttonTypeChinese, buttonTypeEnglish, buttonTypeFrench, buttonTypeGerman,buttonTypeItalian,buttonTypePortugese,buttonTypeRussian,buttonTypeSpanish,buttonTypeCancel);
 		
 		ButtonType buttonSelected = alert.showAndWait().get();
-		myGUIHandler.changeLanguage(buttonSelected.getText());
+		myHandler.setLanguage(buttonSelected.getText());
 	}
 
 	
@@ -260,17 +274,4 @@ public class GUI implements SLogoObserver<String> {
 	public void setCurrentCommand(Command currentCommand) {
 		this.currentCommand = currentCommand;
 	}
-
-	@Override
-	public void update(String arg) {
-		try {
-			myHandler.execute(arg);
-			addTextToConsole(arg);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
 }

@@ -26,10 +26,10 @@ public class VariablePool {
     }
     
     public Literal get(String name) throws Exception {
-        if(myStack.getFirst().containsKey(name)) {
-            return myStack.getFirst().get(name);
-        } else {
+        if(myStack.isEmpty() || !myStack.getFirst().containsKey(name)) {
             return myVariables.get(name);
+        } else {
+            return myStack.getFirst().get(name);
         }
     }
     
