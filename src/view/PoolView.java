@@ -25,7 +25,7 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
 	private Map<Integer, TurtleView> myTurtles;
 	private LineDrawer lineDrawer;
 	
-	public PoolView(){
+	public PoolView(double width, double height){
 		myTurtles = new HashMap<Integer,TurtleView>();
 		myPane = new Pane();
 		setBackgroundColor(Color.WHITE);
@@ -41,13 +41,15 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
                 myPane.getChildren().removeAll(lines);
             }
 		};
+		myPane.setPrefWidth(width);
+		myPane.setPrefHeight(height);
 	}
 	
     public void setTurtle(Collection<Turtle> turtles) {
     	for(Turtle turtle: turtles){
     		if(!myTurtles.containsKey(turtle.getID())){
     			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
-    			myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle, lineDrawer));
+    			myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle, lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2));
         		myPane.getChildren().add(turtleImage);
     		}
     		

@@ -49,7 +49,7 @@ public class GUI {
 	private GUIHandler myGUIHandler;
 	
 	public GUI() {
-		myPoolView = new PoolView();
+		myPoolView = new PoolView(900, 480);
 		myConsoleView = new ConsoleView();
 		myVariableView = new VariableView();
 		myCommandView = new CommandView();
