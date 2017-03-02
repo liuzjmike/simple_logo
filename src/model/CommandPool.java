@@ -13,6 +13,7 @@ public class CommandPool {
     
     public static final String DEFAULT_LANGUAGE_SUBPACKAGE = "languages/";
     public static final String DEFAULT_CLASSPATH_FILE = "Classpath";
+    public static final String DEFAULT_LANGUAGE = "English";
     
     private SObservableOrderedMap<String, Command> userCommands;
     private RegexParser commandParser;
@@ -20,6 +21,7 @@ public class CommandPool {
     public CommandPool() {
         userCommands = new SObservableOrderedMap<>();
         commandParser = new RegexParser();
+        setLanguage(DEFAULT_LANGUAGE);
     }
     
     public void add(String name, Command command) {
@@ -35,7 +37,8 @@ public class CommandPool {
         if(command.equals(RegexParser.NO_MATCH)) {
             return userCommands.get(name);
         }
-        ResourceBundle resources = ResourceBundle.getBundle(DEFAULT_CLASSPATH_FILE);
+        ResourceBundle resources = ResourceBundle.getBundle(RegexParser.DEFAULT_PACKAGE + DEFAULT_CLASSPATH_FILE);
+        //TODO
 		Class<?> clazz = Class.forName(resources.getString(command));
 		Command ret = (Command)clazz.newInstance();
         return ret;

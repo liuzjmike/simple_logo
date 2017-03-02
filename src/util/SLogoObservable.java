@@ -13,10 +13,15 @@ public abstract class SLogoObservable<T> {
     
     public void addObserver(SLogoObserver<T> so) {
         myObservers.add(so);
+        so.update(notification());
     }
     
     public void removeObserver(SLogoObserver<T> so) {
         myObservers.remove(so);
+    }
+    
+    public void notifyObservers() {
+        notifyObservers(notification());
     }
     
     public void notifyObservers(T arg) {
@@ -24,5 +29,7 @@ public abstract class SLogoObservable<T> {
             so.update(arg);
         }
     }
+    
+    protected abstract T notification();
 
 }

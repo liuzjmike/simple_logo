@@ -54,7 +54,8 @@ public class SObservableList<E> extends SLogoObservable<List<E>> implements Iter
         return myList.iterator();
     }
 
-    protected void notifyObservers() {
-        notifyObservers(Collections.unmodifiableList(myList));
+    @Override
+    protected List<E> notification() {
+        return Collections.unmodifiableList(myList);
     }
 }
