@@ -32,10 +32,12 @@ public abstract class AbstractTurtle implements Turtle {
         return myID;
     }
 
+    @Override
     public double getX() {
         return myX;
     }
 
+    @Override
     public double getY() {
         return myY;
     }
@@ -50,6 +52,7 @@ public abstract class AbstractTurtle implements Turtle {
         return Collections.unmodifiableList(lastMove);
     }
 
+    @Override
     public boolean penDown() {
         return penDown;
     }

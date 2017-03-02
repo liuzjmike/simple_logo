@@ -1,6 +1,5 @@
 package view;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -12,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.executable.command.Command;
-import util.SLogoObservable;
 import util.SLogoObserver;
 
 public class CommandView {
@@ -20,7 +18,6 @@ public class CommandView {
 	private VBox vBox;
 	private ScrollPane myPane;
 	private SLogoObserver<List<Entry<String, Command>>> myCommandObserver;
-	
 	private ControlHandler myHandler;
 	
 	public CommandView() {
@@ -28,7 +25,6 @@ public class CommandView {
 		myPane = new ScrollPane(vBox);
 		Text text = new Text("Commands:\n");
 		vBox.getChildren().add(text);
-
 		myCommandObserver = arg -> {
 			//body of update()
 			for (Entry<String,Command> entry : arg) {
@@ -68,5 +64,4 @@ public class CommandView {
 	public Node getNode() {
 		return myPane;
 	}
-
 }

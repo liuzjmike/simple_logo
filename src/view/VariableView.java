@@ -1,14 +1,8 @@
 package view;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Observable;	
-import java.util.Observer;
-
-import controller.ControlHandler;
-
 import java.util.Map.Entry;
 
+import controller.ControlHandler;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -16,9 +10,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.executable.Literal;
-import model.executable.Variable;
-import model.executable.command.Command;
-import util.SLogoObservable;
 import util.SLogoObserver;
 
 public class VariableView{
