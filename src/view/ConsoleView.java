@@ -2,6 +2,7 @@ package view;
 
 import java.util.ArrayList;
 
+import controller.StringProcessor;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -33,7 +34,7 @@ public class ConsoleView {
 	
 	String activeText;
 	
-	private GUIHandler myHandler;
+	private StringProcessor myHandler;
 	
 	public ConsoleView() {
 		
@@ -74,7 +75,7 @@ public class ConsoleView {
     	GridPane.setHalignment(enterButton,HPos.CENTER);
 	}
 	
-	public void setHandler(GUIHandler handler) {
+	public void setHandler(StringProcessor handler) {
 		myHandler = handler;
 	}
 

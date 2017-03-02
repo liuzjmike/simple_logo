@@ -11,7 +11,7 @@ import model.executable.Literal;
 public class Log extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(Math.log(getParamValue(0, env)));
 	}
 

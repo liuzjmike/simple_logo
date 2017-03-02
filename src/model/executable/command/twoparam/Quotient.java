@@ -12,7 +12,7 @@ import model.executable.Literal;
 public class Quotient extends TwoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		if (getParamValue(1, env) == 0) {
 			throw new RuntimeException();
 		}

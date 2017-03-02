@@ -11,7 +11,7 @@ import model.executable.Literal;
 public class Minus extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(-1*getParamValue(0, env));
 	}
 

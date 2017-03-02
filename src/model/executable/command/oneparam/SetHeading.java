@@ -11,7 +11,7 @@ import model.executable.Literal;
 public class SetHeading extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(env.getTurtlePool().setTurtleHeading(getParamValue(0, env)));
 	}
 

@@ -25,7 +25,7 @@ public class VariablePool {
     	myVariables.put(name, new Literal(value));
     }
     
-    public Literal get(String name) throws Exception {
+    public Literal get(String name) {
         if(myStack.isEmpty() || !myStack.getFirst().containsKey(name)) {
             return myVariables.get(name);
         } else {

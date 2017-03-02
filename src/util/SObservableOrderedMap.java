@@ -5,13 +5,13 @@ import java.util.Map.Entry;
 
 public class SObservableOrderedMap<K, V> extends SObservableList<Entry<K, V>> {
     
-    public V get(K key) throws Exception {
+    public V get(K key) {
         for(Entry<K, V> entry: this) {
             if(entry.getKey().equals(key)) {
                 return entry.getValue();
             }
         }
-        throw new Exception();
+        throw new RuntimeException();
     }
     
     public void put(K key, V value) {

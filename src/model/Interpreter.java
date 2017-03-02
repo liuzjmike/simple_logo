@@ -23,7 +23,7 @@ public class Interpreter {
 		typeParser.setPattern(DEFAULT_SYNTAX);
 	}
     
-    public Executable parse(String commands, Environment env) throws Exception {
+    public Executable parse(String commands, Environment env) {
     	Deque<String> dq = new ArrayDeque<>();
     	for (String s : commands.split(typeParser.getRegex("Newline"))) {
     		s.trim();
@@ -32,57 +32,57 @@ public class Interpreter {
     		}
     		dq.addAll(Arrays.asList(s.split(typeParser.getRegex("Whitespace"))));
     	}
-    	return parse(dq, env);
+    	ExecutableList ret = new ExecutableList();
+    	while(!dq.isEmpty()) {
+    	    ret.add(parse(dq, env));
+    	}
+    	return ret;
     }
     
-    private ExecutableList parse(Deque<String> expressions, Environment env) throws Exception {
-        ExecutableList root = new ExecutableList();
-    	while(!expressions.isEmpty()) {
-    		String exp = expressions.pop();
-    		if(is(exp, "ListStart")) {
-    			return parse(expressions, env);
-    		}
-    		else if(is(exp, "ListEnd")) {
-    			return root;
-    		}
-    		else if(is(exp, "Variable")) {
-    			root.add(new Variable(exp));
-    			return root;
-    		} 
-    		else if (is(exp, "Constant")) {
-    			root.add(new Literal(Double.parseDouble(exp)));
-    			return root;
-    		}
-    		else if(exp.toLowerCase().equals("to")) {
-    		    To to = new To(expressions.pop());
-    		    to.addParam(parseParam(expressions));
-    		    to.addParam(parse(expressions, env));
-    		    root.add(to);
-    		}
-    		else if(is(exp, "Command")) {
-    			Command command = env.getCommandPool().getCommand(exp);
-    			for(int i = 0; i < command.numParams(); i++) {
-    				command.addParam(parse(expressions, env));
-    			}
-    			root.add(command);
-    		} 
-    		else {
-    			throw new RuntimeException();
-    		}
-    	}
-    	if(root.isEmpty()) {
-    	    throw new Exception();
-    	}
-    	return root;
+    private Executable parse(Deque<String> expressions, Environment env) {
+        if(expressions.isEmpty()) {
+            throw new RuntimeException();
+        }
+        String exp = expressions.pop();
+        if(is(exp, "ListStart")) {
+            ExecutableList ret = new ExecutableList();
+            while(!is(expressions.peek(), "ListEnd")) {
+                ret.add(parse(expressions, env));
+            }
+            expressions.pop();
+            return ret;
+        }
+        else if(is(exp, "Variable")) {
+            return new Variable(exp);
+        } 
+        else if (is(exp, "Constant")) {
+            return new Literal(Double.parseDouble(exp));
+        }
+        else if(exp.toLowerCase().equals("to")) {
+            To to = new To(expressions.pop());
+            to.addParam(parseParam(expressions));
+            to.addParam(parse(expressions, env));
+            return to;
+        }
+        else if(is(exp, "Command")) {
+            Command command = env.getCommandPool().getCommand(exp);
+            for(int i = 0; i < command.numParams(); i++) {
+                command.addParam(parse(expressions, env));
+            }
+            return command;
+        }
+        else {
+            throw new RuntimeException();
+        }
     }
 
     private boolean is(String exp, String category) {
         return typeParser.getSymbol(exp).equals(category);
     }
     
-    private ExecutableList parseParam(Deque<String> expressions) throws Exception {
+    private ExecutableList parseParam(Deque<String> expressions) {
         if(!is(expressions.pop(), "ListStart")) {
-            throw new Exception();
+            throw new RuntimeException();
         }
         ExecutableList params = new ExecutableList();
         String exp;

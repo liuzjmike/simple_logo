@@ -12,7 +12,7 @@ import util.Constants;
 public class ATan extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(Constants.resolveNaN(Math.atan(getParamValue(0, env)) * Constants.DEGREES_PER_RADIAN));
 	}
 

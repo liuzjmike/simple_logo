@@ -14,7 +14,7 @@ public class PenDown extends NoParamCommand {
 	 * returns 1
 	 */
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(1);
 	}
 

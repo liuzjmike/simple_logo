@@ -15,7 +15,7 @@ public class Controller {
 		myGUI.setViewHandler(new ControlHandler() {
 
             @Override
-            public void execute(String command) throws Exception {
+            public void execute(String command) {
                 mySLogoModel.interpret(command);
             }
 

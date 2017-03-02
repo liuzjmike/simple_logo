@@ -11,7 +11,7 @@ import model.executable.Literal;
 public class Not extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal((getParamValue(0, env) == 0) ? 1 : 0);
 	}
 

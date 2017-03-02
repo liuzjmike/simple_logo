@@ -11,7 +11,7 @@ public class Literal implements Executable {
 	}
 
 	@Override
-	public Literal execute(Environment env) throws Exception {
+	public Literal execute(Environment env) {
 		return this;
 	}
 	

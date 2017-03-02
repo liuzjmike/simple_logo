@@ -21,7 +21,7 @@ public class CustomizedCommand extends AbstractCommand {
 	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 	    env.getVariablePool().allocTemp();
 		for(int i = 0; i < varParams.size(); i++) {
 			Variable var = (Variable)varParams.get(i);

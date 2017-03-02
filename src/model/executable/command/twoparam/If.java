@@ -12,7 +12,7 @@ import model.executable.Literal;
 public class If extends TwoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		Literal ret = new Literal(0);
 		if (getParamValue(0, env) != 0){
 			ret = getParam(1).execute(env);
