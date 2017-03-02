@@ -31,151 +31,119 @@ import model.turtle.Turtle;
 import util.SLogoObserver;
 
 public class GUI {
-	
+
 	private PoolView myPoolView;
 	private ConsoleView myConsoleView;
 	private VariableView myVariableView;
 	private CommandView myCommandView;
-	
+
 	private GridPane myGridPane;
-	
+
 	private int poolViewRow;
 	private int poolViewCol;
-	
+
 	private Color backgroundColor;
-	
+
 	private Command currentCommand;
 	private ControlHandler myHandler;
-	
+
 	private StringProcessor myGUIHandler;
-	
+
 	public GUI() {
 		myPoolView = new PoolView(900, 480);
 		myConsoleView = new ConsoleView();
 		myVariableView = new VariableView();
 		myCommandView = new CommandView();
 		backgroundColor = Color.WHITE;
-    	poolViewRow = 0;
-    	poolViewCol = 0;
-    	myGridPane = getGridPane();
+		poolViewRow = 0;
+		poolViewCol = 0;
+		myGridPane = getGridPane();
 	}
 
-    public void show(Stage stage) {
-    	Scene myScene = new Scene(getGridPane(),backgroundColor);
-    	stage.setTitle("SLogo IDE");
-    	stage.setScene(myScene);
-    	stage.show();
+	/**
+	 * Show the GUI.
+	 * @param stage
+	 */
+	public void show(Stage stage) {
+		Scene myScene = new Scene(getGridPane(),backgroundColor);
+		stage.setTitle("SLogo IDE");
+		stage.setScene(myScene);
+		stage.show();
 	}
-    
-    public void setViewHandler(ControlHandler handler) {
-        myGUIHandler = command -> {
-            try {
-                handler.execute(command);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            myConsoleView.addCommandToScreen(command);
-        };
-    	myHandler = handler;
-    	myConsoleView.setHandler(myGUIHandler);
-    	myCommandView.setHandler(myGUIHandler);
-    	myVariableView.setHandler(myGUIHandler);
-    }
-    
-    private GridPane getGridPane() {
-    	GridPane root = new GridPane();
-    	root.setPrefHeight(800);
-    	root.setPrefWidth(1200);
-    	
-    	ColumnConstraints cons1 = new ColumnConstraints();
-    	cons1.setHgrow(Priority.NEVER);
-    	cons1.setPercentWidth(75);
-    	
-    	ColumnConstraints cons2 = new ColumnConstraints();
-    	cons2.setHgrow(Priority.NEVER);
-    	cons2.setPercentWidth(25);
-    	
-    	root.getColumnConstraints().addAll(cons1, cons2);
-    	
-    	RowConstraints rcons1 = new RowConstraints();
-    	rcons1.setVgrow(Priority.NEVER);
-    	rcons1.setPercentHeight(60);
 
-    	RowConstraints rcons2 = new RowConstraints();
-    	rcons2.setVgrow(Priority.NEVER); 
-    	rcons2.setPercentHeight(35);
-    	
-    	RowConstraints rcons3 = new RowConstraints();
-    	rcons3.setVgrow(Priority.NEVER);  
-    	rcons3.setPercentHeight(5);
+	/**
+	 * Initialize all necessary handlers for each View.
+	 * @param handler
+	 */
+	public void setViewHandler(ControlHandler handler) {
+		myGUIHandler = command -> {
+			try {
+				handler.execute(command);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			myConsoleView.addCommandToScreen(command);
+		};
+		myHandler = handler;
+		myConsoleView.setHandler(myGUIHandler);
+		myCommandView.setHandler(myGUIHandler);
+		myVariableView.setHandler(myGUIHandler);
+	}
 
-    	root.getRowConstraints().addAll(rcons1, rcons2, rcons3);
-    	
-    	root.add(getPoolViewNode(), poolViewCol, poolViewRow,1,1);
-    	
-    	root.add(getConsoleViewNode(), 0, 1,1,1);
-    	
-    	root.add(getCommandViewNode(), 1, 0,1,1);
-    	
-    	root.add(getVariableViewNode(),1, 1,1,2);
-    	
-    	root.add(getUserBar(), 0, 2,1,1);
+	/**
+	 * Returns the height of the Turtle Pool View.
+	 * @return
+	 */
+	public double getPoolViewHeight() {
+		return getViewHeight(poolViewCol); 
+	}
 
-    	return root;
-    }
-    
-   private double getViewHeight(int row) {
-	   return myGridPane.getRowConstraints().get(row).getPercentHeight()/100*myGridPane.getPrefHeight();
-   }
-   
-   private double getViewWidth(int col) {
-	   return myGridPane.getColumnConstraints().get(col).getPercentWidth()/100*myGridPane.getPrefWidth();
-   }
-   
-   public double getPoolViewHeight() {
-	   return getViewHeight(poolViewCol); 
-   }
-   
-   public double getPoolViewWidth() {
-	   return getViewWidth(poolViewRow);
-   }
-    
-    private Node getPoolViewNode() {
-    	return myPoolView.getRoot();
-    }
-    
-    private Node getConsoleViewNode() {
-    	return myConsoleView.getNode();
-    }
-    
-    private Node getVariableViewNode() {
-    	return myVariableView.getNode();
-    }
-    
-    private Node getCommandViewNode() {
-    	return myCommandView.getNode();
-    }
-    
-    public SLogoObserver<Collection<Turtle>> getPoolObserver() {
+	/**
+	 * Returns the width of the Turtle Pool View.
+	 * @return
+	 */
+	public double getPoolViewWidth() {
+		return getViewWidth(poolViewRow);
+	}
+
+	/**
+	 * Returns the PoolView.
+	 * @return
+	 */
+	public SLogoObserver<Collection<Turtle>> getPoolObserver() {
 		return myPoolView;
 	}
-    
-    public SLogoObserver<List<Entry<String, Literal>>> getVariableObserver() {
-        return myVariableView;
-    }
-    
-    public SLogoObserver<List<Entry<String, Command>>> getCommandObserver() {
-        return myCommandView;
-    }
-    
-    public void addTextToConsole(String retToConsole) {
-    	myConsoleView.addText(retToConsole);
-    }
-    
-    public String getActiveConsoleText() {
-    	return myConsoleView.getActiveText();
-    }
 	
+	/**
+	 * Returns the VariableView.
+	 * @return
+	 */
+	public SLogoObserver<List<Entry<String, Literal>>> getVariableObserver() {
+		return myVariableView;
+	}
+	
+	/**
+	 * Returns the CommandView.
+	 * @return
+	 */
+	public SLogoObserver<List<Entry<String, Command>>> getCommandObserver() {
+		return myCommandView;
+	}
+	
+	/**
+	 * 
+	 * @param retToConsole
+	 */
+	public void addTextToConsole(String retToConsole) {
+		myConsoleView.addText(retToConsole);
+	}
+	
+
+	public String getActiveConsoleText() {
+		return myConsoleView.getActiveText();
+	}
+	
+
 	public HBox getUserBar() {
 		HBox userBar = new HBox();
 		userBar.setAlignment(Pos.CENTER_LEFT);
@@ -189,27 +157,115 @@ public class GUI {
 		return userBar;
 	}
 	
+	
+	public Command getCurrentCommand() {
+		return currentCommand;
+	}
+	
+
+	public void setCurrentCommand(Command currentCommand) {
+		this.currentCommand = currentCommand;
+	}
+	
+
+	/**
+	 * Puts together all the components that make up the GUI.
+	 * @return
+	 */
+	private GridPane getGridPane() {
+		GridPane root = new GridPane();
+		root.setPrefHeight(800);
+		root.setPrefWidth(1200);
+
+		ColumnConstraints cons1 = new ColumnConstraints();
+		cons1.setHgrow(Priority.NEVER);
+		cons1.setPercentWidth(75);
+
+		ColumnConstraints cons2 = new ColumnConstraints();
+		cons2.setHgrow(Priority.NEVER);
+		cons2.setPercentWidth(25);
+
+		root.getColumnConstraints().addAll(cons1, cons2);
+
+		RowConstraints rcons1 = new RowConstraints();
+		rcons1.setVgrow(Priority.NEVER);
+		rcons1.setPercentHeight(60);
+
+		RowConstraints rcons2 = new RowConstraints();
+		rcons2.setVgrow(Priority.NEVER); 
+		rcons2.setPercentHeight(35);
+
+		RowConstraints rcons3 = new RowConstraints();
+		rcons3.setVgrow(Priority.NEVER);  
+		rcons3.setPercentHeight(5);
+
+		root.getRowConstraints().addAll(rcons1, rcons2, rcons3);
+
+		root.add(getPoolViewNode(), poolViewCol, poolViewRow, 1, 1);
+
+		root.add(getConsoleViewNode(), 0, 1, 1, 1);
+
+		root.add(getCommandViewNode(), 1, 0, 1, 1);
+
+		root.add(getVariableViewNode(), 1, 1, 1, 2);
+
+		root.add(getUserBar(), 0, 2, 1, 1);
+
+		return root;
+	}
+	
+
+	private double getViewHeight(int row) {
+		return myGridPane.getRowConstraints().get(row).getPercentHeight()/100*myGridPane.getPrefHeight();
+	}
+
+	
+	private double getViewWidth(int col) {
+		return myGridPane.getColumnConstraints().get(col).getPercentWidth()/100*myGridPane.getPrefWidth();
+	}
+	
+
+	private Node getPoolViewNode() {
+		return myPoolView.getRoot();
+	}
+
+	
+	private Node getConsoleViewNode() {
+		return myConsoleView.getNode();
+	}
+
+	
+	private Node getVariableViewNode() {
+		return myVariableView.getNode();
+	}
+
+	
+	private Node getCommandViewNode() {
+		return myCommandView.getNode();
+	}
+
+	
 	private void promptForReference() {
 		class HelpViewer extends Application {
-			   private WebEngine webEngine;
-			   private WebView   webView;
+			private WebEngine webEngine;
+			private WebView   webView;
 			@Override
 			public void start(Stage primaryStage) throws Exception {
 				// TODO Auto-generated method stub
-				 webView = new WebView();
-			      webView.setVisible(true);
-			      webEngine = webView.getEngine();
-			      webEngine.setJavaScriptEnabled(true);
-			      webEngine.load(getClass().getClassLoader().getResource("reference.html").toExternalForm());
+				webView = new WebView();
+				webView.setVisible(true);
+				webEngine = webView.getEngine();
+				webEngine.setJavaScriptEnabled(true);
+				webEngine.load(getClass().getClassLoader().getResource("reference.html").toExternalForm());
 
-			      Scene scene = new Scene(webView, 500, 300);
+				Scene scene = new Scene(webView, 500, 300);
 
-			      primaryStage.setTitle("Commands Reference");
-			      primaryStage.setScene(scene);
-			      primaryStage.show();
+				primaryStage.setTitle("Commands Reference");
+				primaryStage.setScene(scene);
+				primaryStage.show();
 			}
 		}
-		
+
 		HelpViewer myHelpViewer = new HelpViewer();
 		try {
 			myHelpViewer.start(new Stage());
@@ -218,13 +274,14 @@ public class GUI {
 			e.printStackTrace();
 		}
 	}
+
 	
 	private void promptLanguage() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Change Language");
 		alert.setHeaderText(null);
 		alert.setContentText("Choose a language");
-		
+
 		ButtonType buttonTypeChinese = new ButtonType("Chinese");
 		ButtonType buttonTypeEnglish = new ButtonType("English");
 		ButtonType buttonTypeFrench= new ButtonType("French");
@@ -235,44 +292,36 @@ public class GUI {
 		ButtonType buttonTypeSpanish = new ButtonType("Spanish");
 		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 		alert.getButtonTypes().setAll(buttonTypeChinese, buttonTypeEnglish, buttonTypeFrench, buttonTypeGerman,buttonTypeItalian,buttonTypePortugese,buttonTypeRussian,buttonTypeSpanish,buttonTypeCancel);
-		
+
 		ButtonType buttonSelected = alert.showAndWait().get();
 		myHandler.setLanguage(buttonSelected.getText());
 	}
-
 	
+
 	private void promptForBackgroundColorChange() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Change Background Color");
 		alert.setHeaderText(null);
 		alert.setContentText("Choose a color");
-		
+
 		ButtonType buttonTypeBlue = new ButtonType("Blue");
 		ButtonType buttonTypeBlack = new ButtonType("Black");
 		ButtonType buttonTypeRed = new ButtonType("Red");
 		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-		
+
 		alert.getButtonTypes().setAll(buttonTypeBlue, buttonTypeBlack, buttonTypeRed, buttonTypeCancel);
-		
+
 		Optional<ButtonType> result = alert.showAndWait();
-		
+
 		if (result.get() == buttonTypeBlue){
-		    myPoolView.setBackgroundColor(Color.BLUE);
+			myPoolView.setBackgroundColor(Color.BLUE);
 		} else if (result.get() == buttonTypeBlack) {
 			myPoolView.setBackgroundColor(Color.BLACK);
 		} else if (result.get() == buttonTypeRed) {
 			myPoolView.setBackgroundColor(Color.RED);
 		} else {
-		    return;
+			return;
 		}
 
-	}
-
-	public Command getCurrentCommand() {
-		return currentCommand;
-	}
-
-	public void setCurrentCommand(Command currentCommand) {
-		this.currentCommand = currentCommand;
 	}
 }
