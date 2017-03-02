@@ -134,7 +134,7 @@ public class GUI extends Observable implements Observer {
 	}
     
     public SLogoObserver<List<Entry<String, Command>>> getCommandObserver() {
-    	return myCommandView;
+    	return myCommandView.getCommandObserver();
 	}
     
     public SLogoObserver<List<Entry<String, Literal>>> getVariableObserver() {

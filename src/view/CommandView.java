@@ -15,11 +15,13 @@ import javafx.scene.text.Text;
 import model.executable.command.Command;
 import util.SLogoObserver;
 
-public class CommandView extends Observable implements SLogoObserver<List<Entry<String, Command>>>, Observer{
+public class CommandView extends Observable {
 	
 	private VBox vBox;
 	private ScrollPane myPane;
 	private Command activeCommand;
+	private SLogoObserver<List<Entry<String, Command>>> myCommandObserver;
+	private SLogoObserver<CommandTextView> myCommandTextObserver;
 	
 	private List<CommandTextView> myCommandTextViews;
 	
@@ -29,6 +31,29 @@ public class CommandView extends Observable implements SLogoObserver<List<Entry<
 		myPane = new ScrollPane(vBox);
 		Text text = new Text("Commands:\n");
 		vBox.getChildren().add(text);
+		myCommandTextObserver = new SLogoObserver<CommandTextView>() {
+
+			@Override
+			public void update(CommandTextView arg) {
+				arg.getCommand();
+				notifyObservers();
+			}
+			
+		};
+		
+		myCommandObserver = arg ->  {
+				if(!arg.isEmpty()) {
+					Entry<String,Command> entry = arg.get(arg.lastIndexOf(arg));
+					CommandTextView myCommandTextView = new CommandTextView(entry.getKey(),entry.getValue());
+					myCommandTextViews.add(myCommandTextView);
+					addCommandToScreen(myCommandTextView);
+					myCommandTextView.addObserver(myCommandTextObserver);
+				}
+		};
+	}
+	
+	public SLogoObserver<List<Entry<String, Command>>> getCommandObserver() {
+		return myCommandObserver;
 	}
 
     private void addCommandToScreen(CommandTextView myCommandTextView) {
@@ -38,33 +63,8 @@ public class CommandView extends Observable implements SLogoObserver<List<Entry<
 	public Node getNode() {
 		return myPane;
 	}
-
-	/* (non-Javadoc)
-	 * @see util.SLogoObserver#update(java.lang.Object)
-	 * Observer update for when command is added to CommandView
-	 */
-	@Override
-	public void update(List<Entry<String, Command>> arg) {
-		Entry<String,Command> entry = arg.get(arg.lastIndexOf(arg));
-		CommandTextView myCommandTextView = new CommandTextView(entry.getKey(),entry.getValue());
-		myCommandTextViews.add(myCommandTextView);
-		addCommandToScreen(myCommandTextView);
-		myCommandTextView.addObserver(this);
-	}
 	
 	public Command getActiveCommand() {
 		return activeCommand;
-	}
-
-	/**
-	 * Observer update for when textViews get clicked
-	 * @param o
-	 * @param arg
-	 */
-	@Override
-	public void update(Observable o, Object arg) {
-		CommandTextView myCommandTextView = (CommandTextView) o;
-		myCommandTextView.getCommand();
-		notifyObservers();
 	}
 }
