@@ -9,7 +9,8 @@ public class ToroidalTurtle extends AbstractTurtle {
     @Override
     protected void move(double dx, double dy, double wRadius, double hRadius) {
         double newX = getX() + dx;
-        double newY = getY() + dy;
+        double newY = getY() + Math.copySign(dx * Math.tan(radianHeading()),
+                Math.sin(radianHeading()));
         if(inBounds(newX, newY, wRadius, hRadius)) {
             moveOn(newX, newY, penDown());
             return;
@@ -20,8 +21,6 @@ public class ToroidalTurtle extends AbstractTurtle {
         dx -= getX() - oldX;
         dy -= getY() - oldY;
         moveOn(switchSide(getX(), dx, wRadius), switchSide(getY(), dy, hRadius), penDown());
-        dx = updateDiff(oldX, getX(), dx);
-        dy = updateDiff(oldY, getY(), dy);
         move(dx, dy, wRadius, hRadius);
     }
     
@@ -52,12 +51,5 @@ public class ToroidalTurtle extends AbstractTurtle {
             }
         }
         return pos;
-    }
-    
-    private double updateDiff(double oldValue, double newValue, double totalDiff) {
-        if(newValue != oldValue) {
-            totalDiff -= Math.copySign(1, totalDiff);
-        }
-        return totalDiff;
     }
 }

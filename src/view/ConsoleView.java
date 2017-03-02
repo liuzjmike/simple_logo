@@ -115,7 +115,6 @@ public class ConsoleView {
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
 		            myHandler.execute(getActiveText());
-		            addCommandToScreen(getActiveText());
 		        	input.clear();
 		        }
 		});

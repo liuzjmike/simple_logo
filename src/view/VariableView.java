@@ -2,7 +2,6 @@ package view;
 import java.util.List;
 import java.util.Map.Entry;
 
-import controller.ControlHandler;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
