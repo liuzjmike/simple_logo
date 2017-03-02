@@ -132,6 +132,7 @@ public class ConsoleView {
 		        public void handle(MouseEvent e) {
 		        	try {
 						myHandler.execute(getActiveText());
+						addCommandToScreen(getActiveText());
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
