@@ -40,7 +40,7 @@ public class Interpreter {
     	while(!expressions.isEmpty()) {
     		String exp = expressions.pop();
     		if(is(exp, "ListStart")) {
-    			root.add(parse(expressions, env));
+    			return parse(expressions, env);
     		}
     		else if(is(exp, "ListEnd")) {
     			return root;
@@ -52,9 +52,12 @@ public class Interpreter {
     			root.add(new Literal(Double.parseDouble(exp)));
     		}
     		else if (is(exp, "Command")) {
-    			Command command = is(exp, "To") ? new To(expressions.pop())
-    			                                : env.getCommandPool().getCommand(exp);
+    			Command command =
+    			        exp.toLowerCase().equals("to")
+    			        ? new To(expressions.pop())
+    			        : env.getCommandPool().getCommand(exp);
     			for(int i = 0; i < command.numParams(); i++) {
+    			    System.out.println(expressions.peek());
     				command.addParam(parse(expressions, env));
     			}
     			root.add(command);
@@ -66,7 +69,7 @@ public class Interpreter {
     	if(root.isEmpty()) {
     	    throw new Exception();
     	}
-    	return root.size() == 1 ? root.get(0) : root;
+    	return root;
     }
     
     private boolean is(String exp, String category) {
