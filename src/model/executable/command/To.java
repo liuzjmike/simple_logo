@@ -18,8 +18,8 @@ public class To extends AbstractCommand {
 	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
-		Command toAdd = new CustomizedCommand(To.this.getParam(0), (ExecutableList)To.this.getParam(1));
+	protected Literal concreteExecute(Environment env) {
+		Command toAdd = new CustomizedCommand((ExecutableList)To.this.getParam(0), (ExecutableList)To.this.getParam(1));
 		env.getCommandPool().add(myName, toAdd);
 		return new Literal(1);
 	}

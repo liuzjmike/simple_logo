@@ -11,7 +11,7 @@ import model.executable.Literal;
 public class IsShowing extends NoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal((env.getTurtlePool().isVisible()) ? 1 : 0);
 	}
 

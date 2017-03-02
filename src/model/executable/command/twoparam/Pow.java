@@ -11,7 +11,7 @@ import model.executable.Literal;
 public class Pow extends TwoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(Math.pow(getParamValue(0, env), getParamValue(1, env)));
 	}
 

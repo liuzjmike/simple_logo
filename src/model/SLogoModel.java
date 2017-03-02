@@ -19,7 +19,7 @@ public class SLogoModel {
         myInterpreter = new Interpreter();
     }
     
-    public double interpret(String commands) throws Exception {
+    public double interpret(String commands) {
         return myInterpreter.parse(commands, myEnv).execute(myEnv).getValue();
     }
     

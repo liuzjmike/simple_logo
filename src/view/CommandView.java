@@ -3,6 +3,7 @@ package view;
 import java.util.List;
 import java.util.Map.Entry;
 
+import controller.StringProcessor;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -17,7 +18,7 @@ public class CommandView implements SLogoObserver<List<Entry<String, Command>>> 
 	private VBox vBox;
 	private ScrollPane myPane;
 	
-	private GUIHandler myHandler;
+	private StringProcessor myHandler;
 	
 	public CommandView() {
 		vBox = new VBox();
@@ -26,7 +27,7 @@ public class CommandView implements SLogoObserver<List<Entry<String, Command>>> 
 		vBox.getChildren().add(text);
 	}
     
-    public void setHandler(GUIHandler handler) {
+    public void setHandler(StringProcessor handler) {
         myHandler = handler;
     }
 	

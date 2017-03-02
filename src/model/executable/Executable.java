@@ -4,6 +4,6 @@ import model.Environment;
 
 public interface Executable {
 
-	public Literal execute(Environment env) throws Exception;
+	public Literal execute(Environment env);
 	
 }

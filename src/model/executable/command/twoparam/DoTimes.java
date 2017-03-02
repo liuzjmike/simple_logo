@@ -14,7 +14,7 @@ import model.executable.Variable;
 public class DoTimes extends TwoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		Literal ret = new Literal(0);
 		ExecutableList list = ((ExecutableList)getParam(0));
 		String varName = ((Variable)list.get(0)).getName();

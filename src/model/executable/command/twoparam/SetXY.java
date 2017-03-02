@@ -12,7 +12,7 @@ import model.executable.Literal;
 public class SetXY extends TwoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(env.getTurtlePool().setTurtleXY(getParamValue(0, env), getParamValue(1, env)));
 	}
 

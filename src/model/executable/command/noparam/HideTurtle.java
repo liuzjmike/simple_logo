@@ -12,7 +12,7 @@ import model.executable.Literal;
 public class HideTurtle extends NoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		env.getTurtlePool().setVisible(false);
 		return new Literal(0);
 	}

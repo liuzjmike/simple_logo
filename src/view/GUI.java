@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Map.Entry;
 
 import controller.ControlHandler;
+import controller.StringProcessor;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -46,7 +47,7 @@ public class GUI {
 	private Command currentCommand;
 	private ControlHandler myHandler;
 	
-	private GUIHandler myGUIHandler;
+	private StringProcessor myGUIHandler;
 	
 	public GUI() {
 		myPoolView = new PoolView(900, 480);

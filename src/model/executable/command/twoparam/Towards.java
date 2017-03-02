@@ -12,7 +12,7 @@ import model.executable.Literal;
 public class Towards extends TwoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(env.getTurtlePool().turtleTowards(getParamValue(0, env), getParamValue(1, env)));
 	}
 

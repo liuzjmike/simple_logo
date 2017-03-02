@@ -14,7 +14,7 @@ public class PenUp extends NoParamCommand {
 	 * returns 0
 	 */
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(0);
 	}
 

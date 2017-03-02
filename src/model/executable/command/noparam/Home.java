@@ -12,7 +12,7 @@ import model.executable.Literal;
 public class Home extends NoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(env.getTurtlePool().home());
 	}
 

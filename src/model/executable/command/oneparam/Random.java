@@ -11,7 +11,7 @@ import model.executable.Literal;
 public class Random extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(Math.abs(getParamValue(0, env) * Math.random()));
 	}
 

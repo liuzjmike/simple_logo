@@ -12,7 +12,7 @@ import util.Constants;
 public class Cos extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) throws Exception {
+	protected Literal concreteExecute(Environment env) {
 		return new Literal(Constants.resolveNaN(Math.cos(getParamValue(0, env) * Constants.RADIAN_PER_DEGREE)));
 	}
 
