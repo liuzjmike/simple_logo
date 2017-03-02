@@ -1,59 +1,75 @@
 package view;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Observable;	
-import java.util.Observer;
 import java.util.Map.Entry;
 
+import controller.ControlHandler;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.executable.Literal;
-import model.executable.Variable;
-import model.executable.command.Command;
 import util.SLogoObserver;
 
-public class VariableView extends Observable implements SLogoObserver<List<Entry<String, Literal>>> {
+public class VariableView{
 	
 	VBox vBox;
 	ScrollPane myPane;
-	private Literal activeVariable;
+	
+	ControlHandler myHandler;
+	
+	private SLogoObserver<List<Entry<String, Literal>>> myVariableObserver;
 	
 	public VariableView() {
 		vBox = new VBox();
 		myPane = new ScrollPane(vBox);
 		Text text = new Text("Variables:\n");
 		vBox.getChildren().add(text);
+		
+		myVariableObserver = arg -> {
+			//body of update()
+			for (Entry<String,Literal> entry : arg) {
+				addVariableToScreen(entry);
+			}
+		};
+	}
+	
+	public void setHandler(ControlHandler myHandler) {
+		this.myHandler = myHandler;
 	}
 
 	public Node getNode() {
 		return myPane;
 	}
-
-	@Override
-	public void update(List<Entry<String, Literal>> arg) {
-	    Entry<String, Literal> entry = arg.get(arg.lastIndexOf(arg));
-        vBox.getChildren().add(getVariableText(entry));
+	private void addVariableToScreen(Entry<String,Literal> entry) {
+		Text myText = getVariableText(entry);
+		vBox.getChildren().add(myText);
 	}
 	
-	public Text getVariableText(Entry<String,Literal> entry) {
-		Text variableText = new Text(entry.getKey());
-		variableText.setOnMouseClicked(click -> variableClicked(entry.getValue()));
+	private Text getVariableText(Entry<String,Literal> entry) {
+		Text variableText = new Text(entry.getKey()+" = " +Double.toString(entry.getValue().getValue()));
+		installHandler(entry,variableText);
 		return variableText;
 	}
 	
-	private void variableClicked(Literal myLiteral) {
-		activeVariable = myLiteral;
-		notifyObservers();
+	private void installHandler(Entry<String,Literal> entry, Text myText) {
+		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, 
+		    new EventHandler<MouseEvent>() {
+		        public void handle(MouseEvent e) {
+		        	try {
+		        		myHandler.execute(getExecuteString(entry));
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+		        }
+		});
 	}
 	
-	public Literal getActiveVariable() {
-		return activeVariable;
+	
+	private String getExecuteString(Entry<String,Literal> entry) {
+		return "MAKE "+Double.toString(entry.getValue().getValue())+" "+entry.getKey();
 	}
 
-	public void setActiveVariable(Literal activeVariable) {
-		this.activeVariable = activeVariable;
-	}
 }

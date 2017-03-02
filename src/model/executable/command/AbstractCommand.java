@@ -25,7 +25,7 @@ public abstract class AbstractCommand implements Command {
     
     @Override
     public void addParam(Executable exec) throws Exception {
-        if(myParams.size() >= numParams()-1) {
+        if(myParams.size() >= numParams()) {
             throw new Exception();
         }
         myParams.add(exec);
