@@ -7,11 +7,17 @@ public interface Turtle {
     int getID();
 
     double getHeading();
+    
+    double getX();
+    
+    double getY();
 
     List<TurtleHist> getLastMove();
 
     boolean isVisible();
     
     boolean isReset();
+    
+    boolean penDown();
 
 }

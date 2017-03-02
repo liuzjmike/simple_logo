@@ -53,7 +53,7 @@ public class CommandView implements SLogoObserver<List<Entry<String, Command>>> 
 	public Node getNode() {
 		return myPane;
 	}
-
+	
     @Override
     public void update(List<Entry<String, Command>> arg) {
         for (Entry<String,Command> entry : arg) {
