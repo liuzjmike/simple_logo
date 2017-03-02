@@ -12,6 +12,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import model.turtle.Turtle;
 import util.SLogoObserver;
 
@@ -22,18 +23,31 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
 
 	private Pane myPane;
 	private Map<Integer, TurtleView> myTurtles;
+	private LineDrawer lineDrawer;
 	
 	public PoolView(){
 		myTurtles = new HashMap<Integer,TurtleView>();
 		myPane = new Pane();
-		setBackgroundColor(Color.WHITE);			
+		setBackgroundColor(Color.WHITE);
+		lineDrawer = new LineDrawer() {
+
+            @Override
+            public void addLine(Line line) {
+                myPane.getChildren().add(line);
+            }
+
+            @Override
+            public void removeLines(Collection<Line> lines) {
+                myPane.getChildren().removeAll(lines);
+            }
+		};
 	}
 	
     public void setTurtle(Collection<Turtle> turtles) {
     	for(Turtle turtle: turtles){
     		if(!myTurtles.containsKey(turtle.getID())){
     			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
-    			myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle));
+    			myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle, lineDrawer));
         		myPane.getChildren().add(turtleImage);
     		}
     		
@@ -42,7 +56,7 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
     
     public void drawTurtle(){
     	for(Integer id: myTurtles.keySet()){
-    		myTurtles.get(id).drawLines();
+    		myTurtles.get(id).update();
     	}
     }
     

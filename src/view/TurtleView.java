@@ -1,9 +1,11 @@
 package view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import model.turtle.Turtle;
 import model.turtle.TurtleHist;
 import util.Constants;
@@ -12,56 +14,67 @@ public class TurtleView {
     
 	public static final Color DEFAULT_COLOR = Color.BLACK;
 
-	private ImageView myTurtle;
+	private ImageView myImage;
+	private Turtle myTurtle;
 	private Pen myPen;
-	private List<TurtleHist> lastMove;
+	private List<Line> myLines;
+	private LineDrawer lineDrawer; 
 
-	public TurtleView(ImageView image, Turtle turtle){
+	public TurtleView(ImageView image, Turtle turtle, LineDrawer lineDrawer){
 		myPen = new Pen(DEFAULT_COLOR);
 		setImage(image);
 		setHeading(turtle.getHeading());
-		setScale(0.1);
+		setSize(36, 40);
 		setVisible(turtle.isVisible());
-		lastMove = turtle.getLastMove();	
+		myTurtle = turtle;
+		myLines = new ArrayList<Line>();
+		this.lineDrawer = lineDrawer;
 	}
+    
+    public void update(){
+        setVisible(myTurtle.isVisible());
+        setHeading(myTurtle.getHeading());
+        List<TurtleHist> lastMove = myTurtle.getLastMove();
+        TurtleHist dest = new TurtleHist(myImage.getX(), myImage.getY(), false);
+        for(int i = 0; i < lastMove.size() - 1; i++) {
+            myLines.clear();
+            TurtleHist oldHist = lastMove.get(i);
+            dest = lastMove.get(i+1);
+            if(oldHist.penDown()) {
+                Line line = myPen.drawLine(oldHist.getX(), oldHist.getY(), dest.getX(), dest.getY());
+                lineDrawer.addLine(line);
+                myLines.add(line);
+            }
+        }
+        setXY(dest.getX(), dest.getY());
+        if(myTurtle.isReset()) {
+            lineDrawer.removeLines(myLines);
+            myLines.clear();
+        }
+    }
 
     private void setImage(ImageView image) {
-    	myTurtle = image;
+    	myImage = image;
 	}
     
     private void setVisible(boolean isVisible){
-    	myTurtle.setVisible(isVisible);
+    	myImage.setVisible(isVisible);
     }
     
-    private void setScale(double scale){
-    	myTurtle.setScaleX(scale);
-    	myTurtle.setScaleY(scale);
-    }
-    
-    public void drawLines(){
-    	for(int i=0; i<lastMove.size();i++){
-    		if(lastMove.get(i).penDown()){
-    			setXY(lastMove.get(i).getX(),lastMove.get(i).getY());
-    			if(i+1<lastMove.size()){
-    				draw(lastMove.get(i).getX(),lastMove.get(i+1).getX(), lastMove.get(i).getY(),lastMove.get(i+1).getY());  
-    			}		 			
-    		}
-    	}
-    }
-    
-    private void draw(double x1, double x2, double y1, double y2){
-    	myPen.drawLine(x1, x2, y1, y2);
+    private void setSize(double width, double height){
+    	myImage.setFitWidth(width);
+    	myImage.setFitHeight(height);
     }
     
     /*****Translational movement*****/
     private void setXY(double x, double y) {
-    	myTurtle.setX(x);
-    	myTurtle.setY(y);
+    	myImage.setX(x);
+    	myImage.setY(y);
 	}
     
     /*****Rotational movement*****/
     private void setHeading(double heading){
-    	myTurtle.setRotate((heading+90)%Constants.ROUND_ANGLE);
+    	myImage.setRotate((heading+90)%Constants.ROUND_ANGLE);
     }
     
 }

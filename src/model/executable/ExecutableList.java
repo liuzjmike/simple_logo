@@ -38,12 +38,9 @@ public class ExecutableList implements Executable, Iterable<Executable> {
 
     @Override
     public Literal execute(Environment env) throws Exception {
-        if (myExecs.size() == 0) {
-            return new Literal(0);
-        }
         Literal ret = new Literal(0);
-        for(int i = 0; i < myExecs.size(); i++) {
-            ret = myExecs.get(i).execute(env);
+        for(Executable exec: this) {
+            ret = exec.execute(env);
         }
         return ret;
     }

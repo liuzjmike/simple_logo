@@ -11,7 +11,7 @@ public class Pen {
 		this.color = color;
 	}
 	
-	public Line drawLine(double x1, double x2, double y1, double y2){
+	public Line drawLine(double x1, double y1, double x2, double y2){
 	    Line line = new Line();
         line.setStartX(x1);
         line.setStartY(y1);

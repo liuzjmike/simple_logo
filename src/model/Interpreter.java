@@ -35,7 +35,7 @@ public class Interpreter {
     	return parse(dq, env);
     }
     
-    private Executable parse(Deque<String> expressions, Environment env) throws Exception {
+    private ExecutableList parse(Deque<String> expressions, Environment env) throws Exception {
         ExecutableList root = new ExecutableList();
     	while(!expressions.isEmpty()) {
     		String exp = expressions.pop();
@@ -47,17 +47,21 @@ public class Interpreter {
     		}
     		else if(is(exp, "Variable")) {
     			root.add(new Variable(exp));
+    			return root;
     		} 
     		else if (is(exp, "Constant")) {
     			root.add(new Literal(Double.parseDouble(exp)));
+    			return root;
     		}
-    		else if (is(exp, "Command")) {
-    			Command command =
-    			        exp.toLowerCase().equals("to")
-    			        ? new To(expressions.pop())
-    			        : env.getCommandPool().getCommand(exp);
+    		else if(exp.toLowerCase().equals("to")) {
+    		    To to = new To(expressions.pop());
+    		    to.addParam(parseParam(expressions));
+    		    to.addParam(parse(expressions, env));
+    		    root.add(to);
+    		}
+    		else if(is(exp, "Command")) {
+    			Command command = env.getCommandPool().getCommand(exp);
     			for(int i = 0; i < command.numParams(); i++) {
-    			    System.out.println(expressions.peek());
     				command.addParam(parse(expressions, env));
     			}
     			root.add(command);
@@ -71,8 +75,20 @@ public class Interpreter {
     	}
     	return root;
     }
-    
+
     private boolean is(String exp, String category) {
         return typeParser.getSymbol(exp).equals(category);
+    }
+    
+    private ExecutableList parseParam(Deque<String> expressions) throws Exception {
+        if(!is(expressions.pop(), "ListStart")) {
+            throw new Exception();
+        }
+        ExecutableList params = new ExecutableList();
+        String exp;
+        while(!is((exp = expressions.pop()), "ListEnd")) {
+            params.add(new Variable(exp));
+        }
+        return params;
     }
 }

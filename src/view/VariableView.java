@@ -2,7 +2,6 @@ package view;
 import java.util.List;
 import java.util.Map.Entry;
 
-import controller.ControlHandler;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -12,32 +11,23 @@ import javafx.scene.text.Text;
 import model.executable.Literal;
 import util.SLogoObserver;
 
-public class VariableView{
+public class VariableView implements SLogoObserver<List<Entry<String, Literal>>> {
 	
 	VBox vBox;
 	ScrollPane myPane;
 	
-	ControlHandler myHandler;
-	
-	private SLogoObserver<List<Entry<String, Literal>>> myVariableObserver;
+	GUIHandler myHandler;
 	
 	public VariableView() {
 		vBox = new VBox();
 		myPane = new ScrollPane(vBox);
 		Text text = new Text("Variables:\n");
 		vBox.getChildren().add(text);
-		
-		myVariableObserver = arg -> {
-			//body of update()
-			for (Entry<String,Literal> entry : arg) {
-				addVariableToScreen(entry);
-			}
-		};
 	}
-	
-	public void setHandler(ControlHandler myHandler) {
-		this.myHandler = myHandler;
-	}
+    
+    public void setHandler(GUIHandler handler) {
+        myHandler = handler;
+    }
 
 	public Node getNode() {
 		return myPane;
@@ -67,9 +57,15 @@ public class VariableView{
 		});
 	}
 	
-	
 	private String getExecuteString(Entry<String,Literal> entry) {
 		return "MAKE "+Double.toString(entry.getValue().getValue())+" "+entry.getKey();
 	}
+
+    @Override
+    public void update(List<Entry<String, Literal>> arg) {
+        for (Entry<String,Literal> entry : arg) {
+            addVariableToScreen(entry);
+        }
+    }
 
 }
