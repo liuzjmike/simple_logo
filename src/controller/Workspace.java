@@ -31,6 +31,7 @@ public class Workspace {
 	
 	public void start(Stage stage) {
 		myGUI.show(stage);
+		stage.setResizable(false);
 	}
 	
 	
