@@ -131,19 +131,41 @@ public class GUI {
 	}
 	
 	/**
-	 * 
+	 * NEVER USED
 	 * @param retToConsole
 	 */
 	public void addTextToConsole(String retToConsole) {
 		myConsoleView.addText(retToConsole);
 	}
 	
-
+	/**
+	 * NEVER USED
+	 * @return
+	 */
 	public String getActiveConsoleText() {
 		return myConsoleView.getActiveText();
 	}
 	
-
+	/**
+	 * NEVER USED
+	 * @return
+	 */
+	public Command getCurrentCommand() {
+		return currentCommand;
+	}
+	
+	/**
+	 * NEVER USED
+	 * @param currentCommand
+	 */
+	public void setCurrentCommand(Command currentCommand) {
+		this.currentCommand = currentCommand;
+	}
+	
+	/**
+	 * Initialize the User Control Bar.
+	 * @return
+	 */
 	public HBox getUserBar() {
 		HBox userBar = new HBox();
 		userBar.setAlignment(Pos.CENTER_LEFT);
@@ -156,17 +178,6 @@ public class GUI {
 		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton);
 		return userBar;
 	}
-	
-	
-	public Command getCurrentCommand() {
-		return currentCommand;
-	}
-	
-
-	public void setCurrentCommand(Command currentCommand) {
-		this.currentCommand = currentCommand;
-	}
-	
 
 	/**
 	 * Puts together all the components that make up the GUI.
@@ -214,37 +225,59 @@ public class GUI {
 		return root;
 	}
 	
-
+	/**
+	 * Returns height of the View.
+	 * @param row
+	 * @return
+	 */
 	private double getViewHeight(int row) {
 		return myGridPane.getRowConstraints().get(row).getPercentHeight()/100*myGridPane.getPrefHeight();
 	}
 
-	
+	/**
+	 *  Returns width of the View.
+	 * @param col
+	 * @return
+	 */
 	private double getViewWidth(int col) {
 		return myGridPane.getColumnConstraints().get(col).getPercentWidth()/100*myGridPane.getPrefWidth();
 	}
 	
-
+	/**
+	 * Returns root of the PoolView.
+	 * @return
+	 */
 	private Node getPoolViewNode() {
 		return myPoolView.getRoot();
 	}
 
-	
+	/**
+	 * Returns root of the ConsoleView.
+	 * @return
+	 */
 	private Node getConsoleViewNode() {
 		return myConsoleView.getNode();
 	}
 
-	
+	/**
+	 * Returns root of the VariableView.
+	 * @return
+	 */
 	private Node getVariableViewNode() {
 		return myVariableView.getNode();
 	}
 
-	
+	/**
+	 * Returns root of the CommandView.
+	 * @return
+	 */
 	private Node getCommandViewNode() {
 		return myCommandView.getNode();
 	}
 
-	
+	/**
+	 * Inner class that prompts the command reference HTML page.
+	 */
 	private void promptForReference() {
 		class HelpViewer extends Application {
 			private WebEngine webEngine;
@@ -275,7 +308,9 @@ public class GUI {
 		}
 	}
 
-	
+	/**
+	 * Prompts box to select language of the commands.
+	 */
 	private void promptLanguage() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Change Language");
@@ -294,10 +329,14 @@ public class GUI {
 		alert.getButtonTypes().setAll(buttonTypeChinese, buttonTypeEnglish, buttonTypeFrench, buttonTypeGerman,buttonTypeItalian,buttonTypePortugese,buttonTypeRussian,buttonTypeSpanish,buttonTypeCancel);
 
 		ButtonType buttonSelected = alert.showAndWait().get();
-		myHandler.setLanguage(buttonSelected.getText());
+		if (!buttonSelected.getText().equals("Cancel")) {
+			myHandler.setLanguage(buttonSelected.getText());
+		}
 	}
 	
-
+	/**
+	 * Prompts box to select background color of the PoolView.
+	 */
 	private void promptForBackgroundColorChange() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Change Background Color");
@@ -322,6 +361,5 @@ public class GUI {
 		} else {
 			return;
 		}
-
 	}
 }
