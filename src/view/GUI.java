@@ -1,12 +1,14 @@
 package view;
 
-import java.util.Collection;
+import java.util.Collection;	
 import java.util.List;
 import java.util.Optional;
 import java.util.Map.Entry;
 
 import controller.ControlHandler;
 import controller.StringProcessor;
+import controller.Workspace;
+import controller.WorkspaceHandler;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -48,6 +50,7 @@ public class GUI {
 	private ControlHandler myHandler;
 	
 	private StringProcessor myGUIHandler;
+	private WorkspaceHandler myWorkspaceHandler;
 	
 	public GUI() {
 		myPoolView = new PoolView(900, 480);
@@ -185,8 +188,20 @@ public class GUI {
 		showReferenceButton.setOnMouseClicked(onClick -> promptForReference());
 		Button changeLanguageButton = new Button("Change Language");
 		changeLanguageButton.setOnMouseClicked(onClick -> promptLanguage());
-		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton);
+		Button newWorkspace = new Button("Create New Workspace");
+		newWorkspace.setOnMouseClicked(onClick -> createNewWorkspace());
+		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton,newWorkspace);
 		return userBar;
+	}
+	
+	private void createNewWorkspace() {
+//		Workspace workspace = new Workspace();
+//		workspace.start((new Stage()));
+		myWorkspaceHandler.addWorkspace();
+	}
+	
+	public void setWorkspaceHandler(WorkspaceHandler handler) {
+		myWorkspaceHandler = handler;
 	}
 	
 	private void promptForReference() {

@@ -57,6 +57,7 @@ public class CommandView implements SLogoObserver<List<Entry<String, Command>>> 
 	
     @Override
     public void update(List<Entry<String, Command>> arg) {
+    	vBox.getChildren().clear();
         for (Entry<String,Command> entry : arg) {
             addCommandToScreen(entry.getKey());
         }
