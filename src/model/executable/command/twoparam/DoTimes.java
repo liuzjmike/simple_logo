@@ -19,12 +19,12 @@ public class DoTimes extends TwoParamCommand {
 		ExecutableList list = ((ExecutableList)getParam(0));
 		String varName = ((Variable)list.get(0)).getName();
 		double limit = ((Literal)list.get(1)).getValue();
-		env.getVariablePool().allocTemp();
+		env.getVariablePool().alloc();
 		for (double i=1; i<=limit; i++){
-			env.getVariablePool().addTemp(varName, new Literal(i));
+			env.getVariablePool().add(varName, new Literal(i));
 			ret = getParam(1).execute(env);
 		}
-		env.getVariablePool().releaseTemp();
+		env.getVariablePool().release();
 		return ret;
 	}
 

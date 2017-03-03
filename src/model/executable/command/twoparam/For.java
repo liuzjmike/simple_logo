@@ -21,12 +21,12 @@ public class For extends TwoParamCommand {
 		double start = ((Literal)list.get(1)).getValue();
 		double end = ((Literal)list.get(2)).getValue();
 		double incre = ((Literal)list.get(3)).getValue();
-		env.getVariablePool().allocTemp();
+		env.getVariablePool().alloc();
 		for (double i=start; i<=end; i+=incre) {
-			env.getVariablePool().addTemp(varName, new Literal(i));
+			env.getVariablePool().add(varName, new Literal(i));
 			ret = getParam(1).execute(env);
 		}
-		env.getVariablePool().releaseTemp();
+		env.getVariablePool().release();
 		return ret;
 	}
 
