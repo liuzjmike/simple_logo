@@ -52,6 +52,8 @@ public class GUI {
 	private StringProcessor myGUIHandler;
 	private WorkspaceHandler myWorkspaceHandler;
 	
+	private Stage myStage;
+	
 	public GUI() {
 		myPoolView = new PoolView(900, 480);
 		myConsoleView = new ConsoleView();
@@ -65,6 +67,7 @@ public class GUI {
 
     public void show(Stage stage) {
     	Scene myScene = new Scene(getGridPane(),backgroundColor);
+    	myStage = stage;
     	stage.setTitle("SLogo IDE");
     	stage.setScene(myScene);
     	stage.show();
@@ -253,6 +256,7 @@ public class GUI {
 		
 		ButtonType buttonSelected = alert.showAndWait().get();
 		myHandler.setLanguage(buttonSelected.getText());
+		myStage.toFront();
 	}
 
 	
@@ -280,6 +284,7 @@ public class GUI {
 		} else {
 		    return;
 		}
+		myStage.toFront();
 
 	}
 
