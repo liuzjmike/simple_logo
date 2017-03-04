@@ -1,6 +1,5 @@
 package view;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -28,7 +27,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import model.executable.Literal;
 import model.executable.command.Command;
-import model.turtle.TurtleInfo;
+import model.turtle.info.PoolInfo;
 import util.SLogoObserver;
 
 public class GUI {
@@ -157,7 +156,7 @@ public class GUI {
     	return myCommandView.getNode();
     }
     
-    public SLogoObserver<Collection<Entry<Integer, TurtleInfo>>> getPoolObserver() {
+    public SLogoObserver<PoolInfo> getPoolObserver() {
 		return myPoolView;
 	}
     

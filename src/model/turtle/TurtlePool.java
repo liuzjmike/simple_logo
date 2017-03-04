@@ -1,39 +1,43 @@
 package model.turtle;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
+import javafx.scene.paint.Color;
+import model.turtle.info.PoolInfo;
+import model.turtle.info.TurtleInfo;
 import util.SLogoObservable;
 
-public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, TurtleInfo>>> {
+public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
 	
 	public static final int INITIAL_ID = 1;
-    
+	public static final Color DEFAULT_BACKGROUND = Color.WHITE;
+
+    private Pen defaultPen;
     private Map<Integer, Turtle> allTurtles;
     private List<Integer> activeIDs;
-    private int activeID;
+    private int activeIndex;
+    private Color myBG;
     
     public TurtlePool() {
         super();
+        defaultPen = new Pen();
         allTurtles = new HashMap<>();
         activeIDs = new ArrayList<>();
-        allTurtles.put(INITIAL_ID, new ToroidalTurtle());
+        allTurtles.put(INITIAL_ID, new ToroidalTurtle(defaultPen));
         activeIDs.add(INITIAL_ID);
-        activeID = INITIAL_ID;
+        activeIndex = 0;
+        myBG = DEFAULT_BACKGROUND;
     }
     
     public <T> T apply(Function<Turtle, T> function) {
-        if(activeID < 1) {
-            throw new RuntimeException();
-        }
-        Turtle current = allTurtles.get(activeID);
+        validateActive();
+        Turtle current = getActiveTurtle();
         T ret = function.apply(current);
         notifyObservers();
         current.clearReset();
@@ -43,14 +47,20 @@ public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, Turtle
     public <T> T applyAll(Function<Turtle, T> function) {
     	T ret = null;
     	for(int i = 0; i < size(); i++) {
-    	    apply(function);
+    	    ret = apply(function);
     	    switchTurtle();
     	}
         return ret;
     }
     
+    public void applyPen(Consumer<Pen> consumer) {
+        allTurtles.values().forEach(turtle -> consumer.accept(turtle.getPen()));
+        defaultPen = getActiveTurtle().getPen().clone();
+        notifyObservers();
+    }
+    
     public int activeID() {
-    	return activeID;
+    	return activeIDs.get(activeIndex);
     }
     
     public int size() {
@@ -58,21 +68,28 @@ public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, Turtle
     }
     
     public void switchTurtle() {
-    	for(int i = 0; i < activeIDs.size(); i++) {
-    		if(activeIDs.get(i) == activeID) {
-    			activeID = activeIDs.get((i+1)%activeIDs.size());
-    			return;
-    		}
-    	}
+        validateActive();
+    	++activeIndex;
+    	activeIndex %= activeIDs.size();
     }
     
-    public Collection<TurtleInfo> getTurtles() {
-        return Collections.unmodifiableCollection(allTurtles.values());
+    @Override
+    public Color getBackground() {
+        return myBG;
+    }
+    
+    public void setBackground(Color color) {
+        myBG = color;
+    }
+
+    @Override
+    public Map<Integer, TurtleInfo> getTurtles() {
+        return Collections.unmodifiableMap(allTurtles);
     }
     
     public void tell(List<Integer> ids) {
     	activeIDs.clear();
-    	activeID = 0;
+    	activeIndex = -1;
     	for(int id: ids) {
     		if(id <= 0) {
     			throw new RuntimeException();
@@ -82,18 +99,26 @@ public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, Turtle
     		} else {
     			for(int i = allTurtles.size(); i <= id; i++) {
         			activeIDs.add(i);
-        			allTurtles.put(i, new ToroidalTurtle());
+        			allTurtles.put(i, new ToroidalTurtle(defaultPen));
         		}
     		}
-    		activeID = id;
+    		activeIndex++;
     	}
         notifyObservers();
     }
 
     @Override
-    protected Collection<Entry<Integer, TurtleInfo>> notification() {
-    	List<Entry<Integer, TurtleInfo>> ret = new ArrayList<>();
-    	activeIDs.forEach(id -> ret.add(new SimpleEntry<>(id, allTurtles.get(id))));
-        return ret;
+    protected PoolInfo notification() {
+        return this;
+    }
+    
+    private Turtle getActiveTurtle() {
+        return allTurtles.get(activeIDs.get(activeIndex));
+    }
+    
+    private void validateActive() {
+        if(activeIDs.isEmpty()) {
+            throw new RuntimeException();
+        }
     }
 }

@@ -16,7 +16,7 @@ public class IsPenDown extends AbstractCommand {
 
 	@Override
 	protected double concreteExecute(Environment env) {
-		return env.getTurtlePool().apply(turtle -> turtle.penDown()) ? 1 : 0;
+		return env.getTurtlePool().apply(turtle -> turtle.getPenInfo().isDown()) ? 1 : 0;
 	}
 
 }

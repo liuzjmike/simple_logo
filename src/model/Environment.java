@@ -7,12 +7,14 @@ public class Environment {
     private TurtlePool turtlePool;
     private CommandPool commandPool;
     private VariablePool variablePool;
+    private Palette myPalette;
     private double myWidth, myHeight;
     
     public Environment(double width, double height) {
         turtlePool = new TurtlePool();
         commandPool = new CommandPool();
         variablePool = new VariablePool();
+        myPalette = new Palette();
         myWidth = width;
         myHeight = height;
     }
@@ -27,6 +29,10 @@ public class Environment {
     
     public VariablePool getVariablePool() {
         return variablePool;
+    }
+
+    public Palette getPalette() {
+        return myPalette;
     }
     
     public void setWidth(double w) {

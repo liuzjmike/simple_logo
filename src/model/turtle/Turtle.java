@@ -1,5 +1,7 @@
 package model.turtle;
 
+import model.turtle.info.TurtleInfo;
+
 public interface Turtle extends TurtleInfo {
 	
     double move(double dist, double width, double height);
@@ -18,7 +20,7 @@ public interface Turtle extends TurtleInfo {
     double towards(double x, double y);
 
     /*****Visual property*****/
-    boolean setPen(boolean penDown);
+    Pen getPen();
 
     boolean setVisible(boolean isVisible);
     

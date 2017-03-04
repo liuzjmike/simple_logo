@@ -3,7 +3,6 @@ package view;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -14,10 +13,11 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import model.turtle.TurtleInfo;
+import model.turtle.info.PoolInfo;
+import model.turtle.info.TurtleInfo;
 import util.SLogoObserver;
 
-public class PoolView implements SLogoObserver<Collection<Entry<Integer, TurtleInfo>>> {
+public class PoolView implements SLogoObserver<PoolInfo> {
 	public static final String TURTLE_IMAGE = "TurtleImage.png";
 	public static final String DEFAULT_BACKGROUND_COLOR = "white";
 	public static final String CSS_FILE = "resources/PaneColor.css";
@@ -46,11 +46,12 @@ public class PoolView implements SLogoObserver<Collection<Entry<Integer, TurtleI
 		myPane.setPrefHeight(height);
 	}
 	
-    public void setTurtle(Collection<Entry<Integer, TurtleInfo>> turtles) {
-    	for(Entry<Integer, TurtleInfo> entry: turtles){
-    		if(!myTurtles.containsKey(entry.getKey())){
+    public void setTurtle(Map<Integer, TurtleInfo> turtles) {
+    	for(int key: turtles.keySet()){
+    		if(!myTurtles.containsKey(key)){
     			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
-    			myTurtles.put(entry.getKey(), new TurtleView(turtleImage,entry.getValue(), lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2));
+    			myTurtles.put(key, new TurtleView(turtleImage, turtles.get(key),
+    			        lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2));
         		myPane.getChildren().add(turtleImage);
     		}
     		
@@ -72,8 +73,8 @@ public class PoolView implements SLogoObserver<Collection<Entry<Integer, TurtleI
 	}
 
 	@Override
-	public void update(Collection<Entry<Integer, TurtleInfo>> arg) {
-		setTurtle(arg);
+	public void update(PoolInfo arg) {
+		setTurtle(arg.getTurtles());
 		drawTurtle();
 	}
 }
