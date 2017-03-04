@@ -1,6 +1,8 @@
-package model.turtle;
+package model.turtle.info;
 
 import java.util.List;
+
+import model.turtle.TurtleHist;
 
 public interface TurtleInfo {
 
@@ -16,6 +18,6 @@ public interface TurtleInfo {
     
     boolean isReset();
     
-    boolean penDown();
+    PenInfo getPenInfo();
 
 }

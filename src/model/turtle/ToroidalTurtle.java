@@ -2,13 +2,17 @@ package model.turtle;
 
 public class ToroidalTurtle extends AbstractTurtle {
     
+    public ToroidalTurtle(Pen pen) {
+        super(pen);
+    }
+    
     @Override
     protected void move(double dx, double dy, double wRadius, double hRadius) {
         double newX = getX() + dx;
         double newY = getY() + Math.copySign(dx * Math.tan(radianHeading()),
                 Math.sin(radianHeading()));
         if(inBounds(newX, newY, wRadius, hRadius)) {
-            moveOn(newX, newY, penDown());
+            moveOn(newX, newY, getPen().isDown());
             return;
         }
         double oldX = getX();
@@ -16,7 +20,7 @@ public class ToroidalTurtle extends AbstractTurtle {
         moveOn(getInboundPos(newX, newY, wRadius, hRadius));
         dx -= getX() - oldX;
         dy -= getY() - oldY;
-        moveOn(switchSide(getX(), dx, wRadius), switchSide(getY(), dy, hRadius), penDown());
+        moveOn(switchSide(getX(), dx, wRadius), switchSide(getY(), dy, hRadius), getPen().isDown());
         move(dx, dy, wRadius, hRadius);
     }
     
