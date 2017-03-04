@@ -6,7 +6,9 @@ import controller.StringProcessor;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.executable.Literal;
@@ -34,22 +36,25 @@ public class VariableView implements SLogoObserver<List<Entry<String, Literal>>>
 		return myPane;
 	}
 	private void addVariableToScreen(Entry<String,Literal> entry) {
-		Text myText = getVariableText(entry);
+		HBox myText = getVariableText(entry);
 		vBox.getChildren().add(myText);
 	}
 	
-	private Text getVariableText(Entry<String,Literal> entry) {
-		Text variableText = new Text(entry.getKey()+" = " +Double.toString(entry.getValue().getValue()));
-		installHandler(entry,variableText);
-		return variableText;
+	private HBox getVariableText(Entry<String,Literal> entry) {
+		HBox myHBox = new HBox();
+		Text variableText = new Text(entry.getKey()+" = ");
+		TextField editableText = new TextField(Double.toString(entry.getValue().getValue()));
+		myHBox.getChildren().addAll(variableText,editableText);
+		installHandler(entry,variableText,editableText);
+		return myHBox;
 	}
 	
-	private void installHandler(Entry<String,Literal> entry, Text myText) {
+	private void installHandler(Entry<String,Literal> entry, Text myText, TextField newValueText) {
 		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, 
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
 		        	try {
-		        		myHandler.execute(getExecuteString(entry));
+		        		myHandler.execute(getExecuteString(newValueText.getText(),entry));
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -58,12 +63,13 @@ public class VariableView implements SLogoObserver<List<Entry<String, Literal>>>
 		});
 	}
 	
-	private String getExecuteString(Entry<String,Literal> entry) {
-		return "MAKE "+Double.toString(entry.getValue().getValue())+" "+entry.getKey();
+	private String getExecuteString(String newValue, Entry<String,Literal> entry) {
+		return "MAKE "+entry.getKey()+" "+newValue;
 	}
 
     @Override
     public void update(List<Entry<String, Literal>> arg) {
+    	vBox.getChildren().clear();
         for (Entry<String,Literal> entry : arg) {
             addVariableToScreen(entry);
         }
