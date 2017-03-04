@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import util.SLogoObservable;
 
@@ -42,8 +45,8 @@ public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, Turtle
     
     public <T> T applyAll(Function<Turtle, T> function) {
     	T ret = null;
-    	for(int i = 0; i < size(); i++) {
-    	    apply(function);
+    	for(int i = 0; i < activeSize(); i++) {
+    	    ret = apply(function);
     	    switchTurtle();
     	}
         return ret;
@@ -53,8 +56,16 @@ public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, Turtle
     	return activeID;
     }
     
-    public int size() {
+    public List<Integer> allActiveID() {
+    	return new ArrayList<>(activeIDs);
+    }
+    
+    public int activeSize() {
         return activeIDs.size();
+    }
+    
+    public int fullSize() {
+    	return allTurtles.size();
     }
     
     public void switchTurtle() {
@@ -89,7 +100,21 @@ public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, Turtle
     	}
         notifyObservers();
     }
-
+    
+    public void askWith(Predicate<Turtle> predicate) {
+    	activeIDs.clear();
+    	activeIDs.addAll(allTurtles.keySet());
+    	Set<Integer> newActive = new HashSet<Integer>();
+    	for (int i = 0; i < activeSize(); i++) {
+    		if (predicate.test(allTurtles.get(activeIDs.get(activeID)))) {
+    			newActive.add(i);
+    		}
+    		switchTurtle();
+    	}
+    	activeIDs.clear();
+    	activeIDs.addAll(newActive);
+    }
+ 
     @Override
     protected Collection<Entry<Integer, TurtleInfo>> notification() {
     	List<Entry<Integer, TurtleInfo>> ret = new ArrayList<>();
