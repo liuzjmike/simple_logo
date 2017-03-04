@@ -4,27 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import model.turtle.TurtleInfo;
 import model.turtle.TurtleHist;
+import model.turtle.info.TurtleInfo;
 import util.Constants;
 
 public class TurtleView {
     
-	public static final Color DEFAULT_COLOR = Color.BLACK;
 	public static final double DEFAULT_WIDTH = 40;
 	public static final double DEFAULT_HEIGHT = 36;
 
 	private ImageView myImage;
 	private TurtleInfo myTurtle;
-	private Pen myPen;
 	private List<Line> myLines;
 	private LineDrawer lineDrawer; 
 	private double xOffset, yOffset;
 
-	public TurtleView(ImageView image, TurtleInfo turtle, LineDrawer lineDrawer, double xOffset, double yOffset){
-		myPen = new Pen(DEFAULT_COLOR);
+	public TurtleView(ImageView image, TurtleInfo turtle, LineDrawer lineDrawer,
+	        double xOffset, double yOffset) {
 		setImage(image);
 		setHeading(turtle.getHeading());
 		setSize(DEFAULT_HEIGHT, DEFAULT_WIDTH);
@@ -48,10 +45,10 @@ public class TurtleView {
             TurtleHist oldHist = lastMove.get(i), newHist = lastMove.get(i+1);
             newHist = lastMove.get(i+1);
             if(oldHist.penDown()) {
-                Line line = myPen.drawLine(transformX(oldHist.getX()),
-                                           transformY(oldHist.getY()),
-                                           transformX(newHist.getX()), 
-                                           transformY(newHist.getY()));
+                Line line = myTurtle.getPenInfo().drawLine(transformX(oldHist.getX()),
+                                                           transformY(oldHist.getY()),
+                                                           transformX(newHist.getX()), 
+                                                           transformY(newHist.getY()));
                 lineDrawer.addLine(line);
                 myLines.add(line);
             }

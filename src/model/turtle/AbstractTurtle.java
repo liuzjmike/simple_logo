@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import model.turtle.info.PenInfo;
 import util.Constants;
 
 public abstract class AbstractTurtle implements Turtle {
@@ -11,18 +12,23 @@ public abstract class AbstractTurtle implements Turtle {
     private double myX;
     private double myY;
     private double myHeading;
-    private boolean penDown;
     private boolean isVisible, isReset;
+    Pen myPen;
     private List<TurtleHist> lastMove;
 
     public AbstractTurtle() {
+        this(new Pen());
+    }
+    
+    public AbstractTurtle(Pen pen) {
         myX = 0;
         myY = 0;
         myHeading = 0;
-        penDown = true;
         isVisible = true;
+        isReset = false;
+        myPen = pen;
         lastMove = new ArrayList<TurtleHist>();
-        lastMove.add(new TurtleHist(myX, myY, penDown));
+        lastMove.add(new TurtleHist(myX, myY, myPen.isDown()));
     }
 
     @Override
@@ -46,11 +52,6 @@ public abstract class AbstractTurtle implements Turtle {
     }
 
     @Override
-    public boolean penDown() {
-        return penDown;
-    }
-
-    @Override
     public boolean isVisible() {
         return isVisible;
     }
@@ -58,6 +59,11 @@ public abstract class AbstractTurtle implements Turtle {
     @Override
     public boolean isReset() {
         return isReset;
+    }
+
+    @Override
+    public PenInfo getPenInfo() {
+        return myPen;
     }
 
     /*****Translational movement*****/
@@ -89,13 +95,13 @@ public abstract class AbstractTurtle implements Turtle {
 
     @Override
     public double setXY(double x, double y) {
-        return startMove(x, y, penDown());
+        return startMove(x, y, myPen.isDown());
     }
 
     @Override
     public double home() {
         myHeading = 0;
-        return startMove(0, 0, penDown());
+        return startMove(0, 0, myPen.isDown());
     }
 
     @Override
@@ -108,7 +114,7 @@ public abstract class AbstractTurtle implements Turtle {
     
     private void clearHist() {
         lastMove.clear();
-        lastMove.add(new TurtleHist(myX, myY, penDown));
+        lastMove.add(new TurtleHist(myX, myY, myPen.isDown()));
     }
 
     /*****Rotational movement*****/
@@ -138,9 +144,8 @@ public abstract class AbstractTurtle implements Turtle {
 
     /*****Visual property*****/
     @Override
-    public boolean setPen(boolean penDown) {
-        this.penDown = penDown;
-        return penDown;
+    public Pen getPen() {
+        return myPen;
     }
 
     @Override
