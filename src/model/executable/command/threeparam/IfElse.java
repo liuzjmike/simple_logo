@@ -12,14 +12,14 @@ import model.executable.Literal;
 public class IfElse extends ThreeParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
+	protected double concreteExecute(Environment env) {
 		Literal ret = new Literal(0);
 		if (getParamValue(0, env) != 0){
 			ret = getParam(1).execute(env);
 		} else {
 			ret = getParam(2).execute(env);
 		}
-		return ret;
+		return ret.getValue();
 	}
 
 }

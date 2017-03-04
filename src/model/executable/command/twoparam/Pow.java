@@ -1,7 +1,6 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
-import model.executable.Literal;
 
 /**
  * Returns base raised to the power of the exponent
@@ -11,8 +10,8 @@ import model.executable.Literal;
 public class Pow extends TwoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(Math.pow(getParamValue(0, env), getParamValue(1, env)));
+	protected double concreteExecute(Environment env) {
+		return Math.pow(getParamValue(0, env), getParamValue(1, env));
 	}
 
 }

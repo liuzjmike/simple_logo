@@ -1,7 +1,6 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.Literal;
 
 /**
  * Returns natural log of expr
@@ -11,8 +10,8 @@ import model.executable.Literal;
 public class Log extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(Math.log(getParamValue(0, env)));
+	protected double concreteExecute(Environment env) {
+		return Math.log(getParamValue(0, env));
 	}
 
 }

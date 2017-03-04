@@ -1,7 +1,6 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
-import model.executable.Literal;
 import model.executable.Variable;
 
 /**
@@ -13,8 +12,8 @@ import model.executable.Variable;
 public class Make extends TwoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
+	protected double concreteExecute(Environment env) {
 		env.getVariablePool().add(((Variable)getParam(0)).getName(), getParamValue(1, env));
-		return new Literal(getParamValue(1, env));
+		return getParamValue(1, env);
 	}
 }

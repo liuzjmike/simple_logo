@@ -1,7 +1,6 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.Literal;
 
 /**
  * Returns negative of the values of expr
@@ -11,8 +10,8 @@ import model.executable.Literal;
 public class Minus extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(-1*getParamValue(0, env));
+	protected double concreteExecute(Environment env) {
+		return -1*getParamValue(0, env);
 	}
 
 }

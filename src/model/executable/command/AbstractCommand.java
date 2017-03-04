@@ -20,7 +20,7 @@ public abstract class AbstractCommand implements Command {
         if(myParams.size() != numParams()) {
             throw new RuntimeException();
         }
-        return concreteExecute(env);
+        return new Literal(concreteExecute(env));
     }
     
     @Override
@@ -44,5 +44,5 @@ public abstract class AbstractCommand implements Command {
         return myParams.get(index).execute(env).getValue();
     }
     
-    protected abstract Literal concreteExecute(Environment env);
+    protected abstract double concreteExecute(Environment env);
 }

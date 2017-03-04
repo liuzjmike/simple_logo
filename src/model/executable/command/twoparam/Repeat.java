@@ -14,14 +14,14 @@ public class Repeat extends TwoParamCommand {
 	public static final String REPCOUNT = ":repCount";
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
+	protected double concreteExecute(Environment env) {
 		Literal ret = new Literal(0);
 		double count = getParamValue(0, env);
 		for (int i=1; i<=count; i++){
 			env.getVariablePool().add(":repCount", i);
 			ret = getParam(1).execute(env);
 		}
-		return ret;
+		return ret.getValue();
 	}
 
 }

@@ -1,7 +1,6 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.Literal;
 
 /**
  * Turns turtle to an absolute heading
@@ -11,8 +10,8 @@ import model.executable.Literal;
 public class SetHeading extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(env.getTurtlePool().setTurtleHeading(getParamValue(0, env)));
+	protected double concreteExecute(Environment env) {
+		return env.getTurtlePool().apply(turtle -> turtle.setHeading(-1*getParamValue(0, env)));
 	}
 
 }

@@ -14,20 +14,20 @@ import model.executable.Variable;
 public class For extends TwoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
+	protected double concreteExecute(Environment env) {
 		Literal ret = new Literal(0);
 		ExecutableList list = ((ExecutableList)getParam(0));
 		String varName = ((Variable)list.get(0)).getName();
 		double start = ((Literal)list.get(1)).getValue();
 		double end = ((Literal)list.get(2)).getValue();
 		double incre = ((Literal)list.get(3)).getValue();
-		env.getVariablePool().allocTemp();
+		env.getVariablePool().alloc();
 		for (double i=start; i<=end; i+=incre) {
-			env.getVariablePool().addTemp(varName, new Literal(i));
+			env.getVariablePool().add(varName, new Literal(i));
 			ret = getParam(1).execute(env);
 		}
-		env.getVariablePool().releaseTemp();
-		return ret;
+		env.getVariablePool().release();
+		return ret.getValue();
 	}
 
 }

@@ -1,7 +1,6 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
-import model.executable.Literal;
 
 /**
  * Returns 1 if test1 or test2 are non-zero, otherwise 0
@@ -11,8 +10,8 @@ import model.executable.Literal;
 public class Or extends TwoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal((getParamValue(0, env)!=0 || getParamValue(1, env)!=0) ? 1 : 0);
+	protected double concreteExecute(Environment env) {
+		return (getParamValue(0, env)!=0 || getParamValue(1, env)!=0) ? 1 : 0;
 	}
 
 }

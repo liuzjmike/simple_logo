@@ -2,7 +2,6 @@ package model.executable.command;
 
 import model.Environment;
 import model.executable.ExecutableList;
-import model.executable.Literal;
 
 public class To extends AbstractCommand {
     
@@ -18,10 +17,10 @@ public class To extends AbstractCommand {
 	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
+	protected double concreteExecute(Environment env) {
 		Command toAdd = new CustomizedCommand((ExecutableList)To.this.getParam(0), (ExecutableList)To.this.getParam(1));
 		env.getCommandPool().add(myName, toAdd);
-		return new Literal(1);
+		return 1;
 	}
 
 }

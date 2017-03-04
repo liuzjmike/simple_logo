@@ -13,11 +13,9 @@ public abstract class AbstractTurtle implements Turtle {
     private double myHeading;
     private boolean penDown;
     private boolean isVisible, isReset;
-    private int myID;
     private List<TurtleHist> lastMove;
 
-    public AbstractTurtle(int id) {
-        myID = id;
+    public AbstractTurtle() {
         myX = 0;
         myY = 0;
         myHeading = 0;
@@ -25,11 +23,6 @@ public abstract class AbstractTurtle implements Turtle {
         isVisible = true;
         lastMove = new ArrayList<TurtleHist>();
         lastMove.add(new TurtleHist(myX, myY, penDown));
-    }
-
-    @Override
-    public int getID() {
-        return myID;
     }
 
     @Override
@@ -68,9 +61,10 @@ public abstract class AbstractTurtle implements Turtle {
     }
 
     /*****Translational movement*****/
-    double move(double dist, double wRadius, double hRadius) {
+    @Override
+    public double move(double dist, double width, double height) {
         clearHist();
-        move(dist * Math.cos(radianHeading()), dist * Math.sin(radianHeading()), wRadius, hRadius);
+        move(dist * Math.cos(radianHeading()), dist * Math.sin(radianHeading()), width/2, height/2);
         return dist;
     }
     
@@ -93,33 +87,46 @@ public abstract class AbstractTurtle implements Turtle {
         return moveOn(x, y, penDown);
     }
 
-    double setXY(double x, double y) {
+    @Override
+    public double setXY(double x, double y) {
         return startMove(x, y, penDown());
     }
 
-    double home() {
+    @Override
+    public double home() {
         myHeading = 0;
         return startMove(0, 0, penDown());
     }
+
+    @Override
+    public double reset() {
+        double ret = home();
+        clearHist();
+        isReset = true;
+        return ret;
+    }
     
-    void clearHist() {
+    private void clearHist() {
         lastMove.clear();
         lastMove.add(new TurtleHist(myX, myY, penDown));
     }
 
     /*****Rotational movement*****/
-    double turn(double degree) {
+    @Override
+    public double turn(double degree) {
         myHeading = (myHeading + degree) % Constants.ROUND_ANGLE;
         return degree;
     }
 
-    double setHeading(double heading) {
+    @Override
+    public double setHeading(double heading) {
         double oldHeading = myHeading;
         myHeading = heading;
         return myHeading - oldHeading;
     }
 
-    double towards(double x, double y) {
+    @Override
+    public double towards(double x, double y) {
         double oldHeading = myHeading;
         myHeading = Math.atan2(y - myY, x - myX) / Constants.RADIAN_PER_DEGREE;
         return myHeading - oldHeading;
@@ -130,22 +137,20 @@ public abstract class AbstractTurtle implements Turtle {
     }
 
     /*****Visual property*****/
-    boolean setPen(boolean penDown) {
+    @Override
+    public boolean setPen(boolean penDown) {
         this.penDown = penDown;
         return penDown;
     }
 
-    boolean setVisible(boolean isVisible) {
+    @Override
+    public boolean setVisible(boolean isVisible) {
         this.isVisible = isVisible;
         return isVisible;
     }
-    
-    /*****Handle reset*****/
-    void setReset() {
-        isReset = true;
-    }
-    
-    void clearReset() {
+
+    @Override
+    public void clearReset() {
         isReset = false;
     }
 

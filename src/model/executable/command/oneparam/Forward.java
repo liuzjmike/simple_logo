@@ -1,7 +1,6 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.Literal;
 
 /**
  * Moves turtle forward in its current heading by pixels distance
@@ -12,9 +11,8 @@ import model.executable.Literal;
 public class Forward extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		new TurtleOperation.operate(env, turtle -> turle.move());
-		return new Literal(env.getTurtlePool().moveTurtle(getParamValue(0, env)));
+	protected double concreteExecute(Environment env) {
+		return env.getTurtlePool().apply(turtle -> turtle.move(getParamValue(0, env), env.getWidth(), env.getHeight()));
 	}
 
 }

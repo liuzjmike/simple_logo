@@ -1,7 +1,6 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
-import model.executable.Literal;
 
 /**
  * Moves turtle to an absolute screen position, where (0, 0) is the center of the screen
@@ -12,8 +11,8 @@ import model.executable.Literal;
 public class SetXY extends TwoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(env.getTurtlePool().setTurtleXY(getParamValue(0, env), getParamValue(1, env)));
+	protected double concreteExecute(Environment env) {
+		return env.getTurtlePool().apply(turtle -> turtle.setXY(getParamValue(0, env), getParamValue(1, env)));
 	}
 
 }

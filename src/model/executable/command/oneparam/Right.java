@@ -1,7 +1,6 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.Literal;
 
 /**
  * Turns turtle clockwise by degrees angle
@@ -12,8 +11,8 @@ import model.executable.Literal;
 public class Right extends OneParamCommand {
 	
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(env.getTurtlePool().turnTutle(-1*getParamValue(0, env)));
+	protected double concreteExecute(Environment env) {
+		return env.getTurtlePool().apply(turtle -> turtle.turn(-1*getParamValue(0, env)));
 	}
 
 }

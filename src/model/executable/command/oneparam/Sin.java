@@ -1,7 +1,6 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.Literal;
 import util.Constants;
 
 /**
@@ -12,8 +11,8 @@ import util.Constants;
 public class Sin extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(Constants.resolveNaN(Math.sin(getParamValue(0, env) * Constants.RADIAN_PER_DEGREE)));
+	protected double concreteExecute(Environment env) {
+		return Constants.resolveNaN(Math.sin(getParamValue(0, env) * Constants.RADIAN_PER_DEGREE));
 	}
 
 }

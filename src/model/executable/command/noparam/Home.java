@@ -1,7 +1,6 @@
 package model.executable.command.noparam;
 
 import model.Environment;
-import model.executable.Literal;
 
 /**
  * Moves turtle to the center of the screen (0 0)
@@ -12,8 +11,8 @@ import model.executable.Literal;
 public class Home extends NoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(env.getTurtlePool().home());
+	protected double concreteExecute(Environment env) {
+		return env.getTurtlePool().apply(turtle -> turtle.home());
 	}
 
 }

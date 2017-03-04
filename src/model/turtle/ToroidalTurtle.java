@@ -2,10 +2,6 @@ package model.turtle;
 
 public class ToroidalTurtle extends AbstractTurtle {
     
-    public ToroidalTurtle(int id) {
-        super(id);
-    }
-    
     @Override
     protected void move(double dx, double dy, double wRadius, double hRadius) {
         double newX = getX() + dx;

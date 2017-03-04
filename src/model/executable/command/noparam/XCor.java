@@ -1,7 +1,6 @@
 package model.executable.command.noparam;
 
 import model.Environment;
-import model.executable.Literal;
 
 /**
  * Returns the turtle's X coordinate from the center of the screen
@@ -11,8 +10,8 @@ import model.executable.Literal;
 public class XCor extends NoParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(env.getTurtlePool().xCor());
+	protected double concreteExecute(Environment env) {
+		return env.getTurtlePool().apply(turtle -> turtle.getX());
 	}
 
 }

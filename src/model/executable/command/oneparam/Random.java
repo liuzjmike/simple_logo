@@ -1,7 +1,6 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.Literal;
 
 /**
  * Returns random non-negative number strictly less than max
@@ -11,8 +10,8 @@ import model.executable.Literal;
 public class Random extends OneParamCommand {
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(Math.abs(getParamValue(0, env) * Math.random()));
+	protected double concreteExecute(Environment env) {
+		return Math.abs(getParamValue(0, env) * Math.random());
 	}
 
 }
