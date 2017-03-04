@@ -1,7 +1,7 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.MultipleCommand;
 
 /**
  * Turns turtle to face the point (x, y), where (0, 0) is the center of the screen
@@ -9,7 +9,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Towards extends AbstractCommand {
+public class Towards extends MultipleCommand {
 
 	public Towards(int numParams) {
 		super(numParams);

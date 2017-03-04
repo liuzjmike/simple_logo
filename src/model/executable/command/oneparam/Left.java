@@ -1,14 +1,14 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.MultipleCommand;
 
 /**
  * Turns turtle counterclockwise by degrees angle
  * @author zhuangbihan
  *
  */
-public class Left extends AbstractCommand {
+public class Left extends MultipleCommand {
 
 	public Left() {
 		super(1);

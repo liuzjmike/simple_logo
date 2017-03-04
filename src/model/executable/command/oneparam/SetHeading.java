@@ -1,14 +1,14 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.MultipleCommand;
 
 /**
  * Turns turtle to an absolute heading
  * @author zhuangbihan
  *
  */
-public class SetHeading extends AbstractCommand {
+public class SetHeading extends MultipleCommand {
 
 	public SetHeading() {
 		super(1);

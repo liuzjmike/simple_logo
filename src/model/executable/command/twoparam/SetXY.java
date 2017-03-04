@@ -1,7 +1,7 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.MultipleCommand;
 
 /**
  * Moves turtle to an absolute screen position, where (0, 0) is the center of the screen
@@ -9,7 +9,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class SetXY extends AbstractCommand {
+public class SetXY extends MultipleCommand {
 
 	public SetXY() {
 		super(2);

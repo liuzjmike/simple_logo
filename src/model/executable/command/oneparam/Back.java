@@ -1,7 +1,7 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.MultipleCommand;
 
 /**
  * Moves turtle backward in its current heading by pixels distance
@@ -9,7 +9,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Back extends AbstractCommand {
+public class Back extends MultipleCommand {
 
 	public Back() {
 		super(1);
