@@ -1,7 +1,8 @@
 package model.turtle;
 
 public interface Turtle extends TurtleInfo {
-    double move(double dist, double wRadius, double hRadius);
+	
+    double move(double dist, double width, double height);
 
     double setXY(double x, double y);
 

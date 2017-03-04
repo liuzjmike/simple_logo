@@ -1,18 +1,22 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 
 /**
  * Returns negative of the values of expr
  * @author zhuangbihan
  *
  */
-public class Minus extends OneParamCommand {
+public class Minus extends AbstractCommand {
+
+	public Minus() {
+		super(1);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(-1*getParamValue(0, env));
+	protected double concreteExecute(Environment env) {
+		return -1*getParamValue(0, env);
 	}
 
 }

@@ -19,4 +19,9 @@ public class Variable implements Executable {
 		return env.getVariablePool().get(myName);
 	}
 
+	@Override
+	public void reset() {
+		
+	}
+
 }

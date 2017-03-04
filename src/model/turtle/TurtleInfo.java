@@ -4,8 +4,6 @@ import java.util.List;
 
 public interface TurtleInfo {
 
-    int getID();
-
     double getHeading();
     
     double getX();

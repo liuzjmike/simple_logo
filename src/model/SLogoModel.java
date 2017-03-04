@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 
+import model.executable.Executable;
 import model.executable.Literal;
 import model.executable.command.Command;
 import model.turtle.TurtleInfo;
@@ -20,7 +21,14 @@ public class SLogoModel {
     }
     
     public double interpret(String commands) {
-        return myInterpreter.parse(commands, myEnv).execute(myEnv).getValue();
+    	Executable root = myInterpreter.parse(commands, myEnv);
+    	double ret = 0;
+    	for(int i = 0; i < myEnv.getTurtlePool().size(); i++) {
+    		root.execute(myEnv);
+    		myEnv.getTurtlePool().switchTurtle();
+    		//TODO: solve this
+    	}
+        return ret;
     }
     
     public void setLanguage(String language) {
@@ -28,14 +36,15 @@ public class SLogoModel {
     }
     
     public void setSize(double width, double height) {
-        myEnv.getTurtlePool().setSize(width, height);
+        myEnv.setWidth(width);
+        myEnv.setHeight(height);
     }
     
-    public void addPoolObserver(SLogoObserver<Collection<TurtleInfo>> so) {
+    public void addPoolObserver(SLogoObserver<Collection<Entry<Integer, TurtleInfo>>> so) {
         myEnv.getTurtlePool().addObserver(so);
     }
     
-    public void removePoolObserver(SLogoObserver<Collection<TurtleInfo>> so) {
+    public void removePoolObserver(SLogoObserver<Collection<Entry<Integer, TurtleInfo>>> so) {
         myEnv.getTurtlePool().removeObserver(so);
     }
     

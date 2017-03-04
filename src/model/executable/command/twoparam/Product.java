@@ -1,18 +1,22 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
-import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 
 /**
  * Returns product of the values of expr1 and expr2
  * @author zhuangbihan
  *
  */
-public class Product extends TwoParamCommand {
+public class Product extends AbstractCommand {
+
+	public Product() {
+		super(2);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(getParamValue(0, env) * getParamValue(1, env));
+	protected double concreteExecute(Environment env) {
+		return getParamValue(0, env) * getParamValue(1, env);
 	}
 
 }

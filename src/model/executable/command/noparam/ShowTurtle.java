@@ -1,7 +1,7 @@
 package model.executable.command.noparam;
 
 import model.Environment;
-import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 
 /**
  * Makes turtle visible
@@ -9,12 +9,16 @@ import model.executable.Literal;
  * @author zhuangbihan
  *
  */
-public class ShowTurtle extends NoParamCommand {
+public class ShowTurtle extends AbstractCommand {
+
+	public ShowTurtle() {
+		super(0);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		env.getTurtlePool().setVisible(true);
-		return new Literal(1);
+	protected double concreteExecute(Environment env) {
+		env.getTurtlePool().apply(turtle -> turtle.setVisible(true));
+		return 1;
 	}
 
 }

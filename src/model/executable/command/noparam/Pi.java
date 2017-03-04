@@ -1,18 +1,22 @@
 package model.executable.command.noparam;
 
 import model.Environment;
-import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 
 /**
  * Reports the number Pi
  * @author zhuangbihan
  *
  */
-public class Pi extends NoParamCommand {
+public class Pi extends AbstractCommand {
+
+	public Pi() {
+		super(0);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(Math.PI);
+	protected double concreteExecute(Environment env) {
+		return Math.PI;
 	}
 
 }

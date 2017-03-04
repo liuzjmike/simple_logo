@@ -1,7 +1,7 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 import util.Constants;
 
 /**
@@ -9,11 +9,15 @@ import util.Constants;
  * @author zhuangbihan
  *
  */
-public class Tan extends OneParamCommand {
+public class Tan extends AbstractCommand {
+
+	public Tan() {
+		super(1);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(Constants.resolveNaN(Math.tan(getParamValue(0, env) * Constants.RADIAN_PER_DEGREE)));
+	protected double concreteExecute(Environment env) {
+		return Constants.resolveNaN(Math.tan(getParamValue(0, env) * Constants.RADIAN_PER_DEGREE));
 	}
 
 }

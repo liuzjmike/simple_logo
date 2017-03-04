@@ -1,167 +1,89 @@
 package model.turtle;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Function;
 
 import util.SLogoObservable;
 
-public class TurtlePool extends SLogoObservable<Collection<TurtleInfo>> {
+public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, TurtleInfo>>> {
+	
+	public static final int INITIAL_ID = 1;
     
-    private List<Turtle> activeTurtles, otherTurtles;
-    private int turtleID;
-    private double myWidth, myHeight;
-    private TurtleInfo myActiveTurtle; //TODO
+    private Map<Integer, Turtle> allTurtles;
+    private List<Integer> activeIDs;
+    private int activeID;
     
-    public TurtlePool(double width, double height) {
+    public TurtlePool() {
         super();
-        activeTurtles = new ArrayList<>();
-        otherTurtles = new ArrayList<>();
-        turtleID = 1;
-        myWidth = width;
-        myHeight = height;
-        tell();
-        myActiveTurtle = activeTurtles.get(0);
+        allTurtles = new HashMap<>();
+        activeIDs = new ArrayList<>();
+        allTurtles.put(INITIAL_ID, new ToroidalTurtle());
+        activeIDs.add(INITIAL_ID);
+        activeID = INITIAL_ID;
     }
     
-    public double apply(Function<TurtleInfo, Double> function) {
-        return function.apply(myActiveTurtle);
+    public <T> T apply(Function<Turtle, T> function) {
+    	if(activeID < 1) {
+    		throw new RuntimeException();
+    	}
+    	T ret = function.apply(allTurtles.get(activeID));
+    	notifyObservers();
+    	allTurtles.get(activeID).clearReset();
+        return ret;
     }
     
-    public int numActive() {
-        return activeTurtles.size();
+    public int activeID() {
+    	return activeID;
     }
     
-    public void setSize(double width, double height) {
-        myWidth = width;
-        myHeight = height;
+    public int size() {
+        return activeIDs.size();
+    }
+    
+    public void switchTurtle() {
+    	for(int i = 0; i < activeIDs.size(); i++) {
+    		if(activeIDs.get(i) == activeID) {
+    			activeID = activeIDs.get((i+1)%activeIDs.size());
+    			return;
+    		}
+    	}
     }
     
     public Collection<TurtleInfo> getTurtles() {
-        return Collections.unmodifiableCollection(activeTurtles);
+        return Collections.unmodifiableCollection(allTurtles.values());
     }
     
-    public void tell() {
-        activeTurtles.add(new ToroidalTurtle(turtleID++));
-        //TODO
+    public void tell(List<Integer> ids) {
+    	activeIDs.clear();
+    	activeID = 0;
+    	for(int id: ids) {
+    		if(id <= 0) {
+    			throw new RuntimeException();
+    		}
+    		if(allTurtles.containsKey(id)) {
+    			activeIDs.add(id);
+    		} else {
+    			for(int i = allTurtles.size(); i <= id; i++) {
+        			activeIDs.add(i);
+        			allTurtles.put(i, new ToroidalTurtle());
+        		}
+    		}
+    		activeID = id;
+    	}
         notifyObservers();
-    }
-    
-    public double moveTurtle(double dist) {
-        operateOnTurtles(turtle -> {
-             return turtle.move(dist, myWidth/2, myHeight/2);
-        });
-        return dist;
-    }
-    
-    public double setTurtleXY(double x, double y) {
-        return operateOnTurtles(turtle -> {
-            return turtle.setXY(x % myWidth, y % myHeight);
-        });
-    }
-    
-    public double home() {
-        return operateOnTurtles(turtle -> {
-            return turtle.home();
-        });
-    }
-    
-    public double turnTutle(double degree) {
-        return operateOnTurtles(turtle -> {
-            return turtle.turn(degree);
-        });
-    }
-    
-    public double setTurtleHeading(double heading) {
-        return operateOnTurtles(turtle -> {
-            return turtle.setHeading(heading);
-        });
-    }
-    
-    public double turtleTowards(double x, double y) {
-        return operateOnTurtles(turtle -> {
-            return turtle.towards(x, y);
-        });
-    }
-    
-    public void setPen(boolean penDown) {
-        operateOnTurtles(turtle -> {
-            return turtle.setPen(penDown);
-        });
-    }
-
-    public void setVisible(boolean isVisible) {
-        operateOnTurtles(turtle -> {
-            return turtle.setVisible(isVisible);
-        });
-    }
-    
-    public double reset() {
-        double ret = operateOnTurtles(turtle -> {
-            return turtle.reset();
-        });
-        for(Turtle turtle: activeTurtles) {
-            turtle.clearReset();
-        }
-        return ret;
-    }
-    
-    public double getHeading() {
-        return getTurtleProperty(turtle -> {
-            return turtle.getHeading();
-        });
-    }
-    
-    public double xCor() {
-        return getTurtleProperty(turtle -> {
-            return turtle.getX();
-        });
-    }
-    
-    public double yCor() {
-        return getTurtleProperty(turtle -> {
-            return turtle.getY();
-        });
-    }
-    
-    public boolean penDown() {
-        return getTurtleProperty(turtle -> {
-            return turtle.penDown();
-        });
-    }
-    
-    public boolean isVisible() {
-        return getTurtleProperty(turtle -> {
-            return turtle.isVisible();
-        });
-    }
-    
-    private <T> T operateOnTurtles(TurtleOperation<T> operation) {
-        validateTurtles();
-        T ret = null;
-        for(Turtle turtle: activeTurtles) {
-            ret = operation.execute(turtle);
-        }
-        notifyObservers();
-        return ret;
-    }
-    
-    private <T> T getTurtleProperty(TurtleOperation<T> operation) {
-        validateTurtles();
-        return operation.execute(activeTurtles.get(activeTurtles.size() - 1));
-    }
-    
-    private void validateTurtles() {
-        if(activeTurtles.isEmpty()) {
-            throw new RuntimeException();
-        }
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    protected Collection<TurtleInfo> notification() {
-        return (Collection<TurtleInfo>)(Collection<?>)Collections.unmodifiableCollection(activeTurtles);
+    protected Collection<Entry<Integer, TurtleInfo>> notification() {
+    	List<Entry<Integer, TurtleInfo>> ret = new ArrayList<>();
+    	activeIDs.forEach(id -> ret.add(new SimpleEntry<>(id, allTurtles.get(id))));
+        return ret;
     }
 }

@@ -1,18 +1,22 @@
 package model.executable.command.noparam;
 
 import model.Environment;
-import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 
 /**
  * Returns the turtle's heading in degrees
  * @author zhuangbihan
  *
  */
-public class Heading extends NoParamCommand {
+public class Heading extends AbstractCommand {
+
+	public Heading() {
+		super(0);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(env.getTurtlePool().getHeading());
+	protected double concreteExecute(Environment env) {
+		return env.getTurtlePool().apply(turtle -> turtle.getHeading());
 	}
 
 }

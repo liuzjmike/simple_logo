@@ -63,7 +63,6 @@ public class GUI {
     	poolViewCol = 0;
     	myGridPane = getGridPane();
 	}
-
     public void show(Stage stage) {
     	Scene myScene = new Scene(getGridPane(),backgroundColor);
     	myStage = stage;
@@ -105,7 +104,6 @@ public class GUI {
     	RowConstraints rcons1 = new RowConstraints();
     	rcons1.setVgrow(Priority.NEVER);
     	rcons1.setPercentHeight(60);
-
     	RowConstraints rcons2 = new RowConstraints();
     	rcons2.setVgrow(Priority.NEVER); 
     	rcons2.setPercentHeight(35);
@@ -113,7 +111,6 @@ public class GUI {
     	RowConstraints rcons3 = new RowConstraints();
     	rcons3.setVgrow(Priority.NEVER);  
     	rcons3.setPercentHeight(5);
-
     	root.getRowConstraints().addAll(rcons1, rcons2, rcons3);
     	
     	root.add(getPoolViewNode(), poolViewCol, poolViewRow,1,1);
@@ -125,7 +122,6 @@ public class GUI {
     	root.add(getVariableViewNode(),1, 1,1,2);
     	
     	root.add(getUserBar(), 0, 2,1,1);
-
     	return root;
     }
     
@@ -161,7 +157,7 @@ public class GUI {
     	return myCommandView.getNode();
     }
     
-    public SLogoObserver<Collection<TurtleInfo>> getPoolObserver() {
+    public SLogoObserver<Collection<Entry<Integer, TurtleInfo>>> getPoolObserver() {
 		return myPoolView;
 	}
     
@@ -218,9 +214,7 @@ public class GUI {
 			      webEngine = webView.getEngine();
 			      webEngine.setJavaScriptEnabled(true);
 			      webEngine.load(getClass().getClassLoader().getResource("reference.html").toExternalForm());
-
 			      Scene scene = new Scene(webView, 500, 300);
-
 			      primaryStage.setTitle("Commands Reference");
 			      primaryStage.setScene(scene);
 			      primaryStage.show();
@@ -257,7 +251,6 @@ public class GUI {
 		myHandler.setLanguage(buttonSelected.getText());
 		myStage.toFront();
 	}
-
 	
 	private void promptForBackgroundColorChange() {
 		Alert alert = new Alert(AlertType.INFORMATION);
@@ -284,13 +277,10 @@ public class GUI {
 		    return;
 		}
 		myStage.toFront();
-
 	}
-
 	public Command getCurrentCommand() {
 		return currentCommand;
 	}
-
 	public void setCurrentCommand(Command currentCommand) {
 		this.currentCommand = currentCommand;
 	}

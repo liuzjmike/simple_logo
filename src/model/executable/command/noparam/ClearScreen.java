@@ -1,7 +1,7 @@
 package model.executable.command.noparam;
 
 import model.Environment;
-import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 
 /**
  * Erases turtle's trails and sends it to the home position
@@ -9,11 +9,15 @@ import model.executable.Literal;
  * @author zhuangbihan
  *
  */
-public class ClearScreen extends NoParamCommand {
+public class ClearScreen extends AbstractCommand {
+
+	public ClearScreen() {
+		super(0);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(env.getTurtlePool().reset());
+	protected double concreteExecute(Environment env) {
+		return env.getTurtlePool().apply(turtle -> turtle.reset());
 	}
 
 }

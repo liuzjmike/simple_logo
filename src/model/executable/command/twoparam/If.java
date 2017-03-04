@@ -2,6 +2,7 @@ package model.executable.command.twoparam;
 
 import model.Environment;
 import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 
 /**
  * If expr is not 0, runs the command(s) given in the list
@@ -9,15 +10,19 @@ import model.executable.Literal;
  * @author zhuangbihan
  *
  */
-public class If extends TwoParamCommand {
+public class If extends AbstractCommand {
+
+	public If() {
+		super(2);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
+	protected double concreteExecute(Environment env) {
 		Literal ret = new Literal(0);
 		if (getParamValue(0, env) != 0){
 			ret = getParam(1).execute(env);
 		}
-		return ret;
+		return ret.getValue();
 	}
 
 }

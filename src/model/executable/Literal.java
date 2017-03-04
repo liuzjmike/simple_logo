@@ -14,6 +14,11 @@ public class Literal implements Executable {
 	public Literal execute(Environment env) {
 		return this;
 	}
+
+	@Override
+	public void reset() {
+		
+	}
 	
 	public double getValue() {
 		return myVal;

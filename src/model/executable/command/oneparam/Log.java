@@ -1,18 +1,22 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
-import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 
 /**
  * Returns natural log of expr
  * @author zhuangbihan
  *
  */
-public class Log extends OneParamCommand {
+public class Log extends AbstractCommand {
+
+	public Log() {
+		super(1);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		return new Literal(Math.log(getParamValue(0, env)));
+	protected double concreteExecute(Environment env) {
+		return Math.log(getParamValue(0, env));
 	}
 
 }

@@ -13,11 +13,9 @@ public abstract class AbstractTurtle implements Turtle {
     private double myHeading;
     private boolean penDown;
     private boolean isVisible, isReset;
-    private int myID;
     private List<TurtleHist> lastMove;
 
-    public AbstractTurtle(int id) {
-        myID = id;
+    public AbstractTurtle() {
         myX = 0;
         myY = 0;
         myHeading = 0;
@@ -25,11 +23,6 @@ public abstract class AbstractTurtle implements Turtle {
         isVisible = true;
         lastMove = new ArrayList<TurtleHist>();
         lastMove.add(new TurtleHist(myX, myY, penDown));
-    }
-
-    @Override
-    public int getID() {
-        return myID;
     }
 
     @Override
@@ -69,9 +62,9 @@ public abstract class AbstractTurtle implements Turtle {
 
     /*****Translational movement*****/
     @Override
-    public double move(double dist, double wRadius, double hRadius) {
+    public double move(double dist, double width, double height) {
         clearHist();
-        move(dist * Math.cos(radianHeading()), dist * Math.sin(radianHeading()), wRadius, hRadius);
+        move(dist * Math.cos(radianHeading()), dist * Math.sin(radianHeading()), width/2, height/2);
         return dist;
     }
     

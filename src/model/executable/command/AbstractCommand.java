@@ -9,10 +9,12 @@ import model.executable.Literal;
 
 public abstract class AbstractCommand implements Command {
 
-    List<Executable> myParams;
+    private List<Executable> myParams;
+    private int numParams;
     
-    public AbstractCommand() {
+    public AbstractCommand(int numParams) {
         myParams = new ArrayList<>();
+        this.numParams = numParams;
     }
     
     @Override
@@ -20,7 +22,17 @@ public abstract class AbstractCommand implements Command {
         if(myParams.size() != numParams()) {
             throw new RuntimeException();
         }
-        return concreteExecute(env);
+        return new Literal(concreteExecute(env));
+    }
+    
+    @Override
+    public void reset() {
+    	myParams.forEach(exec -> exec.reset());
+    }
+    
+    @Override
+    public int numParams() {
+    	return numParams;
     }
     
     @Override
@@ -32,7 +44,7 @@ public abstract class AbstractCommand implements Command {
     }
     
     @Override
-    public void resetParams() {
+    public void clearParams() {
     	myParams.clear();
     }
     
@@ -44,5 +56,5 @@ public abstract class AbstractCommand implements Command {
         return myParams.get(index).execute(env).getValue();
     }
     
-    protected abstract Literal concreteExecute(Environment env);
+    protected abstract double concreteExecute(Environment env);
 }

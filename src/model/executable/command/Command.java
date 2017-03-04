@@ -8,5 +8,5 @@ public interface Command extends Executable {
 	
 	public void addParam(Executable exec);
 	
-	public void resetParams();
+	public void clearParams();
 }

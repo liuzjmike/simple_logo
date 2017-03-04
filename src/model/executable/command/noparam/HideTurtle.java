@@ -1,7 +1,7 @@
 package model.executable.command.noparam;
 
 import model.Environment;
-import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 
 /**
  * Makes turtle invisible
@@ -9,12 +9,16 @@ import model.executable.Literal;
  * @author zhuangbihan
  *
  */
-public class HideTurtle extends NoParamCommand {
+public class HideTurtle extends AbstractCommand {
+
+	public HideTurtle() {
+		super(0);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-		env.getTurtlePool().setVisible(false);
-		return new Literal(0);
+	protected double concreteExecute(Environment env) {
+		env.getTurtlePool().apply(turtle -> turtle.setVisible(false));
+		return 0;
 	}
 
 }

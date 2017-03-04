@@ -4,6 +4,7 @@ import model.Environment;
 import model.executable.ExecutableList;
 import model.executable.Literal;
 import model.executable.Variable;
+import model.executable.command.AbstractCommand;
 
 /**
  * Runs command(s) for each value specified in the range, i.e., from (start - end), going by increment
@@ -11,10 +12,14 @@ import model.executable.Variable;
  * @author zhuangbihan
  *
  */
-public class For extends TwoParamCommand {
+public class For extends AbstractCommand {
+
+	public For() {
+		super(2);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
+	protected double concreteExecute(Environment env) {
 		Literal ret = new Literal(0);
 		ExecutableList list = ((ExecutableList)getParam(0));
 		String varName = ((Variable)list.get(0)).getName();
@@ -27,7 +32,7 @@ public class For extends TwoParamCommand {
 			ret = getParam(1).execute(env);
 		}
 		env.getVariablePool().release();
-		return ret;
+		return ret.getValue();
 	}
 
 }

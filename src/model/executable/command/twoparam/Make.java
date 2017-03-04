@@ -1,8 +1,8 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
-import model.executable.Literal;
 import model.executable.Variable;
+import model.executable.command.AbstractCommand;
 
 /**
  * Assigns the value of expr to variable, creating the variable if necessary
@@ -10,11 +10,15 @@ import model.executable.Variable;
  * @author zhuangbihan
  *
  */
-public class Make extends TwoParamCommand {
+public class Make extends AbstractCommand {
+
+	public Make() {
+		super(2);
+	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
+	protected double concreteExecute(Environment env) {
 		env.getVariablePool().add(((Variable)getParam(0)).getName(), getParamValue(1, env));
-		return new Literal(getParamValue(1, env));
+		return getParamValue(1, env);
 	}
 }
