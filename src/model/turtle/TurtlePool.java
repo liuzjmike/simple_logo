@@ -30,12 +30,22 @@ public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, Turtle
     }
     
     public <T> T apply(Function<Turtle, T> function) {
-    	if(activeID < 1) {
-    		throw new RuntimeException();
+        if(activeID < 1) {
+            throw new RuntimeException();
+        }
+        Turtle current = allTurtles.get(activeID);
+        T ret = function.apply(current);
+        notifyObservers();
+        current.clearReset();
+        return ret;
+    }
+    
+    public <T> T applyAll(Function<Turtle, T> function) {
+    	T ret = null;
+    	for(int i = 0; i < size(); i++) {
+    	    apply(function);
+    	    switchTurtle();
     	}
-    	T ret = function.apply(allTurtles.get(activeID));
-    	notifyObservers();
-    	allTurtles.get(activeID).clearReset();
         return ret;
     }
     

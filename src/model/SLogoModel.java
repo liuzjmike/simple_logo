@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 
-import model.executable.Executable;
 import model.executable.Literal;
 import model.executable.command.Command;
 import model.turtle.TurtleInfo;
@@ -21,14 +20,7 @@ public class SLogoModel {
     }
     
     public double interpret(String commands) {
-    	Executable root = myInterpreter.parse(commands, myEnv);
-    	double ret = 0;
-    	for(int i = 0; i < myEnv.getTurtlePool().size(); i++) {
-    		root.execute(myEnv);
-    		myEnv.getTurtlePool().switchTurtle();
-    		//TODO: solve this
-    	}
-        return ret;
+    	return myInterpreter.parse(commands, myEnv).execute(myEnv).getValue();
     }
     
     public void setLanguage(String language) {
