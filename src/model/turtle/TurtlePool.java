@@ -39,20 +39,27 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     }
     
     public <T> T apply(Function<Turtle, T> function) {
-        validateActive();
-        Turtle current = getActiveTurtle();
-        T ret = function.apply(current);
-        notifyObservers();
-        current.clearReset();
-        return ret;
+        return apply(function, true);
     }
     
     public <T> T applyAll(Function<Turtle, T> function) {
     	T ret = null;
     	for(int i = 0; i < activeSize(); i++) {
-    	    ret = apply(function);
+    	    ret = apply(function, false);
     	    switchTurtle();
     	}
+    	notifyObservers();
+        return ret;
+    }
+    
+    private <T> T apply(Function<Turtle, T> function, boolean notify) {
+    	validateActive();
+        Turtle current = getActiveTurtle();
+        T ret = function.apply(current);
+        if(notify) {
+        	notifyObservers();
+        }
+        current.clearReset();
         return ret;
     }
     
@@ -95,7 +102,11 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
 
     @Override
     public Map<Integer, TurtleInfo> getTurtles() {
-        return Collections.unmodifiableMap(allTurtles);
+    	Map<Integer, TurtleInfo> ret = new HashMap<>();
+    	for(int id: activeIDs) {
+    		ret.put(id, allTurtles.get(id));
+    	}
+        return Collections.unmodifiableMap(ret);
     }
     
     public void tell(List<Integer> ids) {
@@ -108,7 +119,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     		if(allTurtles.containsKey(id)) {
     			activeIDs.add(id);
     		} else {
-    			for(int i = allTurtles.size(); i <= id; i++) {
+    			for(int i = allTurtles.size()+1; i <= id; i++) {
         			activeIDs.add(i);
         			allTurtles.put(i, new ToroidalTurtle(defaultPen));
         		}
@@ -130,6 +141,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     	}
     	activeIDs.clear();
     	activeIDs.addAll(newActive);
+    	activeIndex = activeIDs.isEmpty() ? -1 : activeIDs.size()-1;
     }
  
     @Override

@@ -17,7 +17,7 @@ public class Towards extends MultipleCommand {
 
 	@Override
 	protected double concreteExecute(Environment env) {
-		return env.getTurtlePool().apply(turtle -> turtle.towards(getParamValue(0, env), getParamValue(1, env)));
+		return env.getTurtlePool().applyAll(turtle -> turtle.towards(getParamValue(0, env), getParamValue(1, env)));
 	}
 
 }

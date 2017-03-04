@@ -16,7 +16,7 @@ public class SetHeading extends MultipleCommand {
 
 	@Override
 	protected double concreteExecute(Environment env) {
-		return env.getTurtlePool().apply(turtle -> turtle.setHeading(-1*getParamValue(0, env)));
+		return env.getTurtlePool().applyAll(turtle -> turtle.setHeading(-1*getParamValue(0, env)));
 	}
 
 }
