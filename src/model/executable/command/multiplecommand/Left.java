@@ -16,7 +16,7 @@ public class Left extends MultipleCommand {
 
 	@Override
 	protected double concreteExecute(Environment env) {
-		return env.getTurtlePool().apply(turtle -> turtle.turn(getParamValue(0, env)));
+		return env.getTurtlePool().applyAll(turtle -> turtle.turn(getParamValue(0, env)));
 	}
 
 }

@@ -54,7 +54,6 @@ public class PoolView implements SLogoObserver<PoolInfo> {
     			        lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2));
         		myPane.getChildren().add(turtleImage);
     		}
-    		
     	}
 	}
     
