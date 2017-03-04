@@ -6,7 +6,7 @@ import java.util.List;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import model.turtle.Turtle;
+import model.turtle.TurtleInfo;
 import model.turtle.TurtleHist;
 import util.Constants;
 
@@ -17,13 +17,13 @@ public class TurtleView {
 	public static final double DEFAULT_HEIGHT = 36;
 
 	private ImageView myImage;
-	private Turtle myTurtle;
+	private TurtleInfo myTurtle;
 	private Pen myPen;
 	private List<Line> myLines;
 	private LineDrawer lineDrawer; 
 	private double xOffset, yOffset;
 
-	public TurtleView(ImageView image, Turtle turtle, LineDrawer lineDrawer, double xOffset, double yOffset){
+	public TurtleView(ImageView image, TurtleInfo turtle, LineDrawer lineDrawer, double xOffset, double yOffset){
 		myPen = new Pen(DEFAULT_COLOR);
 		setImage(image);
 		setHeading(turtle.getHeading());

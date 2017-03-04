@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import model.executable.Literal;
 import model.executable.command.Command;
-import model.turtle.Turtle;
+import model.turtle.TurtleInfo;
 import util.SLogoObserver;
 
 public class SLogoModel {
@@ -31,11 +31,11 @@ public class SLogoModel {
         myEnv.getTurtlePool().setSize(width, height);
     }
     
-    public void addPoolObserver(SLogoObserver<Collection<Turtle>> so) {
+    public void addPoolObserver(SLogoObserver<Collection<TurtleInfo>> so) {
         myEnv.getTurtlePool().addObserver(so);
     }
     
-    public void removePoolObserver(SLogoObserver<Collection<Turtle>> so) {
+    public void removePoolObserver(SLogoObserver<Collection<TurtleInfo>> so) {
         myEnv.getTurtlePool().removeObserver(so);
     }
     
@@ -55,7 +55,7 @@ public class SLogoModel {
         myEnv.getVariablePool().removeObserver(so);
     }
     
-    public Collection<Turtle> getTurtles() {
+    public Collection<TurtleInfo> getTurtles() {
         return myEnv.getTurtlePool().getTurtles();
     }
     

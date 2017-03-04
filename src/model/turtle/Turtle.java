@@ -1,23 +1,25 @@
 package model.turtle;
 
-import java.util.List;
+public interface Turtle extends TurtleInfo {
+    double move(double dist, double wRadius, double hRadius);
 
-public interface Turtle {
+    double setXY(double x, double y);
 
-    int getID();
-
-    double getHeading();
+    double home();
     
-    double getX();
-    
-    double getY();
+    double reset();
 
-    List<TurtleHist> getLastMove();
+    /*****Rotational movement*****/
+    double turn(double degree);
 
-    boolean isVisible();
-    
-    boolean isReset();
-    
-    boolean penDown();
+    double setHeading(double heading);
 
+    double towards(double x, double y);
+
+    /*****Visual property*****/
+    boolean setPen(boolean penDown);
+
+    boolean setVisible(boolean isVisible);
+    
+    void clearReset();
 }

@@ -1,11 +1,6 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.stage.Stage;
-import model.SLogoModel;
-import view.GUI;
 
 public class Controller {
 	

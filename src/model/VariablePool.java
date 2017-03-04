@@ -1,18 +1,21 @@
 package model;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import model.executable.Literal;
 import util.SLogoObservable;
 
 public class VariablePool extends SLogoObservable<List<Entry<String, Literal>>> {
     
-    private Deque<Deque<Entry<String, Literal>>> myStack;
+    private Deque<Map<String, Literal>> myStack;
     private int callStack;
     
     public VariablePool() {
@@ -25,16 +28,14 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Literal>>> 
     }
     
     public void add(String name, Literal value) {
-        myStack.getFirst().push(new SimpleEntry<>(name, value));
+        myStack.getFirst().put(name, value);
         notifyObservers();
     }
     
     public Literal get(String name) {
-        for(Deque<Entry<String, Literal>> dq: myStack) {
-            for(Entry<String, Literal> entry: dq) {
-                if(entry.getKey().equals(name)) {
-                    return entry.getValue();
-                }
+        for(Map<String, Literal> scope: myStack) {
+            if(scope.containsKey(name)) {
+                return scope.get(name);
             }
         }
         throw new RuntimeException();
@@ -42,7 +43,7 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Literal>>> 
     
     public void alloc() {
         if(myStack.isEmpty() || callStack > 0) {
-            myStack.push(new ArrayDeque<>());
+            myStack.push(new HashMap<>());
         }
         callStack++;
     }
@@ -64,11 +65,12 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Literal>>> 
 
     @Override
     protected List<Entry<String, Literal>> notification() {
-        System.out.println(myStack.size());
         List<Entry<String, Literal>> ret = new ArrayList<>();
-        for(Deque<Entry<String, Literal>> dq: myStack) {
-            ret.addAll(dq);
-        }
+        myStack.forEach(
+                scope -> ret.addAll(scope.entrySet()
+                                         .stream()
+                                         .sorted(Comparator.comparing(Entry<String, Literal>::getKey))
+                                         .collect(Collectors.toList())));
         return ret;
     }
 
