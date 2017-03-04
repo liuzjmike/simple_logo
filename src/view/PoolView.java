@@ -13,10 +13,10 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import model.turtle.Turtle;
+import model.turtle.TurtleInfo;
 import util.SLogoObserver;
 
-public class PoolView implements SLogoObserver<Collection<Turtle>> {
+public class PoolView implements SLogoObserver<Collection<TurtleInfo>> {
 	public static final String TURTLE_IMAGE = "TurtleImage.png";
 	public static final String DEFAULT_BACKGROUND_COLOR = "white";
 	public static final String CSS_FILE = "resources/PaneColor.css";
@@ -45,8 +45,8 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
 		myPane.setPrefHeight(height);
 	}
 	
-    public void setTurtle(Collection<Turtle> turtles) {
-    	for(Turtle turtle: turtles){
+    public void setTurtle(Collection<TurtleInfo> turtles) {
+    	for(TurtleInfo turtle: turtles){
     		if(!myTurtles.containsKey(turtle.getID())){
     			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
     			myTurtles.put(turtle.getID(), new TurtleView(turtleImage,turtle, lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2));
@@ -71,7 +71,7 @@ public class PoolView implements SLogoObserver<Collection<Turtle>> {
 	}
 
 	@Override
-	public void update(Collection<Turtle> arg) {
+	public void update(Collection<TurtleInfo> arg) {
 		setTurtle(arg);
 		drawTurtle();
 	}

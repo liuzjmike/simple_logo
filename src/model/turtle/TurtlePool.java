@@ -4,27 +4,34 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 import util.SLogoObservable;
-import util.SLogoObserver;
 
-public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
+public class TurtlePool extends SLogoObservable<Collection<TurtleInfo>> {
     
-    private List<AbstractTurtle> myTurtles;
+    private List<Turtle> activeTurtles, otherTurtles;
     private int turtleID;
     private double myWidth, myHeight;
+    private TurtleInfo myActiveTurtle; //TODO
     
     public TurtlePool(double width, double height) {
         super();
-        myTurtles = new ArrayList<>();
-        turtleID = 0;
+        activeTurtles = new ArrayList<>();
+        otherTurtles = new ArrayList<>();
+        turtleID = 1;
         myWidth = width;
         myHeight = height;
-        addTurtle();
+        tell();
+        myActiveTurtle = activeTurtles.get(0);
     }
     
-    public void addObserver(SLogoObserver<Collection<Turtle>> so) {
-        super.addObserver(so);
+    public double apply(Function<TurtleInfo, Double> function) {
+        return function.apply(myActiveTurtle);
+    }
+    
+    public int numActive() {
+        return activeTurtles.size();
     }
     
     public void setSize(double width, double height) {
@@ -32,12 +39,13 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
         myHeight = height;
     }
     
-    public Collection<Turtle> getTurtles() {
-        return Collections.unmodifiableCollection(myTurtles);
+    public Collection<TurtleInfo> getTurtles() {
+        return Collections.unmodifiableCollection(activeTurtles);
     }
     
-    public void addTurtle() {
-        myTurtles.add(new ToroidalTurtle(turtleID++));
+    public void tell() {
+        activeTurtles.add(new ToroidalTurtle(turtleID++));
+        //TODO
         notifyObservers();
     }
     
@@ -92,12 +100,9 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     
     public double reset() {
         double ret = operateOnTurtles(turtle -> {
-            double dist = turtle.home();
-            turtle.clearHist();
-            turtle.setReset();
-            return dist;
+            return turtle.reset();
         });
-        for(AbstractTurtle turtle: myTurtles) {
+        for(Turtle turtle: activeTurtles) {
             turtle.clearReset();
         }
         return ret;
@@ -136,7 +141,7 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     private <T> T operateOnTurtles(TurtleOperation<T> operation) {
         validateTurtles();
         T ret = null;
-        for(AbstractTurtle turtle: myTurtles) {
+        for(Turtle turtle: activeTurtles) {
             ret = operation.execute(turtle);
         }
         notifyObservers();
@@ -145,18 +150,18 @@ public class TurtlePool extends SLogoObservable<Collection<Turtle>> {
     
     private <T> T getTurtleProperty(TurtleOperation<T> operation) {
         validateTurtles();
-        return operation.execute(myTurtles.get(myTurtles.size() - 1));
+        return operation.execute(activeTurtles.get(activeTurtles.size() - 1));
     }
     
     private void validateTurtles() {
-        if(myTurtles.isEmpty()) {
+        if(activeTurtles.isEmpty()) {
             throw new RuntimeException();
         }
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    protected Collection<Turtle> notification() {
-        return (Collection<Turtle>)(Collection<?>)Collections.unmodifiableCollection(myTurtles);
+    protected Collection<TurtleInfo> notification() {
+        return (Collection<TurtleInfo>)(Collection<?>)Collections.unmodifiableCollection(activeTurtles);
     }
 }

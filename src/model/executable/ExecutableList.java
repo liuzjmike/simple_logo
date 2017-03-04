@@ -39,9 +39,11 @@ public class ExecutableList implements Executable, Iterable<Executable> {
     @Override
     public Literal execute(Environment env) {
         Literal ret = new Literal(0);
+        env.getVariablePool().alloc();
         for(Executable exec: this) {
             ret = exec.execute(env);
         }
+        env.getVariablePool().release();
         return ret;
     }
 
