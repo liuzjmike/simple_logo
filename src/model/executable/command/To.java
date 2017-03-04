@@ -8,12 +8,8 @@ public class To extends AbstractCommand {
     private String myName;
 
 	public To(String name) {
+		super(2);
 	    myName = name;
-	}
-
-	@Override
-	public int numParams() {
-		return 2;
 	}
 
 	@Override

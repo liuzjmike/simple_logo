@@ -1,6 +1,7 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
+import model.executable.command.AbstractCommand;
 
 /**
  * Turns turtle to face the point (x, y), where (0, 0) is the center of the screen
@@ -8,7 +9,11 @@ import model.Environment;
  * @author zhuangbihan
  *
  */
-public class Towards extends TwoParamCommand {
+public class Towards extends AbstractCommand {
+
+	public Towards(int numParams) {
+		super(numParams);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {

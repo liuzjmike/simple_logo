@@ -1,13 +1,18 @@
 package model.executable.command.noparam;
 
 import model.Environment;
+import model.executable.command.AbstractCommand;
 
 /**
  * Returns 1 if turtle is showing, 0 if it is hiding
  * @author zhuangbihan
  *
  */
-public class IsShowing extends NoParamCommand {
+public class IsShowing extends AbstractCommand {
+
+	public IsShowing() {
+		super(0);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {

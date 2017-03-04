@@ -1,6 +1,7 @@
 package model.executable.command.oneparam;
 
 import model.Environment;
+import model.executable.command.AbstractCommand;
 import util.Constants;
 
 /**
@@ -8,7 +9,11 @@ import util.Constants;
  * @author zhuangbihan
  *
  */
-public class Sin extends OneParamCommand {
+public class Sin extends AbstractCommand {
+
+	public Sin() {
+		super(1);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {

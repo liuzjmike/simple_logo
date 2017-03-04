@@ -5,8 +5,13 @@ import java.util.List;
 
 import model.Environment;
 import model.executable.ExecutableList;
+import model.executable.command.AbstractCommand;
 
-public class Tell extends OneParamCommand {
+public class Tell extends AbstractCommand {
+
+	public Tell() {
+		super(1);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {

@@ -1,6 +1,7 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
+import model.executable.command.AbstractCommand;
 
 /**
  * Returns remainder on dividing the values of expr1 by expr2
@@ -8,7 +9,11 @@ import model.Environment;
  * @author zhuangbihan
  *
  */
-public class Remainder extends TwoParamCommand {
+public class Remainder extends AbstractCommand {
+
+	public Remainder() {
+		super(2);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {

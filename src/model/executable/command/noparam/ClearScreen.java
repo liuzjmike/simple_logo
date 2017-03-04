@@ -1,6 +1,7 @@
 package model.executable.command.noparam;
 
 import model.Environment;
+import model.executable.command.AbstractCommand;
 
 /**
  * Erases turtle's trails and sends it to the home position
@@ -8,7 +9,11 @@ import model.Environment;
  * @author zhuangbihan
  *
  */
-public class ClearScreen extends NoParamCommand {
+public class ClearScreen extends AbstractCommand {
+
+	public ClearScreen() {
+		super(0);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {

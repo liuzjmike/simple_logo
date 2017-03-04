@@ -46,6 +46,11 @@ public class ExecutableList implements Executable, Iterable<Executable> {
         env.getVariablePool().release();
         return ret;
     }
+    
+    @Override
+    public void reset() {
+    	this.forEach(exec -> exec.reset());
+    }
 
 	@Override
 	public Iterator<Executable> iterator() {

@@ -1,6 +1,7 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
+import model.executable.command.AbstractCommand;
 
 /**
  * Returns quotient of the values of expr1 and expr2
@@ -8,7 +9,11 @@ import model.Environment;
  * @author zhuangbihan
  *
  */
-public class Quotient extends TwoParamCommand {
+public class Quotient extends AbstractCommand {
+
+	public Quotient() {
+		super(2);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {

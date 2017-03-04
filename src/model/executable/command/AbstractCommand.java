@@ -9,10 +9,12 @@ import model.executable.Literal;
 
 public abstract class AbstractCommand implements Command {
 
-    List<Executable> myParams;
+    private List<Executable> myParams;
+    private int numParams;
     
-    public AbstractCommand() {
+    public AbstractCommand(int numParams) {
         myParams = new ArrayList<>();
+        this.numParams = numParams;
     }
     
     @Override
@@ -24,6 +26,16 @@ public abstract class AbstractCommand implements Command {
     }
     
     @Override
+    public void reset() {
+    	myParams.forEach(exec -> exec.reset());
+    }
+    
+    @Override
+    public int numParams() {
+    	return numParams;
+    }
+    
+    @Override
     public void addParam(Executable exec) {
         if(myParams.size() >= numParams()) {
             throw new RuntimeException();
@@ -32,7 +44,7 @@ public abstract class AbstractCommand implements Command {
     }
     
     @Override
-    public void resetParams() {
+    public void clearParams() {
     	myParams.clear();
     }
     

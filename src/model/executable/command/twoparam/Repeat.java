@@ -2,6 +2,7 @@ package model.executable.command.twoparam;
 
 import model.Environment;
 import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 
 /**
  * Runs command(s) given in the list the value of expr number of times
@@ -9,8 +10,12 @@ import model.executable.Literal;
  * @author zhuangbihan
  *
  */
-public class Repeat extends TwoParamCommand {
+public class Repeat extends AbstractCommand {
 	
+	public Repeat() {
+		super(2);
+	}
+
 	public static final String REPCOUNT = ":repCount";
 
 	@Override

@@ -1,6 +1,7 @@
 package model.executable.command.noparam;
 
 import model.Environment;
+import model.executable.command.AbstractCommand;
 
 /**
  * Makes turtle invisible
@@ -8,7 +9,11 @@ import model.Environment;
  * @author zhuangbihan
  *
  */
-public class HideTurtle extends NoParamCommand {
+public class HideTurtle extends AbstractCommand {
+
+	public HideTurtle() {
+		super(0);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {

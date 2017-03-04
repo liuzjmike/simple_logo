@@ -4,6 +4,7 @@ import model.Environment;
 import model.executable.ExecutableList;
 import model.executable.Literal;
 import model.executable.Variable;
+import model.executable.command.AbstractCommand;
 
 /**
  * Runs command(s) for each value specified in the range, i.e., from (1 - limit) inclusive 
@@ -11,7 +12,11 @@ import model.executable.Variable;
  * @author zhuangbihan
  *
  */
-public class DoTimes extends TwoParamCommand {
+public class DoTimes extends AbstractCommand {
+
+	public DoTimes() {
+		super(2);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {

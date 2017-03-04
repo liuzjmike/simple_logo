@@ -1,8 +1,13 @@
 package model.executable.command.twoparam;
 
 import model.Environment;
+import model.executable.command.AbstractCommand;
 
-public class NotEqual extends TwoParamCommand {
+public class NotEqual extends AbstractCommand {
+
+	public NotEqual() {
+		super(2);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {
