@@ -18,7 +18,6 @@ public class Controller {
 		Workspace newWorkspace = new Workspace();
 		newWorkspace.start(stage);
 		setWorkspaceHander(newWorkspace);
-		
 	}
 	
 	private void setWorkspaceHander(Workspace newWorkspace) {
