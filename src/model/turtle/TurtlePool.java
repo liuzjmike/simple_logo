@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import util.SLogoObservable;
 
@@ -30,12 +33,22 @@ public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, Turtle
     }
     
     public <T> T apply(Function<Turtle, T> function) {
-    	if(activeID < 1) {
-    		throw new RuntimeException();
+        if(activeID < 1) {
+            throw new RuntimeException();
+        }
+        Turtle current = allTurtles.get(activeID);
+        T ret = function.apply(current);
+        notifyObservers();
+        current.clearReset();
+        return ret;
+    }
+    
+    public <T> T applyAll(Function<Turtle, T> function) {
+    	T ret = null;
+    	for(int i = 0; i < activeSize(); i++) {
+    	    ret = apply(function);
+    	    switchTurtle();
     	}
-    	T ret = function.apply(allTurtles.get(activeID));
-    	notifyObservers();
-    	allTurtles.get(activeID).clearReset();
         return ret;
     }
     
@@ -43,8 +56,16 @@ public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, Turtle
     	return activeID;
     }
     
-    public int size() {
+    public List<Integer> allActiveID() {
+    	return new ArrayList<>(activeIDs);
+    }
+    
+    public int activeSize() {
         return activeIDs.size();
+    }
+    
+    public int fullSize() {
+    	return allTurtles.size();
     }
     
     public void switchTurtle() {
@@ -79,7 +100,21 @@ public class TurtlePool extends SLogoObservable<Collection<Entry<Integer, Turtle
     	}
         notifyObservers();
     }
-
+    
+    public void askWith(Predicate<Turtle> predicate) {
+    	activeIDs.clear();
+    	activeIDs.addAll(allTurtles.keySet());
+    	Set<Integer> newActive = new HashSet<Integer>();
+    	for (int i = 0; i < activeSize(); i++) {
+    		if (predicate.test(allTurtles.get(activeIDs.get(activeID)))) {
+    			newActive.add(i);
+    		}
+    		switchTurtle();
+    	}
+    	activeIDs.clear();
+    	activeIDs.addAll(newActive);
+    }
+ 
     @Override
     protected Collection<Entry<Integer, TurtleInfo>> notification() {
     	List<Entry<Integer, TurtleInfo>> ret = new ArrayList<>();
