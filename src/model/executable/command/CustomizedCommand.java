@@ -23,15 +23,14 @@ public class CustomizedCommand extends AbstractCommand {
 	@Override
 	protected double concreteExecute(Environment env) {
 	    env.getVariablePool().alloc();
-	    System.out.println(getParamValue(0, env));
 		for(int i = 0; i < varParams.size(); i++) {
 			Variable var = (Variable)varParams.get(i);
 			env.getVariablePool().add(var.getName(), getParam(i).execute(env));
 		}
 		Literal ret = new Literal(0);
 		for(Executable exec : myBody) {
+            exec.reset();
 			ret = exec.execute(env);
-	        reset();
 		}
 		env.getVariablePool().release();
 		return ret.getValue();

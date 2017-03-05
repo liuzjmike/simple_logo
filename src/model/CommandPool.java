@@ -32,10 +32,12 @@ public class CommandPool extends SLogoObservable<Map<String, Command>>{
     
     public void add(String name, CustomizedCommand command) {
         userCommands.put(name, command);
+        myDefinitions.remove(name);
     }
     
     public void define(String name, int numParams) {
         myDefinitions.put(name, numParams);
+        userCommands.remove(name);
     }
     
     public Command getCommand(String name) {
