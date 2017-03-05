@@ -29,18 +29,14 @@ public class CommandPool {
         userCommands.put(name, command);
     }
     
-    void setLanguage(String language) {
-        commandParser.setPattern(DEFAULT_LANGUAGE_SUBPACKAGE + language);
-    }
-    
-    Command getCommand(String name) {
+    public Command getCommand(String name) {
         String command = commandParser.getSymbol(name);
         if(command.equals(RegexParser.NO_MATCH)) {
             return userCommands.get(name);
         }
         ResourceBundle resources = ResourceBundle.getBundle(Constants.DEFAULT_RESOURCE_PACKAGE
                 + DEFAULT_CLASSPATH_FILE);
-		Class<?> clazz;
+        Class<?> clazz;
         try {
             clazz = Class.forName(resources.getString(command));
             return (Command)clazz.newInstance();
@@ -48,6 +44,10 @@ public class CommandPool {
             // TODO Auto-generated catch block
             throw new RuntimeException();
         }
+    }
+    
+    void setLanguage(String language) {
+        commandParser.setPattern(DEFAULT_LANGUAGE_SUBPACKAGE + language);
     }
     
     List<Entry<String, Command>> getUserCommands() {
