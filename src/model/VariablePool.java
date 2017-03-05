@@ -11,9 +11,12 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import model.executable.Literal;
+import util.SLogoException;
 import util.SLogoObservable;
 
 public class VariablePool extends SLogoObservable<List<Entry<String, Literal>>> {
+	
+	public static final int STACK_LIMIT = 1024;
     
     private Deque<Map<String, Literal>> myStack;
     private int callStack;
@@ -39,7 +42,7 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Literal>>> 
                 return scope.get(name);
             }
         }
-        throw new RuntimeException();
+        throw new SLogoException(SLogoException.NO_VARIABLE_IN_SCOPE);
     }
     
     public void alloc() {
@@ -47,11 +50,14 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Literal>>> 
             myStack.push(new HashMap<>());
         }
         callStack++;
+        if (callStack > STACK_LIMIT) {
+        	throw new SLogoException(SLogoException.STACK_OVERFLOW);
+        }
     }
     
     public void release() {
         if(callStack == 0) {
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.STACK_UNDERFLOW);
         }
         if(callStack > 1) {
             myStack.pop();

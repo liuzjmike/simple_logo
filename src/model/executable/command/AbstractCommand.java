@@ -6,6 +6,7 @@ import java.util.List;
 import model.Environment;
 import model.executable.Executable;
 import model.executable.Literal;
+import util.SLogoException;
 
 public abstract class AbstractCommand implements Command {
 
@@ -20,7 +21,7 @@ public abstract class AbstractCommand implements Command {
     @Override
     public Literal execute(Environment env) {
         if(myParams.size() != numParams()) {
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
         }
         return new Literal(concreteExecute(env));
     }
@@ -38,7 +39,7 @@ public abstract class AbstractCommand implements Command {
     @Override
     public void addParam(Executable exec) {
         if(myParams.size() >= numParams()) {
-            throw new RuntimeException();
+        	throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
         }
         myParams.add(exec);
     }

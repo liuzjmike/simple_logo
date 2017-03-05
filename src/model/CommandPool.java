@@ -10,6 +10,7 @@ import model.executable.command.CustomizedCommand;
 import model.executable.command.Definition;
 import util.Constants;
 import util.RegexParser;
+import util.SLogoException;
 import util.SLogoObservable;
 
 public class CommandPool extends SLogoObservable<Map<String, Command>>{
@@ -57,8 +58,7 @@ public class CommandPool extends SLogoObservable<Map<String, Command>>{
             clazz = Class.forName(resources.getString(command));
             return (Command)clazz.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.INSTANTIATION_ERROR);
         }
     }
     
