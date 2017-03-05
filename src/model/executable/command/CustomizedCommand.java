@@ -31,6 +31,7 @@ public class CustomizedCommand extends AbstractCommand {
 		for(Executable exec : myBody) {
             exec.reset();
 			ret = exec.execute(env);
+			exec.reset();
 		}
 		env.getVariablePool().release();
 		return ret.getValue();

@@ -8,9 +8,11 @@ public class ToroidalTurtle extends AbstractTurtle {
     
     @Override
     protected void move(double dx, double dy, double wRadius, double hRadius) {
+        System.out.println(dx);
+        System.out.println(radianHeading());
         double newX = getX() + dx;
-        double newY = getY() + Math.copySign(dx * Math.tan(radianHeading()),
-                Math.sin(radianHeading()));
+        double newY = getY() + dx * Math.tan(radianHeading());
+        System.out.println(newY);
         if(inBounds(newX, newY, wRadius, hRadius)) {
             moveOn(newX, newY, getPen().isDown());
             return;
@@ -29,13 +31,11 @@ public class ToroidalTurtle extends AbstractTurtle {
     }
     
     private TurtleHist getInboundPos(double x, double y, double wRadius, double hRadius) {
-        double dx = Math.cos(radianHeading()) > 0 ? wRadius - getX() : wRadius + getX();
-        double yIntersect = getY() + Math.copySign(dx * Math.tan(radianHeading()),
-                Math.sin(radianHeading()));
+        double dx = x > getX() ? wRadius - getX() : - wRadius - getX();
+        double yIntersect = getY() + dx * Math.tan(radianHeading());
         if(yIntersect < -hRadius || yIntersect > hRadius) {
-            double dy = Math.sin(radianHeading()) > 0 ? hRadius - getY() : hRadius + getY();
-            return new TurtleHist(getX() + Math.copySign(dy / Math.tan(radianHeading()),
-                    Math.cos(radianHeading())), y < 0 ? -hRadius : hRadius-1, false);
+            double dy = y > getY() ? hRadius - getY() : - hRadius - getY();
+            return new TurtleHist(getX() + dy / Math.tan(radianHeading()), y < 0 ? -hRadius : hRadius-1, false);
         } else {
             return new TurtleHist(x < 0 ? -wRadius : wRadius-1, yIntersect, false);
         }
