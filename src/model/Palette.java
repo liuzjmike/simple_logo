@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javafx.scene.paint.Color;
+import util.SLogoException;
 
 public class Palette {
     
@@ -17,7 +18,7 @@ public class Palette {
     
     public Color getColor(int index) {
         if(!myPalette.containsKey(index)) {
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.INVALID_COLOR_INDEX);
         }
         return myPalette.get(index);
     }

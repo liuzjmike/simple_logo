@@ -1,7 +1,6 @@
 package view;
 
-import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
 
 import controller.StringProcessor;
 import javafx.event.EventHandler;
@@ -13,7 +12,7 @@ import javafx.scene.text.Text;
 import model.executable.command.Command;
 import util.SLogoObserver;
 
-public class CommandView implements SLogoObserver<List<Entry<String, Command>>> {
+public class CommandView implements SLogoObserver<Map<String, Command>> {
 	
 	private VBox vBox;
 	private ScrollPane myPane;
@@ -56,10 +55,8 @@ public class CommandView implements SLogoObserver<List<Entry<String, Command>>> 
 	}
 	
     @Override
-    public void update(List<Entry<String, Command>> arg) {
+    public void update(Map<String, Command> arg) {
     	vBox.getChildren().clear();
-        for (Entry<String,Command> entry : arg) {
-            addCommandToScreen(entry.getKey());
-        }
+    	arg.keySet().stream().sorted().forEach(s -> addCommandToScreen(s));
     }
 }

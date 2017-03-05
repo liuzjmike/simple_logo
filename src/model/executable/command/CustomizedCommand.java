@@ -15,6 +15,10 @@ public class CustomizedCommand extends AbstractCommand {
 		varParams = params;
 		myBody = body;
 	}
+	
+	public CustomizedCommand copy() {
+	    return new CustomizedCommand(varParams, myBody);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {
@@ -25,11 +29,10 @@ public class CustomizedCommand extends AbstractCommand {
 		}
 		Literal ret = new Literal(0);
 		for(Executable exec : myBody) {
+            exec.reset();
 			ret = exec.execute(env);
 		}
 		env.getVariablePool().release();
-		clearParams();
-		reset();
 		return ret.getValue();
 	}
 

@@ -1,6 +1,7 @@
 package view;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
@@ -164,7 +165,7 @@ public class GUI {
         return myVariableView;
     }
     
-    public SLogoObserver<List<Entry<String, Command>>> getCommandObserver() {
+    public SLogoObserver<Map<String, Command>> getCommandObserver() {
         return myCommandView;
     }
     

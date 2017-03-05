@@ -9,9 +9,9 @@ import model.executable.ExecutableList;
 import model.executable.Literal;
 import model.executable.Variable;
 import model.executable.command.Command;
-import model.executable.command.CustomizedCommand;
 import model.executable.command.To;
 import util.RegexParser;
+import util.SLogoException;
 
 public class Interpreter {
 	
@@ -42,7 +42,7 @@ public class Interpreter {
     
     private Executable parse(Deque<String> expressions, Environment env) {
         if(expressions.isEmpty()) {
-            throw new RuntimeException();
+        	throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
         }
         String exp = expressions.pop();
         if(is(exp, "ListStart")) {
@@ -62,7 +62,7 @@ public class Interpreter {
         else if(exp.toLowerCase().equals("to")) {
             String name = expressions.pop();
             ExecutableList params = parseParam(expressions);
-            env.getCommandPool().add(name, new CustomizedCommand(params, new ExecutableList()));
+            env.getCommandPool().define(name, params.size());
             To to = new To(name);
             to.addParam(params);
             to.addParam(parse(expressions, env));
@@ -76,7 +76,7 @@ public class Interpreter {
             return command;
         }
         else {
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.ILLEGAL_INPUT);
         }
     }
 
@@ -86,7 +86,7 @@ public class Interpreter {
     
     private ExecutableList parseParam(Deque<String> expressions) {
         if(!is(expressions.pop(), "ListStart")) {
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.MISSING_LIST);
         }
         ExecutableList params = new ExecutableList();
         String exp;
