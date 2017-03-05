@@ -14,6 +14,7 @@ import java.util.function.Predicate;
 import javafx.scene.paint.Color;
 import model.turtle.info.PoolInfo;
 import model.turtle.info.TurtleInfo;
+import util.SLogoException;
 import util.SLogoObservable;
 
 public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
@@ -114,7 +115,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     	activeIndex = -1;
     	for(int id: ids) {
     		if(id <= 0) {
-    			throw new RuntimeException();
+    			throw new SLogoException(SLogoException.ILLEGAL_ID);
     		}
     		if(allTurtles.containsKey(id)) {
     			activeIDs.add(id);
@@ -155,7 +156,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     
     private void validateActive() {
         if(activeIDs.isEmpty()) {
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.NO_ACTIVE_TURTLE);
         }
     }
 }

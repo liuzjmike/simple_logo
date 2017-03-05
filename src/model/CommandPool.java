@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import model.executable.command.Command;
 import util.Constants;
 import util.RegexParser;
+import util.SLogoException;
 import util.SLogoObserver;
 import util.SObservableOrderedMap;
 
@@ -45,8 +46,7 @@ public class CommandPool {
             clazz = Class.forName(resources.getString(command));
             return (Command)clazz.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.INSTANTIATION_ERROR);
         }
     }
     

@@ -12,6 +12,7 @@ import model.executable.command.Command;
 import model.executable.command.CustomizedCommand;
 import model.executable.command.To;
 import util.RegexParser;
+import util.SLogoException;
 
 public class Interpreter {
 	
@@ -42,7 +43,7 @@ public class Interpreter {
     
     private Executable parse(Deque<String> expressions, Environment env) {
         if(expressions.isEmpty()) {
-            throw new RuntimeException();
+        	throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
         }
         String exp = expressions.pop();
         if(is(exp, "ListStart")) {
@@ -76,7 +77,7 @@ public class Interpreter {
             return command;
         }
         else {
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.ILLEGAL_INPUT);
         }
     }
 
@@ -86,7 +87,7 @@ public class Interpreter {
     
     private ExecutableList parseParam(Deque<String> expressions) {
         if(!is(expressions.pop(), "ListStart")) {
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.MISSING_LIST);
         }
         ExecutableList params = new ExecutableList();
         String exp;

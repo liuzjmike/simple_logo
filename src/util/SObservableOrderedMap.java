@@ -11,7 +11,7 @@ public class SObservableOrderedMap<K, V> extends SObservableList<Entry<K, V>> {
                 return entry.getValue();
             }
         }
-        throw new RuntimeException();
+        throw new SLogoException(SLogoException.INVALID_KEY);
     }
     
     public void put(K key, V value) {
