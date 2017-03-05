@@ -41,11 +41,11 @@ public class SLogoModel {
         myEnv.getTurtlePool().removeObserver(so);
     }
     
-    public void addCommandObserver(SLogoObserver<List<Entry<String, Command>>> so) {
-        myEnv.getCommandPool().addUserObserver(so);
+    public void addCommandObserver(SLogoObserver<Map<String, Command>> so) {
+        myEnv.getCommandPool().addObserver(so);
     }
     
-    public void removeCommandObserver(SLogoObserver<List<Entry<String, Command>>> so) {
+    public void removeCommandObserver(SLogoObserver<Map<String, Command>> so) {
         myEnv.getCommandPool().removeObserver(so);
     }
     
@@ -61,7 +61,7 @@ public class SLogoModel {
         return myEnv.getTurtlePool().getTurtles();
     }
     
-    public List<Entry<String, Command>> getCommands() {
+    public Map<String, Command> getCommands() {
         return myEnv.getCommandPool().getUserCommands();
     }
     

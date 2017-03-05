@@ -9,7 +9,6 @@ import model.executable.ExecutableList;
 import model.executable.Literal;
 import model.executable.Variable;
 import model.executable.command.Command;
-import model.executable.command.CustomizedCommand;
 import model.executable.command.To;
 import util.RegexParser;
 
@@ -62,7 +61,7 @@ public class Interpreter {
         else if(exp.toLowerCase().equals("to")) {
             String name = expressions.pop();
             ExecutableList params = parseParam(expressions);
-            env.getCommandPool().add(name, new CustomizedCommand(params, new ExecutableList()));
+            env.getCommandPool().define(name, params.size());
             To to = new To(name);
             to.addParam(params);
             to.addParam(parse(expressions, env));

@@ -28,6 +28,7 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Literal>>> 
     }
     
     public void add(String name, Literal value) {
+        System.out.println(name + " " + value.getValue());
         myStack.getFirst().put(name, value);
         notifyObservers();
     }
