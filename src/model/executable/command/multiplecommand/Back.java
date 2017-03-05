@@ -17,7 +17,7 @@ public class Back extends MultipleCommand {
 
 	@Override
 	protected double concreteExecute(Environment env) {
-		return env.getTurtlePool().applyAll(turtle -> turtle.move(-1*getParamValue(0, env), env.getWidth()/2, env.getHeight()/2));
+		return env.getTurtlePool().applyAll(turtle -> turtle.move(-1*getParamValue(0, env), env.getWidth(), env.getHeight()));
 	}
 
 }

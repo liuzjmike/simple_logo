@@ -27,7 +27,7 @@ public class Interpreter {
     public Executable parse(String commands, Environment env) {
     	Deque<String> dq = new ArrayDeque<>();
     	for (String s : commands.split(typeParser.getRegex("Newline"))) {
-    		s.trim();
+    		s = s.trim();
     		if (is(s, "Comment") || s.isEmpty()) {
     			continue;
     		}
