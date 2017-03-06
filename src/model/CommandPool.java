@@ -46,7 +46,7 @@ public class CommandPool extends SLogoObservable<Map<String, Command>>{
         String command = commandParser.getSymbol(name);
         if(command.equals(RegexParser.NO_MATCH)) {
             if(userCommands.containsKey(name)) {
-                return userCommands.get(name).copy();
+                return userCommands.get(name).newInstance();
             }
             else if(myDefinitions.containsKey(name)) {
                 return new Definition(name, myDefinitions.get(name));

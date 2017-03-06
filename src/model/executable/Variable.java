@@ -20,8 +20,8 @@ public class Variable implements Executable {
 	}
 
 	@Override
-	public void reset() {
-		
+	public Variable copy() {
+		return this;
 	}
 
 }
