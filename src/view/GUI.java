@@ -314,7 +314,7 @@ public class GUI {
 		parameters.put("color", myPoolView.getBackgroundColor().toString());
 		parameters.put("numTurtles", Integer.toString(1));
 		parameters.put("language", myHandler.getLanguage());
-		XMLParserWriter.saveState(fileName, parameters);
+		XMLParserWriter.saveState(fileName, "workspace",parameters);
 	}
 	
 	private File promptUserForFile() {
