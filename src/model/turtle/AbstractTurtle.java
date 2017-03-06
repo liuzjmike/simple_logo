@@ -71,7 +71,6 @@ public abstract class AbstractTurtle implements Turtle {
     public double move(double dist, double width, double height) {
         clearHist();
         move(dist * Math.cos(radianHeading()), dist * Math.sin(radianHeading()), width/2, height/2);
-        System.out.println(myX + " " + myY);
         return dist;
     }
     
@@ -121,10 +120,7 @@ public abstract class AbstractTurtle implements Turtle {
     /*****Rotational movement*****/
     @Override
     public double turn(double degree) {
-        System.out.println("turtle " + degree);
         myHeading = (myHeading + degree) % Constants.ROUND_ANGLE;
-        System.out.println(radianHeading() + " radian");
-        System.out.println(Math.tan(radianHeading()));
         return degree;
     }
 

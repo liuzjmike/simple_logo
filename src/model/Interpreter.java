@@ -76,7 +76,7 @@ public class Interpreter {
             return command;
         }
         else {
-            throw new SLogoException(SLogoException.ILLEGAL_INPUT);
+            throw new SLogoException(SLogoException.ILLEGAL_INPUT, exp);
         }
     }
 

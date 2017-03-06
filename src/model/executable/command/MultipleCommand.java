@@ -21,10 +21,5 @@ public abstract class MultipleCommand extends AbstractCommand {
         }
         return myValue;
     }
-	
-	@Override
-	public void reset() {
-		executed = false;
-	}
 
 }

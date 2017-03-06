@@ -11,6 +11,11 @@ public class To extends AbstractCommand {
 		super(2);
 	    myName = name;
 	}
+	
+	@Override
+	public To newInstance() {
+	    return new To(myName);
+	}
 
 	@Override
 	protected double concreteExecute(Environment env) {

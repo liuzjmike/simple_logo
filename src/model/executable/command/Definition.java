@@ -10,6 +10,11 @@ public class Definition extends AbstractCommand {
         super(numParams);
         myName = name;
     }
+    
+    @Override
+    public Definition newInstance() {
+        return new Definition(myName, numParams());
+    }
 
     @Override
     protected double concreteExecute(Environment env) {

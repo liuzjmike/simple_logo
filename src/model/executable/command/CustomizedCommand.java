@@ -16,8 +16,9 @@ public class CustomizedCommand extends AbstractCommand {
 		myBody = body;
 	}
 	
-	public CustomizedCommand copy() {
-	    return new CustomizedCommand(varParams, myBody);
+	@Override
+	public CustomizedCommand newInstance() {
+	    return new CustomizedCommand(varParams.copy(), myBody.copy());
 	}
 
 	@Override
@@ -29,9 +30,7 @@ public class CustomizedCommand extends AbstractCommand {
 		}
 		Literal ret = new Literal(0);
 		for(Executable exec : myBody) {
-            exec.reset();
 			ret = exec.execute(env);
-			exec.reset();
 		}
 		env.getVariablePool().release();
 		return ret.getValue();
