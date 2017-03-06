@@ -1,14 +1,22 @@
 package view;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import javax.xml.transform.TransformerException;
+
 import controller.ControlHandler;
 import controller.StringProcessor;
 import controller.WorkspaceHandler;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -17,6 +25,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -25,11 +34,13 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.executable.Literal;
 import model.executable.command.Command;
 import model.turtle.info.PoolInfo;
 import util.SLogoObserver;
+import util.XMLParserWriter;
 
 public class GUI {
 	
@@ -45,7 +56,7 @@ public class GUI {
 	
 	private Color backgroundColor;
 	
-	private Command currentCommand;
+//	private Command currentCommand;
 	private ControlHandler myHandler;
 	
 	private StringProcessor myGUIHandler;
@@ -54,7 +65,7 @@ public class GUI {
 	private Stage myStage;
 	
 	public GUI() {
-		myPoolView = new PoolView(900, 480);
+		myPoolView = new PoolView(1050, 600);
 		myConsoleView = new ConsoleView();
 		myVariableView = new VariableView();
 		myCommandView = new CommandView();
@@ -73,12 +84,14 @@ public class GUI {
     
     public void setViewHandler(ControlHandler handler) {
         myGUIHandler = command -> {
+        	if (command.isEmpty()) {
             try {
                 handler.execute(command);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             myConsoleView.addCommandToScreen(command);
+        	}
         };
     	myHandler = handler;
     	myConsoleView.setHandler(myGUIHandler);
@@ -88,8 +101,8 @@ public class GUI {
     
     private GridPane getGridPane() {
     	GridPane root = new GridPane();
-    	root.setPrefHeight(800);
-    	root.setPrefWidth(1200);
+    	root.setPrefHeight(1000);
+    	root.setPrefWidth(1400);
     	
     	ColumnConstraints cons1 = new ColumnConstraints();
     	cons1.setHgrow(Priority.NEVER);
@@ -188,13 +201,25 @@ public class GUI {
 		changeLanguageButton.setOnMouseClicked(onClick -> promptLanguage());
 		Button newWorkspace = new Button("Create New Workspace");
 		newWorkspace.setOnMouseClicked(onClick -> createNewWorkspace());
-		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton,newWorkspace);
+		Button saveState = new Button("Save Workspace Settings");
+//		saveState.setOnMouseClicked(onClick -> saveState());
+		saveState.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				try {
+					saveState();
+				} catch (TransformerException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		Button extractState = new Button("Get Saved Workspace Settings");
+		extractState.setOnMouseClicked(onClick -> extractState());
+		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton,newWorkspace,saveState,extractState);
 		return userBar;
 	}
 	
 	private void createNewWorkspace() {
-//		Workspace workspace = new Workspace();
-//		workspace.start((new Stage()));
 		myWorkspaceHandler.addWorkspace();
 	}
 	
@@ -230,22 +255,28 @@ public class GUI {
 		}
 	}
 	
+	private void addButtons(Alert alert, String[] strings) {
+		for (String str : strings) {
+			ButtonType button = new ButtonType(str);
+			alert.getButtonTypes().add(button);
+		}
+	}
+	
+	private void addCancelButton(Alert alert) {
+		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+		alert.getButtonTypes().add(buttonTypeCancel);
+	}
+	
 	private void promptLanguage() {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Change Language");
 		alert.setHeaderText(null);
 		alert.setContentText("Choose a language");
 		
-		ButtonType buttonTypeChinese = new ButtonType("Chinese");
-		ButtonType buttonTypeEnglish = new ButtonType("English");
-		ButtonType buttonTypeFrench= new ButtonType("French");
-		ButtonType buttonTypeGerman = new ButtonType("German");
-		ButtonType buttonTypeItalian = new ButtonType("Italian");
-		ButtonType buttonTypePortugese = new ButtonType("Portugese");
-		ButtonType buttonTypeRussian = new ButtonType("Russian");
-		ButtonType buttonTypeSpanish = new ButtonType("Spanish");
-		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-		alert.getButtonTypes().setAll(buttonTypeChinese, buttonTypeEnglish, buttonTypeFrench, buttonTypeGerman,buttonTypeItalian,buttonTypePortugese,buttonTypeRussian,buttonTypeSpanish,buttonTypeCancel);
+		String[] buttons = new String[] {"Chinese","English","French","German","Italian","Portugese","Russian","Spanish"};
+		
+		addButtons(alert,buttons);
+		addCancelButton(alert);
 		
 		ButtonType buttonSelected = alert.showAndWait().get();
 		myHandler.setLanguage(buttonSelected.getText());
@@ -258,30 +289,64 @@ public class GUI {
 		alert.setHeaderText(null);
 		alert.setContentText("Choose a color");
 		
-		ButtonType buttonTypeBlue = new ButtonType("Blue");
-		ButtonType buttonTypeBlack = new ButtonType("Black");
-		ButtonType buttonTypeRed = new ButtonType("Red");
-		ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+		String[] buttons = new String[] {"Blue","Black","Red"};
 		
-		alert.getButtonTypes().setAll(buttonTypeBlue, buttonTypeBlack, buttonTypeRed, buttonTypeCancel);
+		addButtons(alert,buttons);
+		addCancelButton(alert);
 		
-		Optional<ButtonType> result = alert.showAndWait();
+		ButtonType result = alert.showAndWait().get();
 		
-		if (result.get() == buttonTypeBlue){
+		if (result.getText().equals("Blue")){
 		    myPoolView.setBackgroundColor(Color.BLUE);
-		} else if (result.get() == buttonTypeBlack) {
+		} else if (result.getText().equals("Black")) {
 			myPoolView.setBackgroundColor(Color.BLACK);
-		} else if (result.get() == buttonTypeRed) {
+		} else if (result.getText().equals("Red")) {
 			myPoolView.setBackgroundColor(Color.RED);
 		} else {
 		    return;
 		}
 		myStage.toFront();
 	}
-	public Command getCurrentCommand() {
-		return currentCommand;
+	
+	private void saveState() throws TransformerException, IOException {
+		String fileName = promptUserForFileName();
+		Map<String,String> parameters = new HashMap<String,String>();
+		parameters.put("color", myPoolView.getBackgroundColor().toString());
+		parameters.put("numTurtles", Integer.toString(1));
+		parameters.put("language", myHandler.getLanguage());
+		XMLParserWriter.saveState(fileName, parameters);
 	}
-	public void setCurrentCommand(Command currentCommand) {
-		this.currentCommand = currentCommand;
+	
+	private File promptUserForFile() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open file");
+		File file = fileChooser.showOpenDialog(new Stage());
+		return file;
+	}
+	
+	private String promptUserForFileName() {
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Select File Name");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Type in the name of the file: ");
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()) {
+			return result.get();
+		}
+		return null;
+	}
+	
+	private void extractState() {
+		File file = promptUserForFile();
+		Map<String,String> parameters = XMLParserWriter.extractState(file);
+		Color color;
+		try {
+		    Field field = Class.forName("javafx.scene.paint.Color").getField(parameters.get("color"));
+		    color = (Color)field.get(null);
+		} catch (Exception e) {
+		    color = null; // Not defined
+		}
+		myPoolView.setBackgroundColor(color);
+		myHandler.setLanguage(parameters.get("language"));
 	}
 }
