@@ -28,6 +28,11 @@ public class SLogoModel {
         myEnv.getCommandPool().setLanguage(language);
     }
     
+    //finish this
+    public String getLanguage() {
+    	return null;
+    }
+    
     public void setSize(double width, double height) {
         myEnv.setWidth(width);
         myEnv.setHeight(height);
