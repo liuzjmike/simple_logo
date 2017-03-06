@@ -1,6 +1,7 @@
 package view;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
@@ -83,12 +84,14 @@ public class GUI {
     
     public void setViewHandler(ControlHandler handler) {
         myGUIHandler = command -> {
+        	if (command.isEmpty()) {
             try {
                 handler.execute(command);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             myConsoleView.addCommandToScreen(command);
+        	}
         };
     	myHandler = handler;
     	myConsoleView.setHandler(myGUIHandler);
@@ -204,7 +207,7 @@ public class GUI {
 			public void handle(ActionEvent event) {
 				try {
 					saveState();
-				} catch (TransformerException e) {
+				} catch (TransformerException | IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -305,7 +308,7 @@ public class GUI {
 		myStage.toFront();
 	}
 	
-	private void saveState() throws TransformerException {
+	private void saveState() throws TransformerException, IOException {
 		String fileName = promptUserForFileName();
 		Map<String,String> parameters = new HashMap<String,String>();
 		parameters.put("color", myPoolView.getBackgroundColor().toString());
