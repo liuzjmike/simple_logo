@@ -24,6 +24,10 @@ public class Workspace {
         public void setLanguage(String language) {
             mySLogoModel.setLanguage(language);
         }
+        
+        public String getLanguage() {
+        	return mySLogoModel.getLanguage();
+        }
 	    
 	});
 	setUpObservers();

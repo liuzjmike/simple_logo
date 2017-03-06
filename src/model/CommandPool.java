@@ -23,6 +23,8 @@ public class CommandPool extends SLogoObservable<Map<String, Command>>{
     private Map<String, Integer> myDefinitions;
     private RegexParser commandParser;
     
+    private String myLanguage;
+    
     public CommandPool() {
         userCommands = new HashMap<>();
         myDefinitions = new HashMap<>();

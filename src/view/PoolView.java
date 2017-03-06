@@ -76,4 +76,10 @@ public class PoolView implements SLogoObserver<PoolInfo> {
 		setTurtle(arg.getTurtles());
 		drawTurtle();
 	}
+	
+	public Color getBackgroundColor() {
+		return (Color) myPane.getBackground().getFills().get(0).getFill();
+	}
+	
+
 }
