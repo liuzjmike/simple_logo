@@ -339,14 +339,7 @@ public class GUI {
 	private void extractState() {
 		File file = promptUserForFile();
 		Map<String,String> parameters = XMLParserWriter.extractState(file);
-		Color color;
-		try {
-		    Field field = Class.forName("javafx.scene.paint.Color").getField(parameters.get("color"));
-		    color = (Color)field.get(null);
-		} catch (Exception e) {
-		    color = null; // Not defined
-		}
-		myPoolView.setBackgroundColor(color);
+		myPoolView.setBackgroundColor(Color.web(parameters.get("color")));
 		myHandler.setLanguage(parameters.get("language"));
 	}
 }
