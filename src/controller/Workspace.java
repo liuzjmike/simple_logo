@@ -26,8 +26,7 @@ public class Workspace {
         }
         
         public String getLanguage() {
-        	return "English";
-//        	return mySLogoModel.getLanguage();
+        	return mySLogoModel.getLanguage();
         }
 	    
 	});
