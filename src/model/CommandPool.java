@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import model.executable.command.Command;
-import model.executable.command.CustomizedCommand;
 import model.executable.command.Definition;
 import util.Constants;
 import util.RegexParser;
@@ -19,7 +18,7 @@ public class CommandPool extends SLogoObservable<Map<String, Command>>{
     public static final String DEFAULT_CLASSPATH_FILE = "Classpath";
     public static final String DEFAULT_LANGUAGE = "English";
     
-    private Map<String, CustomizedCommand> userCommands;
+    private Map<String, Command> userCommands;
     private Map<String, Integer> myDefinitions;
     private RegexParser commandParser;
     
@@ -32,7 +31,7 @@ public class CommandPool extends SLogoObservable<Map<String, Command>>{
         setLanguage(DEFAULT_LANGUAGE);
     }
     
-    public void add(String name, CustomizedCommand command) {
+    public void add(String name, Command command) {
         userCommands.put(name, command);
         myDefinitions.remove(name);
     }
@@ -67,7 +66,12 @@ public class CommandPool extends SLogoObservable<Map<String, Command>>{
     }
     
     void setLanguage(String language) {
+        myLanguage = language;
         commandParser.setPattern(DEFAULT_LANGUAGE_SUBPACKAGE + language);
+    }
+    
+    String getLanguage() {
+        return myLanguage;
     }
     
     Map<String, Command> getUserCommands() {
