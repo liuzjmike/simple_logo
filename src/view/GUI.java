@@ -2,7 +2,6 @@ package view;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +38,7 @@ import javafx.stage.Stage;
 import model.executable.Literal;
 import model.executable.command.Command;
 import model.turtle.info.PoolInfo;
+import util.SLogoException;
 import util.SLogoObserver;
 import util.XMLParserWriter;
 
@@ -56,7 +56,6 @@ public class GUI {
 	
 	private Color backgroundColor;
 	
-//	private Command currentCommand;
 	private ControlHandler myHandler;
 	
 	private StringProcessor myGUIHandler;
@@ -82,9 +81,9 @@ public class GUI {
     	stage.show();
 	}
     
-    public void setViewHandler(ControlHandler handler) {
+    public void setHandlers(ControlHandler handler) {
         myGUIHandler = command -> {
-        	if (command.isEmpty()) {
+        	if (!command.isEmpty()) {
             try {
                 handler.execute(command);
             } catch (Exception e) {
@@ -202,13 +201,11 @@ public class GUI {
 		Button newWorkspace = new Button("Create New Workspace");
 		newWorkspace.setOnMouseClicked(onClick -> createNewWorkspace());
 		Button saveState = new Button("Save Workspace Settings");
-//		saveState.setOnMouseClicked(onClick -> saveState());
 		saveState.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				try {
 					saveState();
 				} catch (TransformerException | IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -228,30 +225,11 @@ public class GUI {
 	}
 	
 	private void promptForReference() {
-		class HelpViewer extends Application {
-			   private WebEngine webEngine;
-			   private WebView   webView;
-			@Override
-			public void start(Stage primaryStage) throws Exception {
-				// TODO Auto-generated method stub
-				 webView = new WebView();
-			      webView.setVisible(true);
-			      webEngine = webView.getEngine();
-			      webEngine.setJavaScriptEnabled(true);
-			      webEngine.load(getClass().getClassLoader().getResource("reference.html").toExternalForm());
-			      Scene scene = new Scene(webView, 500, 300);
-			      primaryStage.setTitle("Commands Reference");
-			      primaryStage.setScene(scene);
-			      primaryStage.show();
-			}
-		}
-		
 		HelpViewer myHelpViewer = new HelpViewer();
 		try {
 			myHelpViewer.start(new Stage());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new SLogoException(SLogoException.HELP_VIEWER_FAILED);
 		}
 	}
 	
@@ -303,7 +281,7 @@ public class GUI {
 		} else if (result.getText().equals("Red")) {
 			myPoolView.setBackgroundColor(Color.RED);
 		} else {
-		    return;
+		    throw new SLogoException(SLogoException.INVALID_COLOR_BUTTON);
 		}
 		myStage.toFront();
 	}
