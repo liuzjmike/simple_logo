@@ -20,15 +20,29 @@ public abstract class AbstractCommand implements Command {
     
     @Override
     public Literal execute(Environment env) {
-        if(myParams.size() != numParams()) {
+        //TODO: Unlimited Parameters
+        if(myParams.size() % numParams() != 0) {
             throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
         }
         return new Literal(concreteExecute(env));
     }
     
     @Override
-    public void reset() {
-    	myParams.forEach(exec -> exec.reset());
+    public Command copy() {
+        Command ret = newInstance();
+    	myParams.forEach(exec -> ret.addParam(exec.copy()));
+    	return ret;
+    }
+    
+    @Override
+    public Command newInstance() {
+        try {
+            return getClass().newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
     
     @Override
@@ -38,9 +52,6 @@ public abstract class AbstractCommand implements Command {
     
     @Override
     public void addParam(Executable exec) {
-        if(myParams.size() >= numParams()) {
-        	throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
-        }
         myParams.add(exec);
     }
     

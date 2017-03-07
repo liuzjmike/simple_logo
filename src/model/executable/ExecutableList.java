@@ -48,8 +48,10 @@ public class ExecutableList implements Executable, Iterable<Executable> {
     }
     
     @Override
-    public void reset() {
-    	this.forEach(exec -> exec.reset());
+    public ExecutableList copy() {
+        ExecutableList ret = new ExecutableList();
+        myExecs.forEach(exec -> ret.myExecs.add(exec.copy()));
+        return ret;
     }
 
 	@Override

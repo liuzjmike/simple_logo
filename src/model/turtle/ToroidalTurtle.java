@@ -8,11 +8,8 @@ public class ToroidalTurtle extends AbstractTurtle {
     
     @Override
     protected void move(double dx, double dy, double wRadius, double hRadius) {
-        System.out.println(dx);
-        System.out.println(radianHeading());
         double newX = getX() + dx;
         double newY = getY() + dx * Math.tan(radianHeading());
-        System.out.println(newY);
         if(inBounds(newX, newY, wRadius, hRadius)) {
             moveOn(newX, newY, getPen().isDown());
             return;

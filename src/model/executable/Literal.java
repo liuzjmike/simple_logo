@@ -16,8 +16,8 @@ public class Literal implements Executable {
 	}
 
 	@Override
-	public void reset() {
-		
+	public Literal copy() {
+		return this;
 	}
 	
 	public double getValue() {
