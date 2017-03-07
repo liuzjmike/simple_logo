@@ -13,7 +13,7 @@ public class Workspace {
 	
 	myGUI = new GUI();
 	mySLogoModel = new SLogoModel(myGUI.getPoolViewWidth(), myGUI.getPoolViewHeight());
-	myGUI.setViewHandler(new ControlHandler() {
+	myGUI.setHandlers(new ControlHandler() {
 
         @Override
         public void execute(String command) {
@@ -38,8 +38,6 @@ public class Workspace {
 		stage.setResizable(false);
 	}
 	
-	
-    
     private void setUpObservers() {
     	mySLogoModel.addPoolObserver(myGUI.getPoolObserver());
     	mySLogoModel.addVariableObserver(myGUI.getVariableObserver());
