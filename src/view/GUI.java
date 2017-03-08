@@ -63,6 +63,8 @@ public class GUI {
 	
 	private Stage myStage;
 	
+	public enum FileType {COMMANDS,SAVED_STATE}
+	
 	public GUI() {
 		myPoolView = new PoolView(1050, 600);
 		myConsoleView = new ConsoleView();
@@ -119,12 +121,14 @@ public class GUI {
     	rcons1.setPercentHeight(60);
     	RowConstraints rcons2 = new RowConstraints();
     	rcons2.setVgrow(Priority.NEVER); 
-    	rcons2.setPercentHeight(35);
-    	
+    	rcons2.setPercentHeight(30);
     	RowConstraints rcons3 = new RowConstraints();
     	rcons3.setVgrow(Priority.NEVER);  
     	rcons3.setPercentHeight(5);
-    	root.getRowConstraints().addAll(rcons1, rcons2, rcons3);
+    	RowConstraints rcons4 = new RowConstraints();
+    	rcons4.setVgrow(Priority.NEVER);  
+    	rcons4.setPercentHeight(5);
+    	root.getRowConstraints().addAll(rcons1, rcons2, rcons3,rcons4);
     	
     	root.add(getPoolViewNode(), poolViewCol, poolViewRow,1,1);
     	
@@ -134,7 +138,8 @@ public class GUI {
     	
     	root.add(getVariableViewNode(),1, 1,1,2);
     	
-    	root.add(getUserBar(), 0, 2,1,1);
+    	root.add(getUserBar1(), 0, 2,1,1);
+    	root.add(getUserBar2(), 0, 3,1,1);
     	return root;
     }
     
@@ -190,7 +195,7 @@ public class GUI {
     	return myConsoleView.getActiveText();
     }
 	
-	public HBox getUserBar() {
+	public HBox getUserBar1() {
 		HBox userBar = new HBox();
 		userBar.setAlignment(Pos.CENTER_LEFT);
 		Button changeColorButton = new Button("Change Background Color");
@@ -199,6 +204,14 @@ public class GUI {
 		showReferenceButton.setOnMouseClicked(onClick -> promptForReference());
 		Button changeLanguageButton = new Button("Change Language");
 		changeLanguageButton.setOnMouseClicked(onClick -> promptLanguage());
+		
+		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton);
+		return userBar;
+	}
+	
+	public HBox getUserBar2() {
+		HBox userBar = new HBox();
+		userBar.setAlignment(Pos.CENTER_LEFT);
 		Button newWorkspace = new Button("Create New Workspace");
 		newWorkspace.setOnMouseClicked(onClick -> createNewWorkspace());
 		Button saveState = new Button("Save Workspace Settings");
@@ -213,7 +226,9 @@ public class GUI {
 		});
 		Button extractState = new Button("Get Saved Workspace Settings");
 		extractState.setOnMouseClicked(onClick -> extractState());
-		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton,newWorkspace,saveState,extractState);
+		Button readCommandsFromFile = new Button("Read Commands From File");
+		readCommandsFromFile.setOnAction(onClick -> executeCommandsFromFile());
+		userBar.getChildren().addAll(newWorkspace,saveState,extractState,readCommandsFromFile);
 		return userBar;
 	}
 	
@@ -292,7 +307,7 @@ public class GUI {
 		Map<String,String> parameters = new HashMap<String,String>();
 		parameters.put("color", myPoolView.getBackgroundColor().toString());
 		parameters.put("language", myHandler.getLanguage());
-		XMLParserWriter.saveState(fileName, "workspace",parameters);
+		XMLParserWriter.saveState(fileName, "workspace",parameters,"SavedStates");
 	}
 	
 	private File promptUserForFile() {
@@ -314,10 +329,22 @@ public class GUI {
 		return null;
 	}
 	
-	private void extractState() {
+	private Map<String,String> getFileContents(boolean orderMatters) {
 		File file = promptUserForFile();
-		Map<String,String> parameters = XMLParserWriter.extractState(file);
+		return XMLParserWriter.extractContent(file,orderMatters);
+	}
+	
+	private void extractState() {
+		Map<String,String> parameters = getFileContents(false);
 		myPoolView.setBackgroundColor(Color.web(parameters.get("color")));
 		myHandler.setLanguage(parameters.get("language"));
 	}
+	
+	public void executeCommandsFromFile() {
+		Map<String,String> commands = getFileContents(true);
+		for (String command : commands.keySet()) {
+			myConsoleView.addCommandToScreen(commands.get(command));
+			myHandler.execute(commands.get(command));
+		}
+		}
 }

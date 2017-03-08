@@ -74,7 +74,6 @@ public class PoolView implements SLogoObserver<PoolInfo> {
     	}
 	}
     
-   
     
     public void drawTurtle(){
     	for(Integer id: myTurtles.keySet()){
