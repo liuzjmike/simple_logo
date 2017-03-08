@@ -96,6 +96,7 @@ public class GUI {
     	myConsoleView.setHandler(myGUIHandler);
     	myCommandView.setHandler(myGUIHandler);
     	myVariableView.setHandler(myGUIHandler);
+    	myPoolView.setHandler(myGUIHandler);
     }
     
     private GridPane getGridPane() {
@@ -225,7 +226,7 @@ public class GUI {
 	}
 	
 	private void promptForReference() {
-		HelpViewer myHelpViewer = new HelpViewer();
+		HelpViewer myHelpViewer = new HelpViewer("reference.html");
 		try {
 			myHelpViewer.start(new Stage());
 		} catch (Exception e) {
@@ -290,7 +291,6 @@ public class GUI {
 		String fileName = promptUserForFileName();
 		Map<String,String> parameters = new HashMap<String,String>();
 		parameters.put("color", myPoolView.getBackgroundColor().toString());
-		parameters.put("numTurtles", Integer.toString(1));
 		parameters.put("language", myHandler.getLanguage());
 		XMLParserWriter.saveState(fileName, "workspace",parameters);
 	}

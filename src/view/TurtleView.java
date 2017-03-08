@@ -3,6 +3,7 @@ package view;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.StringProcessor;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
 import model.turtle.TurtleHist;
@@ -19,9 +20,11 @@ public class TurtleView {
 	private List<Line> myLines;
 	private LineDrawer lineDrawer; 
 	private double xOffset, yOffset;
+	
+	private StringProcessor myHandler;
 
 	public TurtleView(ImageView image, TurtleInfo turtle, LineDrawer lineDrawer,
-	        double xOffset, double yOffset) {
+	        double xOffset, double yOffset,StringProcessor handler) {
 		setImage(image);
 		setHeading(turtle.getHeading());
 		setSize(DEFAULT_HEIGHT, DEFAULT_WIDTH);
@@ -31,6 +34,7 @@ public class TurtleView {
 		this.lineDrawer = lineDrawer;
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
+		myHandler = handler;
 	}
     
     public void update(){
@@ -87,6 +91,10 @@ public class TurtleView {
     
     private double transformY(double y) {
         return - y + yOffset;
+    }
+    
+    public ImageView getImageView() {
+    	return myImage;
     }
     
 }
