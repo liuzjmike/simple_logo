@@ -26,6 +26,9 @@ public class TurtleView {
 	double orgSceneX,orgSceneY;
 	double orgTranslateX, orgTranslateY;
 	
+	 double newTranslateX;
+     double newTranslateY;
+	
 	private StringProcessor myHandler;
 
 	public TurtleView(ImageView image, TurtleInfo turtle, LineDrawer lineDrawer,
@@ -63,13 +66,12 @@ public class TurtleView {
 	            public void handle(MouseEvent t) {
 	                double offsetX = t.getSceneX() - orgSceneX;
 	                double offsetY = t.getSceneY() - orgSceneY;
-	                double newTranslateX = orgTranslateX + offsetX;
-	                double newTranslateY = orgTranslateY + offsetY;
+	                newTranslateX = orgTranslateX + offsetX;
+	                newTranslateY = orgTranslateY + offsetY;
 	                 
 	                ((ImageView)(t.getSource())).setTranslateX(newTranslateX);
 	                ((ImageView)(t.getSource())).setTranslateY(newTranslateY);
-	                
-	                
+
 	            }
 	        };
 	        
@@ -78,10 +80,7 @@ public class TurtleView {
 
 						@Override
 						public void handle(MouseEvent t) {
-							double x = imageView.getX();
-							double y = imageView.getY();
-							myHandler.execute("setxy "+x+" "+y);
-							
+							myHandler.execute("setxy "+newTranslateX+" "+newTranslateY);
 						}
 	        	
 	        };
