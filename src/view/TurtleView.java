@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.StringProcessor;
+import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 import model.turtle.TurtleHist;
 import model.turtle.info.TurtleInfo;
@@ -21,6 +23,9 @@ public class TurtleView {
 	private LineDrawer lineDrawer; 
 	private double xOffset, yOffset;
 	
+	double orgSceneX,orgSceneY;
+	double orgTranslateX, orgTranslateY;
+	
 	private StringProcessor myHandler;
 
 	public TurtleView(ImageView image, TurtleInfo turtle, LineDrawer lineDrawer,
@@ -35,7 +40,56 @@ public class TurtleView {
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 		myHandler = handler;
+		addDragAndDropHandler(myImage);
 	}
+	
+	 private void addDragAndDropHandler(ImageView imageView) {
+	    	
+	    	EventHandler<MouseEvent> onMousePressedHandler = new EventHandler<MouseEvent>() {
+	    		 
+	            @Override
+	            public void handle(MouseEvent t) {
+	                orgSceneX = t.getSceneX();
+	                orgSceneY = t.getSceneY();
+	                orgTranslateX = ((ImageView)(t.getSource())).getTranslateX();
+	                orgTranslateY = ((ImageView)(t.getSource())).getTranslateY();
+	            }
+	        };
+	        
+	        EventHandler<MouseEvent> onMouseDraggedHandler = 
+	                new EventHandler<MouseEvent>() {
+	        	 
+	            @Override
+	            public void handle(MouseEvent t) {
+	                double offsetX = t.getSceneX() - orgSceneX;
+	                double offsetY = t.getSceneY() - orgSceneY;
+	                double newTranslateX = orgTranslateX + offsetX;
+	                double newTranslateY = orgTranslateY + offsetY;
+	                 
+	                ((ImageView)(t.getSource())).setTranslateX(newTranslateX);
+	                ((ImageView)(t.getSource())).setTranslateY(newTranslateY);
+	                
+	                
+	            }
+	        };
+	        
+	        EventHandler<MouseEvent> onMouseReleasedHandler = 
+	        		new EventHandler<MouseEvent>() {
+
+						@Override
+						public void handle(MouseEvent t) {
+							double x = imageView.getX();
+							double y = imageView.getY();
+							myHandler.execute("setxy "+x+" "+y);
+							
+						}
+	        	
+	        };
+	        
+	        imageView.setOnMousePressed(onMousePressedHandler);
+	        imageView.setOnMouseDragged(onMouseDraggedHandler);
+	        imageView.setOnMouseReleased(onMouseReleasedHandler);
+	    }
     
     public void update(){
         setVisible(myTurtle.isVisible());

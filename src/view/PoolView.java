@@ -36,8 +36,7 @@ public class PoolView implements SLogoObserver<PoolInfo> {
 	
 	private StringProcessor myHandler;
 	
-	double orgSceneX,orgSceneY;
-	double orgTranslateX, orgTranslateY;
+	
 	
 	public PoolView(double width, double height){
 		myTurtles = new HashMap<Integer,TurtleView>();
@@ -69,60 +68,13 @@ public class PoolView implements SLogoObserver<PoolInfo> {
     			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
     			TurtleView turtle = new TurtleView(turtleImage, turtles.get(key),
     			        lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2,myHandler);
-    			addDragAndDropHandler(turtle.getImageView());
     			myTurtles.put(key, turtle);
         		myPane.getChildren().add(turtleImage);
     		}
     	}
 	}
     
-    private void addDragAndDropHandler(ImageView imageView) {
-    	
-    	EventHandler<MouseEvent> onMousePressedHandler = new EventHandler<MouseEvent>() {
-    		 
-            @Override
-            public void handle(MouseEvent t) {
-                orgSceneX = t.getSceneX();
-                orgSceneY = t.getSceneY();
-                orgTranslateX = ((ImageView)(t.getSource())).getTranslateX();
-                orgTranslateY = ((ImageView)(t.getSource())).getTranslateY();
-            }
-        };
-        
-        EventHandler<MouseEvent> onMouseDraggedHandler = 
-                new EventHandler<MouseEvent>() {
-        	 
-            @Override
-            public void handle(MouseEvent t) {
-                double offsetX = t.getSceneX() - orgSceneX;
-                double offsetY = t.getSceneY() - orgSceneY;
-                double newTranslateX = orgTranslateX + offsetX;
-                double newTranslateY = orgTranslateY + offsetY;
-                 
-                ((ImageView)(t.getSource())).setTranslateX(newTranslateX);
-                ((ImageView)(t.getSource())).setTranslateY(newTranslateY);
-                
-                
-            }
-        };
-        
-        EventHandler<MouseEvent> onMouseReleasedHandler = 
-        		new EventHandler<MouseEvent>() {
-
-					@Override
-					public void handle(MouseEvent t) {
-						double x = imageView.getX();
-						double y = imageView.getY();
-						myHandler.execute("setxy "+x+" "+y);
-						
-					}
-        	
-        };
-        
-        imageView.setOnMousePressed(onMousePressedHandler);
-        imageView.setOnMouseDragged(onMouseDraggedHandler);
-        imageView.setOnMouseReleased(onMouseReleasedHandler);
-    }
+   
     
     public void drawTurtle(){
     	for(Integer id: myTurtles.keySet()){
