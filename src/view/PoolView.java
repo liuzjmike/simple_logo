@@ -4,9 +4,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import controller.StringProcessor;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -25,6 +33,11 @@ public class PoolView implements SLogoObserver<PoolInfo> {
 	private Pane myPane;
 	private Map<Integer, TurtleView> myTurtles;
 	private LineDrawer lineDrawer;
+	
+	private StringProcessor myHandler;
+	
+	double orgSceneX,orgSceneY;
+	double orgTranslateX, orgTranslateY;
 	
 	public PoolView(double width, double height){
 		myTurtles = new HashMap<Integer,TurtleView>();
@@ -46,16 +59,70 @@ public class PoolView implements SLogoObserver<PoolInfo> {
 		myPane.setPrefHeight(height);
 	}
 	
+	public void setHandler(StringProcessor handler) {
+		myHandler = handler;
+	}
+	
     public void setTurtle(Map<Integer, TurtleInfo> turtles) {
     	for(int key: turtles.keySet()){
     		if(!myTurtles.containsKey(key)){
     			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
-    			myTurtles.put(key, new TurtleView(turtleImage, turtles.get(key),
-    			        lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2));
+    			TurtleView turtle = new TurtleView(turtleImage, turtles.get(key),
+    			        lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2,myHandler);
+    			addDragAndDropHandler(turtle.getImageView());
+    			myTurtles.put(key, turtle);
         		myPane.getChildren().add(turtleImage);
     		}
     	}
 	}
+    
+    private void addDragAndDropHandler(ImageView imageView) {
+    	
+    	EventHandler<MouseEvent> onMousePressedHandler = new EventHandler<MouseEvent>() {
+    		 
+            @Override
+            public void handle(MouseEvent t) {
+                orgSceneX = t.getSceneX();
+                orgSceneY = t.getSceneY();
+                orgTranslateX = ((ImageView)(t.getSource())).getTranslateX();
+                orgTranslateY = ((ImageView)(t.getSource())).getTranslateY();
+            }
+        };
+        
+        EventHandler<MouseEvent> onMouseDraggedHandler = 
+                new EventHandler<MouseEvent>() {
+        	 
+            @Override
+            public void handle(MouseEvent t) {
+                double offsetX = t.getSceneX() - orgSceneX;
+                double offsetY = t.getSceneY() - orgSceneY;
+                double newTranslateX = orgTranslateX + offsetX;
+                double newTranslateY = orgTranslateY + offsetY;
+                 
+                ((ImageView)(t.getSource())).setTranslateX(newTranslateX);
+                ((ImageView)(t.getSource())).setTranslateY(newTranslateY);
+                
+                
+            }
+        };
+        
+        EventHandler<MouseEvent> onMouseReleasedHandler = 
+        		new EventHandler<MouseEvent>() {
+
+					@Override
+					public void handle(MouseEvent t) {
+						double x = imageView.getX();
+						double y = imageView.getY();
+						myHandler.execute("setxy "+x+" "+y);
+						
+					}
+        	
+        };
+        
+        imageView.setOnMousePressed(onMousePressedHandler);
+        imageView.setOnMouseDragged(onMouseDraggedHandler);
+        imageView.setOnMouseReleased(onMouseReleasedHandler);
+    }
     
     public void drawTurtle(){
     	for(Integer id: myTurtles.keySet()){
