@@ -15,7 +15,17 @@ import util.SLogoException;
 
 public class Interpreter {
 	
-	public static final String DEFAULT_SYNTAX = "Syntax";
+    public static final String DEFAULT_SYNTAX = "Syntax";
+    
+	public static final String NEWLINE = "Newline";
+    private static final String WHITESPACE = "Whitespace";
+    private static final String COMMENT = "Comment";
+    private static final String LIST_START = "ListStart";
+    private static final String LIST_END = "ListEnd";
+    private static final String CONSTANT = "Constant";
+    private static final String VARIABLE = "Variable";
+    private static final String COMMAND = "Command";
+    private static final String TO = "to";
 	
 	private RegexParser typeParser;
 	
@@ -26,12 +36,12 @@ public class Interpreter {
     
     public Executable parse(String commands, Environment env) {
     	Deque<String> dq = new ArrayDeque<>();
-    	for (String s : commands.split(typeParser.getRegex("Newline"))) {
+    	for (String s : commands.split(typeParser.getRegex(NEWLINE))) {
     		s = s.trim();
-    		if (is(s, "Comment") || s.isEmpty()) {
+    		if (is(s, COMMENT) || s.isEmpty()) {
     			continue;
     		}
-    		dq.addAll(Arrays.asList(s.split(typeParser.getRegex("Whitespace"))));
+    		dq.addAll(Arrays.asList(s.split(typeParser.getRegex(WHITESPACE))));
     	}
     	ExecutableList ret = new ExecutableList();
     	while(!dq.isEmpty()) {
@@ -45,21 +55,21 @@ public class Interpreter {
         	throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
         }
         String exp = expressions.pop();
-        if(is(exp, "ListStart")) {
+        if(is(exp, LIST_START)) {
             ExecutableList ret = new ExecutableList();
-            while(!is(expressions.peek(), "ListEnd")) {
+            while(!is(expressions.peek(), LIST_END)) {
                 ret.add(parse(expressions, env));
             }
             expressions.pop();
             return ret;
         }
-        else if(is(exp, "Variable")) {
+        else if(is(exp, VARIABLE)) {
             return new Variable(exp);
         } 
-        else if (is(exp, "Constant")) {
+        else if (is(exp, CONSTANT)) {
             return new Literal(Double.parseDouble(exp));
         }
-        else if(exp.toLowerCase().equals("to")) {
+        else if(exp.toLowerCase().equals(TO)) {
             String name = expressions.pop();
             ExecutableList params = parseParam(expressions);
             env.getCommandPool().define(name, params.size());
@@ -68,7 +78,7 @@ public class Interpreter {
             to.addParam(parse(expressions, env));
             return to;
         }
-        else if(is(exp, "Command")) {
+        else if(is(exp, COMMAND)) {
             Command command = env.getCommandPool().getCommand(exp);
             for(int i = 0; i < command.numParams(); i++) {
                 command.addParam(parse(expressions, env));
@@ -85,12 +95,12 @@ public class Interpreter {
     }
     
     private ExecutableList parseParam(Deque<String> expressions) {
-        if(!is(expressions.pop(), "ListStart")) {
+        if(!is(expressions.pop(), LIST_START)) {
             throw new SLogoException(SLogoException.MISSING_LIST);
         }
         ExecutableList params = new ExecutableList();
         String exp;
-        while(!is((exp = expressions.pop()), "ListEnd")) {
+        while(!is((exp = expressions.pop()), LIST_END)) {
             params.add(new Variable(exp));
         }
         return params;

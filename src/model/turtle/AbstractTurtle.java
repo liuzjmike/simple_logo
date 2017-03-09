@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import model.turtle.info.PenInfo;
+import model.info.PenInfo;
 import util.Constants;
 
 public abstract class AbstractTurtle implements Turtle {
@@ -28,7 +28,7 @@ public abstract class AbstractTurtle implements Turtle {
         isReset = false;
         myPen = pen;
         lastMove = new ArrayList<TurtleHist>();
-        lastMove.add(new TurtleHist(myX, myY, myPen.isDown()));
+        logHist();
     }
 
     @Override
@@ -114,6 +114,10 @@ public abstract class AbstractTurtle implements Turtle {
     
     private void clearHist() {
         lastMove.clear();
+        logHist();
+    }
+    
+    private void logHist() {
         lastMove.add(new TurtleHist(myX, myY, myPen.isDown()));
     }
 

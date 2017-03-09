@@ -1,8 +1,8 @@
 package view;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 
-import controller.StringProcessor;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -19,7 +19,7 @@ public class VariableView implements SLogoObserver<List<Entry<String, Literal>>>
 	VBox vBox;
 	ScrollPane myPane;
 	
-	StringProcessor myHandler;
+	Consumer<String> myHandler;
 	
 	public VariableView() {
 		vBox = new VBox();
@@ -28,7 +28,7 @@ public class VariableView implements SLogoObserver<List<Entry<String, Literal>>>
 		vBox.getChildren().add(text);
 	}
     
-    public void setHandler(StringProcessor handler) {
+    public void setHandler(Consumer<String> handler) {
         myHandler = handler;
     }
 
@@ -54,7 +54,7 @@ public class VariableView implements SLogoObserver<List<Entry<String, Literal>>>
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
 		        	try {
-		        		myHandler.execute(getExecuteString(newValueText.getText(),entry));
+		        		myHandler.accept(getExecuteString(newValueText.getText(),entry));
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

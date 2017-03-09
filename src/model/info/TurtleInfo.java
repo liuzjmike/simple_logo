@@ -1,4 +1,4 @@
-package model.turtle.info;
+package model.info;
 
 import java.util.List;
 

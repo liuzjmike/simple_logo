@@ -2,17 +2,16 @@ package view;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import javax.xml.transform.TransformerException;
 
 import controller.ControlHandler;
-import controller.StringProcessor;
 import controller.WorkspaceHandler;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -38,7 +37,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.executable.Literal;
 import model.executable.command.Command;
-import model.turtle.info.PoolInfo;
+import model.info.PoolInfo;
 import util.SLogoObserver;
 import util.XMLParserWriter;
 
@@ -59,7 +58,7 @@ public class GUI {
 //	private Command currentCommand;
 	private ControlHandler myHandler;
 	
-	private StringProcessor myGUIHandler;
+	private Consumer<String> myGUIHandler;
 	private WorkspaceHandler myWorkspaceHandler;
 	
 	private Stage myStage;
@@ -84,14 +83,14 @@ public class GUI {
     
     public void setViewHandler(ControlHandler handler) {
         myGUIHandler = command -> {
-        	if (command.isEmpty()) {
-            try {
-                handler.execute(command);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (!command.isEmpty()) {
+                try {
+                    handler.accept(command);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                myConsoleView.addCommandToScreen(command);
             }
-            myConsoleView.addCommandToScreen(command);
-        	}
         };
     	myHandler = handler;
     	myConsoleView.setHandler(myGUIHandler);

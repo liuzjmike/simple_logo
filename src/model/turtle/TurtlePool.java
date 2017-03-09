@@ -12,8 +12,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import javafx.scene.paint.Color;
-import model.turtle.info.PoolInfo;
-import model.turtle.info.TurtleInfo;
+import model.info.PoolInfo;
+import model.info.TurtleInfo;
 import util.SLogoException;
 import util.SLogoObservable;
 
@@ -66,7 +66,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     
     public void applyPen(Consumer<Pen> consumer) {
         allTurtles.values().forEach(turtle -> consumer.accept(turtle.getPen()));
-        defaultPen = getActiveTurtle().getPen().clone();
+        defaultPen = getActiveTurtle().getPen().copy();
         notifyObservers();
     }
     
@@ -86,7 +86,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     	return allTurtles.size();
     }
     
-    public void switchTurtle() {
+    private void switchTurtle() {
         validateActive();
     	++activeIndex;
     	activeIndex %= activeIDs.size();

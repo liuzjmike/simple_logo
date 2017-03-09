@@ -5,8 +5,8 @@ import java.util.List;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
+import model.info.TurtleInfo;
 import model.turtle.TurtleHist;
-import model.turtle.info.TurtleInfo;
 import util.Constants;
 
 public class TurtleView {
@@ -42,7 +42,8 @@ public class TurtleView {
             TurtleHist oldHist = lastMove.get(i), newHist = lastMove.get(i+1);
             newHist = lastMove.get(i+1);
             if(oldHist.penDown()) {
-                Line line = myTurtle.getPenInfo().drawLine(transformX(oldHist.getX()),
+                Line line = myTurtle.getPenInfo().drawLine(
+                                                           transformX(oldHist.getX()),
                                                            transformY(oldHist.getY()),
                                                            transformX(newHist.getX()), 
                                                            transformY(newHist.getY()));

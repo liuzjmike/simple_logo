@@ -6,8 +6,8 @@ import java.util.Map.Entry;
 
 import model.executable.Literal;
 import model.executable.command.Command;
-import model.turtle.info.PoolInfo;
-import model.turtle.info.TurtleInfo;
+import model.info.PoolInfo;
+import model.info.TurtleInfo;
 import util.SLogoObserver;
 
 public class SLogoModel {

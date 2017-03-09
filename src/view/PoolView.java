@@ -13,8 +13,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import model.turtle.info.PoolInfo;
-import model.turtle.info.TurtleInfo;
+import model.info.PoolInfo;
+import model.info.TurtleInfo;
 import util.SLogoObserver;
 
 public class PoolView implements SLogoObserver<PoolInfo> {
