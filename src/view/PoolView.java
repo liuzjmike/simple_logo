@@ -3,6 +3,7 @@ package view;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -26,6 +27,8 @@ public class PoolView implements SLogoObserver<PoolInfo> {
 	private Map<Integer, TurtleView> myTurtles;
 	private LineDrawer lineDrawer;
 	
+	private Consumer<String> myHandler;
+		
 	public PoolView(double width, double height){
 		myTurtles = new HashMap<Integer,TurtleView>();
 		myPane = new Pane();
@@ -46,16 +49,22 @@ public class PoolView implements SLogoObserver<PoolInfo> {
 		myPane.setPrefHeight(height);
 	}
 	
+	public void setHandler(Consumer<String> handler) {
+		myHandler = handler;
+	}
+	
     public void setTurtle(Map<Integer, TurtleInfo> turtles) {
     	for(int key: turtles.keySet()){
     		if(!myTurtles.containsKey(key)){
     			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
-    			myTurtles.put(key, new TurtleView(turtleImage, turtles.get(key),
-    			        lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2));
+    			TurtleView turtle = new TurtleView(turtleImage, turtles.get(key),
+    			        lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2, myHandler);
+    			myTurtles.put(key, turtle);
         		myPane.getChildren().add(turtleImage);
     		}
     	}
 	}
+    
     
     public void drawTurtle(){
     	for(Integer id: myTurtles.keySet()){
