@@ -18,7 +18,7 @@ import util.SLogoObserver;
 
 public class PoolView implements SLogoObserver<Collection<Turtle>> {
 	public static final String TURTLE_IMAGE = "TurtleImage.png";
-	public static final String DEFAULT_BACKGROUND_COLOR = "white";
+	//public static final String DEFAULT_BACKGROUND_COLOR = "white";
 	public static final String CSS_FILE = "resources/PaneColor.css";
 
 	private Pane myPane;
