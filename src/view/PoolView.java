@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,25 +18,26 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import model.info.PaletteInfo;
 import model.info.PoolInfo;
 import model.info.TurtleInfo;
 import util.SLogoObserver;
 
 public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
     public static final String TURTLE_IMAGE = "TurtleImage.png";
-    //public static final String DEFAULT_BACKGROUND_COLOR = "white";
-    public static final String CSS_FILE = "resources/PaneColor.css";
 
     private Map<Integer, TurtleView> myTurtles;
     private LineDrawer lineDrawer;
 
     private Consumer<String> myHandler;
+	private Supplier<PaletteInfo> myPaletteSupplier;
 
     private int activeTurtleID;
 
-    public PoolView(double width, double height, Consumer<String> guiHandler){
+    public PoolView(double width, double height, Consumer<String> guiHandler, Supplier<PaletteInfo> paletteSupplier) {
         super("Pool", new Pane());
         myHandler = guiHandler;
+    	myPaletteSupplier = paletteSupplier;
         myTurtles = new HashMap<Integer,TurtleView>();
         setBackgroundColor(Color.WHITE);
         lineDrawer = new LineDrawer() {
@@ -106,10 +108,6 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 			 myHandler.accept("ask [ "+activeTurtleID+" ] "+"[ left "+ 10 + " ]");
 		 }
 	 }
-
-	public void setHandler(Consumer<String> handler) {
-		myHandler = handler;
-	}
 	
     public void setTurtle(Map<Integer, TurtleInfo> turtles) {
     	for(int key: turtles.keySet()){
@@ -125,7 +123,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
     
     public void drawTurtle(){
         for(Integer id: myTurtles.keySet()){
-            myTurtles.get(id).update();
+            myTurtles.get(id).update(myPaletteSupplier.get());
         }
     }
 

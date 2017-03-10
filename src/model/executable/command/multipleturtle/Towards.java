@@ -20,5 +20,4 @@ public class Towards extends MultipleCommand {
 	protected double turtleExecute(Environment env, Turtle turtle) {
 		return turtle.towards(getParamValue(env, 0), getParamValue(env,1));
 	}
-
 }

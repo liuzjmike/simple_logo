@@ -44,6 +44,7 @@ public class Workspace {
         myModel.addPoolObserver(myGUI.getPoolObserver());
         myModel.addVariableObserver(myGUI.getVariableObserver());
         myModel.addCommandObserver(myGUI.getCommandObserver());
+        myModel.addPaletteObserver(myGUI.getPaletteObserver());
     }
     
     private Workspace newInstance() {

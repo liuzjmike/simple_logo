@@ -1,5 +1,6 @@
 package model.turtle;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import model.info.PaletteInfo;
 import model.info.PenInfo;
@@ -7,6 +8,7 @@ import model.info.PenInfo;
 public class Pen implements PenInfo {
     
     public static final double DEFAULT_SIZE = 1;
+    public static final Color DEFAULT_COLOR = Color.BLACK;
 	
 	private int myColor;
 	private double mySize;
@@ -41,10 +43,10 @@ public class Pen implements PenInfo {
         line.setEndX(x2);
         line.setEndY(y2);
         line.setStrokeWidth(mySize);
-        line.setStroke(palette.getColor(myColor));
+        line.setStroke((palette != null) ? palette.getColor(myColor) : DEFAULT_COLOR);
         return line;
     }
-	
+
 	public void setColor(int color) {
 	    myColor = color;
 	}

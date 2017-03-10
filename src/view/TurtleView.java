@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
+import model.info.PaletteInfo;
 import model.info.TurtleInfo;
 import model.turtle.TurtleHist;
 import util.Constants;
@@ -36,7 +37,7 @@ public class TurtleView {
         this.yOffset = yOffset;
     }
 
-    public void update(){
+    public void update(PaletteInfo palette) {
         setVisible(myTurtle.isVisible());
         setHeading(myTurtle.getHeading());
         List<TurtleHist> lastMove = myTurtle.getLastMove();
@@ -45,13 +46,13 @@ public class TurtleView {
             TurtleHist oldHist = lastMove.get(i), newHist = lastMove.get(i+1);
             newHist = lastMove.get(i+1);
             if(oldHist.penDown()) {
-//                Line line = myTurtle.getPenInfo().drawLine(
-//                                                           transformX(oldHist.getX()),
-//                                                           transformY(oldHist.getY()),
-//                                                           transformX(newHist.getX()), 
-//                                                           transformY(newHist.getY()));
-//                lineDrawer.addLine(line);
-//                myLines.add(line);
+                Line line = myTurtle.getPenInfo().drawLine(palette,
+                                                           transformX(oldHist.getX()),
+                                                           transformY(oldHist.getY()),
+                                                           transformX(newHist.getX()), 
+                                                           transformY(newHist.getY()));
+                lineDrawer.addLine(line);
+                myLines.add(line);
             }
         }
         setXY(myTurtle.getX(), myTurtle.getY());

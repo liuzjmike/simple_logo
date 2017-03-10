@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
-public abstract class ScrollView extends View<ScrollPane> {
+public class ScrollView extends View<ScrollPane> {
     
     private VBox myBox;
 
@@ -14,15 +14,19 @@ public abstract class ScrollView extends View<ScrollPane> {
         getRoot().setContent(myBox);
     }
     
-    protected void addElement(Node node) {
+    public void addElement(Node node) {
         myBox.getChildren().add(node);
     }
     
-    protected void removeElement(Node node) {
+    public void addAllElements(Node...nodes) {
+    	myBox.getChildren().addAll(nodes);
+    }
+    
+    public void removeElement(Node node) {
         myBox.getChildren().remove(node);
     }
     
-    protected void clear() {
+    public void clear() {
         myBox.getChildren().clear();
     }
 

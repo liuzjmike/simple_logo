@@ -39,6 +39,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.executable.Literal;
 import model.executable.command.Command;
+import model.info.PaletteInfo;
 import model.info.PoolInfo;
 import util.Constants;
 import util.SLogoException;
@@ -60,9 +61,11 @@ public class GUI {
     private ConsoleView myConsoleView;
     private VariableView myVariableView;
     private CommandView myCommandView;
+    private PaletteView myPaletteView;
 
     private ControlHandler myHandler;
     private Consumer<String> guiHandler;
+    
 
     public enum FileType {COMMANDS, SAVED_STATE}
 
@@ -99,9 +102,9 @@ public class GUI {
     public SLogoObserver<Map<String, Command>> getCommandObserver() {
         return myCommandView;
     }
-
-    public String getActiveConsoleText() {
-        return myConsoleView.getActiveText();
+    
+    public SLogoObserver<PaletteInfo> getPaletteObserver() {
+    	return myPaletteView;
     }
 
     private GridPane createRoot() {
@@ -118,14 +121,17 @@ public class GUI {
     }
     
     private void initView() {
-        myPoolView = new PoolView(getPoolWidth(), getPoolHeight(), guiHandler);
+        myPoolView = new PoolView(getPoolWidth(), getPoolHeight(), guiHandler, () -> {
+        	return myPaletteView.getPalette();
+        });
         myConsoleView = new ConsoleView(guiHandler);
         myVariableView = new VariableView(guiHandler);
         myCommandView = new CommandView(guiHandler);
+        myPaletteView = new PaletteView(guiHandler);
 
         myRoot.add(myPoolView.getRoot(), 0, 0, 1, 1);
         myRoot.add(myConsoleView.getRoot(), 0, 1, 1, 1);
-        myRoot.add(createTabPane(myVariableView), 1, 0, 1, 1);
+        myRoot.add(createTabPane(myVariableView, myPaletteView), 1, 0, 1, 1);
         myRoot.add(createTabPane(myCommandView), 1, 1, 1, 1);
         //TODO: Add new tabs here
     }

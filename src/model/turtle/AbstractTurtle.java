@@ -14,6 +14,7 @@ public abstract class AbstractTurtle implements Turtle {
     private double myHeading;
     private boolean isVisible, isReset;
     Pen myPen;
+    private int myShape;
     private List<TurtleHist> lastMove;
 
     public AbstractTurtle() {
@@ -150,6 +151,11 @@ public abstract class AbstractTurtle implements Turtle {
     @Override
     public Pen getPen() {
         return myPen;
+    }
+    
+    @Override
+    public int getShape() {
+    	return myShape;
     }
 
     @Override

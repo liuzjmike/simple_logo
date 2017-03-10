@@ -21,6 +21,8 @@ public interface Turtle extends TurtleInfo {
 
     /*****Visual property*****/
     Pen getPen();
+    
+    int getShape();
 
     boolean setVisible(boolean isVisible);
     
