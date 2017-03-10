@@ -2,14 +2,14 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
-import controller.StringProcessor;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
+import model.info.TurtleInfo;
 import model.turtle.TurtleHist;
-import model.turtle.info.TurtleInfo;
 import util.Constants;
 
 public class TurtleView {
@@ -29,10 +29,10 @@ public class TurtleView {
 	 double newTranslateX;
      double newTranslateY;
 	
-	private StringProcessor myHandler;
+	private Consumer<String> myHandler;
 
 	public TurtleView(ImageView image, TurtleInfo turtle, LineDrawer lineDrawer,
-	        double xOffset, double yOffset,StringProcessor handler) {
+	        double xOffset, double yOffset,Consumer<String> handler) {
 		setImage(image);
 		setHeading(turtle.getHeading());
 		setSize(DEFAULT_HEIGHT, DEFAULT_WIDTH);
@@ -80,7 +80,7 @@ public class TurtleView {
 
 						@Override
 						public void handle(MouseEvent t) {
-							myHandler.execute("setxy "+newTranslateX+" "+newTranslateY);
+							myHandler.accept("setxy "+newTranslateX+" "+newTranslateY);
 						}
 	        	
 	        };
@@ -99,7 +99,8 @@ public class TurtleView {
             TurtleHist oldHist = lastMove.get(i), newHist = lastMove.get(i+1);
             newHist = lastMove.get(i+1);
             if(oldHist.penDown()) {
-                Line line = myTurtle.getPenInfo().drawLine(transformX(oldHist.getX()),
+                Line line = myTurtle.getPenInfo().drawLine(
+                                                           null, transformX(oldHist.getX()),
                                                            transformY(oldHist.getY()),
                                                            transformX(newHist.getX()), 
                                                            transformY(newHist.getY()));

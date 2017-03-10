@@ -1,8 +1,8 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
-import controller.StringProcessor;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -34,7 +34,7 @@ public class ConsoleView {
 	
 	String activeText;
 	
-	private StringProcessor myHandler;
+	private Consumer<String> myHandler;
 	
 	public ConsoleView() {
 		
@@ -75,7 +75,7 @@ public class ConsoleView {
     	GridPane.setHalignment(enterButton,HPos.CENTER);
 	}
 	
-	public void setHandler(StringProcessor handler) {
+	public void setHandler(Consumer<String> handler) {
 		myHandler = handler;
 	}
 
@@ -98,7 +98,7 @@ public class ConsoleView {
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
 		        	try {
-						myHandler.execute(myText.getText());
+						myHandler.accept(myText.getText());
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -115,7 +115,7 @@ public class ConsoleView {
 		enterButton.addEventHandler(MouseEvent.MOUSE_PRESSED, 
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
-		            myHandler.execute(getActiveText());
+		            myHandler.accept(getActiveText());
 		        	input.clear();
 		        }
 		});

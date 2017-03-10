@@ -1,12 +1,11 @@
 package model.turtle;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import model.turtle.info.PenInfo;
+import model.info.PaletteInfo;
+import model.info.PenInfo;
 
 public class Pen implements PenInfo {
     
-    public static final Color DEFAULT_COLOR = Color.BLACK;
     public static final double DEFAULT_SIZE = 1;
 	
 	private int myColor;
@@ -35,20 +34,19 @@ public class Pen implements PenInfo {
     }
 
     @Override
-    public Line drawLine(double x1, double y1, double x2, double y2) {
+    public Line drawLine(PaletteInfo palette, double x1, double y1, double x2, double y2) {
         Line line = new Line();
         line.setStartX(x1);
         line.setStartY(y1);
         line.setEndX(x2);
         line.setEndY(y2);
         line.setStrokeWidth(mySize);
-        line.setStroke(myColor);
+        line.setStroke(palette.getColor(myColor));
         return line;
     }
-	
-	public int setColor(int index) {
-	    myColor = index;
-	    return index;
+
+	public void setColor(int color) {
+	    myColor = color;
 	}
 	
 	public void setSize(double size) {
@@ -59,7 +57,7 @@ public class Pen implements PenInfo {
 	    isDown = down;
 	}
 	
-	public Pen clone() {
+	public Pen copy() {
 	    Pen ret = new Pen();
 	    ret.myColor = myColor;
 	    ret.mySize = mySize;

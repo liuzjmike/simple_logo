@@ -16,7 +16,7 @@ public class Workspace {
 	myGUI.setHandlers(new ControlHandler() {
 
         @Override
-        public void execute(String command) {
+        public void accept(String command) {
             mySLogoModel.interpret(command);
         }
 

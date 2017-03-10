@@ -3,8 +3,12 @@ package view;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
+<<<<<<< HEAD
 import controller.StringProcessor;
+=======
+>>>>>>> 881213ddba7523eeb5eea8da51e23ea677c0b7b7
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,8 +18,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import model.turtle.info.PoolInfo;
-import model.turtle.info.TurtleInfo;
+import model.info.PoolInfo;
+import model.info.TurtleInfo;
 import util.SLogoObserver;
 
 public class PoolView implements SLogoObserver<PoolInfo> {
@@ -27,10 +31,8 @@ public class PoolView implements SLogoObserver<PoolInfo> {
 	private Map<Integer, TurtleView> myTurtles;
 	private LineDrawer lineDrawer;
 	
-	private StringProcessor myHandler;
-	
-	
-	
+	private Consumer<String> myHandler;
+		
 	public PoolView(double width, double height){
 		myTurtles = new HashMap<Integer,TurtleView>();
 		myPane = new Pane();
@@ -51,7 +53,7 @@ public class PoolView implements SLogoObserver<PoolInfo> {
 		myPane.setPrefHeight(height);
 	}
 	
-	public void setHandler(StringProcessor handler) {
+	public void setHandler(Consumer<String> handler) {
 		myHandler = handler;
 	}
 	
@@ -60,7 +62,7 @@ public class PoolView implements SLogoObserver<PoolInfo> {
     		if(!myTurtles.containsKey(key)){
     			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
     			TurtleView turtle = new TurtleView(turtleImage, turtles.get(key),
-    			        lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2,myHandler);
+    			        lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2, myHandler);
     			myTurtles.put(key, turtle);
         		myPane.getChildren().add(turtleImage);
     		}

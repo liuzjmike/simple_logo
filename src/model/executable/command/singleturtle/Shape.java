@@ -1,4 +1,4 @@
-package model.executable.command.display;
+package model.executable.command.singleturtle;
 
 import model.executable.command.SingleCommand;
 import model.turtle.Turtle;
@@ -16,7 +16,7 @@ public class Shape extends SingleCommand {
 
 	@Override
 	protected double turtleExecute(Turtle turtle) {
-		return 0;
+		return turtle.getShape();
 	}
 
 }
