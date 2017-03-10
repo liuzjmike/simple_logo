@@ -22,7 +22,7 @@ public class CustomizedCommand extends AbstractCommand {
 	}
 
 	@Override
-	protected double concreteExecute(Environment env) {
+	protected double run(Environment env) {
 	    env.getVariablePool().alloc();
 		for(int i = 0; i < varParams.size(); i++) {
 			Variable var = (Variable)varParams.get(i);
@@ -35,5 +35,4 @@ public class CustomizedCommand extends AbstractCommand {
 		env.getVariablePool().release();
 		return ret.getValue();
 	}
-
 }

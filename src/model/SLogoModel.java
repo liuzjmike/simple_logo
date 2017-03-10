@@ -6,14 +6,22 @@ import java.util.Map.Entry;
 
 import model.executable.Literal;
 import model.executable.command.Command;
-import model.turtle.info.PoolInfo;
-import model.turtle.info.TurtleInfo;
+import model.info.PaletteInfo;
+import model.info.PoolInfo;
+import model.info.TurtleInfo;
 import util.SLogoObserver;
 
 public class SLogoModel {
     
+    public static final double DEFAULT_WIDTH = 800;
+    public static final double DEFAULT_HEIGHT = 600;
+    
     private Environment myEnv;
     private Interpreter myInterpreter;
+    
+    public SLogoModel() {
+        this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
     
     public SLogoModel(double width, double height) {
         myEnv = new Environment(width, height);
@@ -49,6 +57,10 @@ public class SLogoModel {
         myEnv.getCommandPool().addObserver(so);
     }
     
+    public void addPaletteObserver(SLogoObserver<PaletteInfo> so) {
+    	myEnv.getPalette().addObserver(so);
+    }
+    
     public void removeCommandObserver(SLogoObserver<Map<String, Command>> so) {
         myEnv.getCommandPool().removeObserver(so);
     }
@@ -59,6 +71,10 @@ public class SLogoModel {
     
     public void removeVariableObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
         myEnv.getVariablePool().removeObserver(so);
+    }
+    
+    public void removePaletteObserver(SLogoObserver<PaletteInfo> so) {
+    	myEnv.getPalette().removeObserver(so);
     }
     
     public Map<Integer, TurtleInfo> getTurtles() {

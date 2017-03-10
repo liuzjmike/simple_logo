@@ -1,6 +1,6 @@
 package model.turtle;
 
-import model.turtle.info.TurtleInfo;
+import model.info.TurtleInfo;
 
 public interface Turtle extends TurtleInfo {
 	
@@ -21,6 +21,8 @@ public interface Turtle extends TurtleInfo {
 
     /*****Visual property*****/
     Pen getPen();
+    
+    int getShape();
 
     boolean setVisible(boolean isVisible);
     

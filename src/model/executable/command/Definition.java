@@ -17,7 +17,7 @@ public class Definition extends AbstractCommand {
     }
 
     @Override
-    protected double concreteExecute(Environment env) {
+    protected double run(Environment env) {
         Command command = env.getCommandPool().getCommand(myName);
         for(int i = 0; i < numParams(); i++) {
             command.addParam(getParam(i));

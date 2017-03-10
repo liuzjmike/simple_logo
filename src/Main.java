@@ -1,4 +1,4 @@
-import controller.Controller;
+import controller.Workspace;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -10,7 +10,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Controller myController = new Controller(stage);
+        Workspace workspace = new Workspace(stage);
+        workspace.show();
     }
 
 }

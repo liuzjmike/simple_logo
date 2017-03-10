@@ -5,61 +5,50 @@ import model.SLogoModel;
 import view.GUI;
 
 public class Workspace {
-	
-	GUI myGUI;
-	SLogoModel mySLogoModel;
-	
-	public Workspace() {
-	
-	myGUI = new GUI();
-	mySLogoModel = new SLogoModel(myGUI.getPoolViewWidth(), myGUI.getPoolViewHeight());
-	myGUI.setHandlers(new ControlHandler() {
 
-        @Override
-        public void execute(String command) {
-            mySLogoModel.interpret(command);
-        }
+    GUI myGUI;
+    SLogoModel myModel;
 
-        @Override
-        public void setLanguage(String language) {
-            mySLogoModel.setLanguage(language);
-        }
-        
-        public String getLanguage() {
-        	return mySLogoModel.getLanguage();
-        }
-	    
-	});
-	setUpObservers();
-	}
-	
-	public void start(Stage stage) {
-		myGUI.show(stage);
-		stage.setResizable(false);
-	}
-	
+    public Workspace(Stage stage) {
+        myModel = new SLogoModel();
+        myGUI = new GUI(stage, new ControlHandler() {
+
+            @Override
+            public void accept(String command) {
+                myModel.interpret(command);
+            }
+
+            @Override
+            public void setLanguage(String language) {
+                myModel.setLanguage(language);
+            }
+
+            public String getLanguage() {
+                return myModel.getLanguage();
+            }
+            
+            public void newWorkspace() {
+                newInstance().show();
+            }
+
+        });
+        myModel.setSize(myGUI.getPoolWidth(), myGUI.getPoolHeight());
+        setUpObservers();
+    }
+
+    public void show() {
+        myGUI.show();
+    }
+
     private void setUpObservers() {
-    	mySLogoModel.addPoolObserver(myGUI.getPoolObserver());
-    	mySLogoModel.addVariableObserver(myGUI.getVariableObserver());
-    	mySLogoModel.addCommandObserver(myGUI.getCommandObserver());
+        myModel.addPoolObserver(myGUI.getPoolObserver());
+        myModel.addVariableObserver(myGUI.getVariableObserver());
+        myModel.addCommandObserver(myGUI.getCommandObserver());
+        myModel.addPaletteObserver(myGUI.getPaletteObserver());
     }
     
-    public GUI getMyGUI() {
-		return myGUI;
-	}
-
-	public void setMyGUI(GUI myGUI) {
-		this.myGUI = myGUI;
-	}
-
-	public SLogoModel getMySLogoModel() {
-		return mySLogoModel;
-	}
-
-	public void setMySLogoModel(SLogoModel mySLogoModel) {
-		this.mySLogoModel = mySLogoModel;
-	}
-
-   
-
+    private Workspace newInstance() {
+        return new Workspace(new Stage());
+    }
+    
 }

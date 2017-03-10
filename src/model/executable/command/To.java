@@ -18,7 +18,7 @@ public class To extends AbstractCommand {
 	}
 
 	@Override
-	protected double concreteExecute(Environment env) {
+	protected double run(Environment env) {
 	    Command toAdd = new CustomizedCommand((ExecutableList)To.this.getParam(0),
 		        (ExecutableList)To.this.getParam(1));
 		env.getCommandPool().add(myName, toAdd);
