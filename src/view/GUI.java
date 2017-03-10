@@ -84,11 +84,11 @@ public class GUI {
     }
 
     public double getPoolWidth() {
-        return myRoot.getPrefWidth() * LEFT_CONSTRAINT;
+        return myRoot.getPrefWidth() * LEFT_CONSTRAINT / 100;
     }
 
     public double getPoolHeight() {
-        return myRoot.getPrefHeight() * TOP_CONSTRAINT; 
+        return myRoot.getPrefHeight() * TOP_CONSTRAINT / 100; 
     }
 
     public SLogoObserver<PoolInfo> getPoolObserver() {

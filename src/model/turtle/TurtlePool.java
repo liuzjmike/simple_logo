@@ -51,17 +51,6 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
         return ret;
     }
     
-    private <T> T apply(Function<Turtle, T> function, boolean notify) {
-    	validateActive();
-        Turtle current = getActiveTurtle();
-        T ret = function.apply(current);
-        if(notify) {
-        	notifyObservers();
-        }
-        current.clearReset();
-        return ret;
-    }
-    
     public void applyPen(Consumer<Pen> consumer) {
         allTurtles.values().forEach(turtle -> consumer.accept(turtle.getPen()));
         defaultPen = getActiveTurtle().getPen().copy();
@@ -87,12 +76,6 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     	return allTurtles.size();
     }
     
-    private void switchTurtle() {
-        validateActive();
-    	++activeIndex;
-    	activeIndex %= activeIDs.size();
-    }
-    
     @Override
     public int getBackground() {
         return myBG;
@@ -100,6 +83,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     
     public int setBackground(int index) {
         myBG = index;
+        notifyObservers();
         return index;
     }
 
@@ -151,6 +135,23 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     @Override
     protected PoolInfo notification() {
         return this;
+    }
+    
+    private <T> T apply(Function<Turtle, T> function, boolean notify) {
+        validateActive();
+        Turtle current = getActiveTurtle();
+        T ret = function.apply(current);
+        if(notify) {
+            notifyObservers();
+        }
+        current.clearReset();
+        return ret;
+    }
+    
+    private void switchTurtle() {
+        validateActive();
+        ++activeIndex;
+        activeIndex %= activeIDs.size();
     }
     
     private Turtle getActiveTurtle() {
