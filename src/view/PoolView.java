@@ -25,7 +25,14 @@ import util.SLogoObserver;
 
 public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
     public static final String TURTLE_IMAGE = "TurtleImage.png";
-
+    public static final String ASK_MOVECOMMAND = "ask [ %d ] [ %s %d ]";
+    public static final String ASK_SETXYCOMMAND = "ask [ %d ] [ setxy %f %f ]";
+    public static final String FORWARD_COMMAND = "fd";
+    public static final String BACKWARD_COMMAND = "bk";
+    public static final String TURNRIGHT_COMMAND = "right";
+    public static final String TURNLEFT_COMMAND = "left";
+    public static final int DEFALUT_STEP = 10;
+    
     private Map<Integer, TurtleView> myTurtles;
     private LineDrawer lineDrawer;
 
@@ -65,17 +72,16 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 							activeTurtleID = id;
 							myTurtles.get(id).getImageView().setScaleX(1.5);
 							myTurtles.get(id).getImageView().setScaleY(1.5);
+							addDragAndDropHandler(myTurtles.get(id).getImageView());
 						}		
 			};
 			myTurtles.get(id).getImageView().setOnMouseClicked(onMouseClickedHandler);
+			
 		}
 		for(Integer id: myTurtles.keySet()){
 			if(id != activeTurtleID){
 				myTurtles.get(id).getImageView().setScaleX(1);
 				myTurtles.get(id).getImageView().setScaleY(1);
-			}
-			else{
-				addDragAndDropHandler(myTurtles.get(id).getImageView());
 			}			
 		}		
 	}
@@ -88,7 +94,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
             public void handle(MouseEvent t) {
                 ((ImageView)(t.getSource())).setX(t.getSceneX()-TurtleView.DEFAULT_WIDTH/2);
                 ((ImageView)(t.getSource())).setY(t.getSceneY()-TurtleView.DEFAULT_HEIGHT/2);
-                myHandler.accept("ask "+"[ "+activeTurtleID + " ] [ "+"setxy "+(t.getSceneX()-getRoot().getPrefWidth()/2)+" "+(-t.getSceneY()+getRoot().getPrefHeight()/2)+" ]");
+                myHandler.accept(String.format(ASK_SETXYCOMMAND,activeTurtleID,(t.getSceneX()-getRoot().getPrefWidth()/2),(-t.getSceneY()+getRoot().getPrefHeight()/2)));
             }
         };
         imageView.setOnMouseDragged(onMouseDraggedHandler);
@@ -96,16 +102,16 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 	
 	public void handleKeyInput(KeyCode code){
 		 if(code == KeyCode.W){
-			 myHandler.accept("ask [ "+activeTurtleID+" ] "+"[ fd "+ 10 + " ]");
+			 myHandler.accept(String.format(ASK_MOVECOMMAND,activeTurtleID,FORWARD_COMMAND,DEFALUT_STEP));
 		 }
 		 else if(code == KeyCode.S){
-			 myHandler.accept("ask [ "+activeTurtleID+" ] "+"[ bk "+ 10 + " ]");
+			 myHandler.accept(String.format(ASK_MOVECOMMAND,activeTurtleID,BACKWARD_COMMAND,DEFALUT_STEP));
 		 }
 		 else if(code == KeyCode.D){
-			 myHandler.accept("ask [ "+activeTurtleID+" ] "+"[ right " + 10 + " ]");
+			 myHandler.accept(String.format(ASK_MOVECOMMAND,activeTurtleID,TURNRIGHT_COMMAND,DEFALUT_STEP));
 		 }
 		 else if(code == KeyCode.A){
-			 myHandler.accept("ask [ "+activeTurtleID+" ] "+"[ left "+ 10 + " ]");
+			 myHandler.accept(String.format(ASK_MOVECOMMAND,activeTurtleID,TURNLEFT_COMMAND,DEFALUT_STEP));
 		 }
 	 }
 	
