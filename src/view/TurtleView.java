@@ -2,11 +2,9 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
-import controller.StringProcessor;
-import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 import model.turtle.TurtleHist;
 import model.turtle.info.TurtleInfo;
@@ -25,11 +23,9 @@ public class TurtleView {
 	
 	 double newTranslateX;
      double newTranslateY;
-	
-	private StringProcessor myHandler;
 
 	public TurtleView(ImageView image, TurtleInfo turtle, LineDrawer lineDrawer,
-	        double xOffset, double yOffset,StringProcessor handler) {
+	        double xOffset, double yOffset) {
 		setImage(image);
 		setHeading(turtle.getHeading());
 		setSize(DEFAULT_HEIGHT, DEFAULT_WIDTH);
@@ -39,35 +35,8 @@ public class TurtleView {
 		this.lineDrawer = lineDrawer;
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
-		myHandler = handler;
-		addDragAndDropHandler(myImage);
 	}
-	
-	 private void addDragAndDropHandler(ImageView imageView) {
-	        EventHandler<MouseEvent> onMouseDraggedHandler = 
-	                new EventHandler<MouseEvent>() {
-	        	 
-	            @Override
-	            public void handle(MouseEvent t) {
-	                ((ImageView)(t.getSource())).setX(t.getSceneX()-DEFAULT_WIDTH/2);
-	                ((ImageView)(t.getSource())).setY(t.getSceneY()-DEFAULT_HEIGHT/2);
-	                
-	            }
-	        };
-	        
-	        EventHandler<MouseEvent> onMouseReleasedHandler = 
-	        		new EventHandler<MouseEvent>() {        			
-						@Override
-						public void handle(MouseEvent t) {
-							myHandler.execute("setxy "+(t.getSceneX()-xOffset)+" "+(-t.getSceneY()+yOffset));
-						}
-	        	
-	        };
-	        imageView.setOnMouseDragged(onMouseDraggedHandler);
-	        imageView.setOnMouseReleased(onMouseReleasedHandler);
-	    }
-	 
-    
+	  
     public void update(){
         setVisible(myTurtle.isVisible());
         setHeading(myTurtle.getHeading());

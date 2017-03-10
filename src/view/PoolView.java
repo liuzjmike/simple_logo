@@ -3,8 +3,8 @@ package view;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
-import controller.StringProcessor;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -30,9 +30,8 @@ public class PoolView implements SLogoObserver<PoolInfo> {
 	private Map<Integer, TurtleView> myTurtles;
 	private LineDrawer lineDrawer;
 	
-	private StringProcessor myHandler;
-	private int activeTurtleID;
-	
+	private Consumer<String> myHandler;	
+	private int activeTurtleID = 1;
 	
 	public PoolView(double width, double height){
 		myTurtles = new HashMap<Integer,TurtleView>();
@@ -72,27 +71,42 @@ public class PoolView implements SLogoObserver<PoolInfo> {
 				myTurtles.get(id).getImageView().setScaleX(1);
 				myTurtles.get(id).getImageView().setScaleY(1);
 			}
-			
-		}
-			
+			else{
+				addDragAndDropHandler(myTurtles.get(id).getImageView());
+			}			
+		}		
 	}
+	
+	private void addDragAndDropHandler(ImageView imageView) {
+        EventHandler<MouseEvent> onMouseDraggedHandler = 
+                new EventHandler<MouseEvent>() {
+        	 
+            @Override
+            public void handle(MouseEvent t) {
+                ((ImageView)(t.getSource())).setX(t.getSceneX()-TurtleView.DEFAULT_WIDTH/2);
+                ((ImageView)(t.getSource())).setY(t.getSceneY()-TurtleView.DEFAULT_HEIGHT/2);
+                myHandler.accept("ask "+"[ "+activeTurtleID + " ] [ "+"setxy "+(t.getSceneX()-myPane.getPrefWidth()/2)+" "+(-t.getSceneY()+myPane.getPrefHeight()/2)+" ]");
+            }
+        };
+        imageView.setOnMouseDragged(onMouseDraggedHandler);
+    }
 	
 	public void handleKeyInput(KeyCode code){
 		 if(code == KeyCode.W){
-			 myHandler.execute("ask [ "+activeTurtleID+" ] "+"[ fd "+ 10 + " ]");
+			 myHandler.accept("ask [ "+activeTurtleID+" ] "+"[ fd "+ 10 + " ]");
 		 }
 		 else if(code == KeyCode.S){
-			 myHandler.execute("ask [ "+activeTurtleID+" ] "+"[ bk "+ 10 + " ]");
+			 myHandler.accept("ask [ "+activeTurtleID+" ] "+"[ bk "+ 10 + " ]");
 		 }
 		 else if(code == KeyCode.D){
-			 myHandler.execute("ask [ "+activeTurtleID+" ] "+"[ right " + 10 + " ]");
+			 myHandler.accept("ask [ "+activeTurtleID+" ] "+"[ right " + 10 + " ]");
 		 }
 		 else if(code == KeyCode.A){
-			 myHandler.execute("ask [ "+activeTurtleID+" ] "+"[ left "+ 10 + " ]");
+			 myHandler.accept("ask [ "+activeTurtleID+" ] "+"[ left "+ 10 + " ]");
 		 }
 	 }
 
-	public void setHandler(StringProcessor handler) {
+	public void setHandler(Consumer<String> handler) {
 		myHandler = handler;
 	}
 	
@@ -101,7 +115,7 @@ public class PoolView implements SLogoObserver<PoolInfo> {
     		if(!myTurtles.containsKey(key)){
     			ImageView turtleImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
     			TurtleView turtle = new TurtleView(turtleImage, turtles.get(key),
-    			        lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2,myHandler);
+    			        lineDrawer, myPane.getPrefWidth()/2, myPane.getPrefHeight()/2);
     			myTurtles.put(key, turtle);
         		myPane.getChildren().add(turtleImage);
     		}
