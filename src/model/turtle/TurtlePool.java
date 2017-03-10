@@ -97,7 +97,6 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     }
     
     public void tell(List<Integer> ids) {
-    	ids.forEach(id -> System.out.println(id));
     	activeIDs.clear();
     	activeIndex = -1;
     	for(int id: ids) {

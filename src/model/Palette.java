@@ -11,6 +11,12 @@ import model.info.PaletteInfo;
 import util.SLogoException;
 import util.SLogoObservable;
 
+/**
+ * Back-end entity that stores colors and their corresponding indices.
+ * Index 0 and 1 should be WHITE and BLACK by default
+ * @author Mike Liu
+ *
+ */
 public class Palette extends SLogoObservable<PaletteInfo> implements PaletteInfo {
     
     public static final double CHANNEL_RANGE = 255;
