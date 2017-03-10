@@ -45,6 +45,7 @@ public class GUI {
 	private ConsoleView myConsoleView;
 	private VariableView myVariableView;
 	private CommandView myCommandView;
+	private PaletteView myPaletteView;
 	
 	private GridPane myGridPane;
 	
@@ -67,6 +68,7 @@ public class GUI {
 		myConsoleView = new ConsoleView();
 		myVariableView = new VariableView();
 		myCommandView = new CommandView();
+		myPaletteView = new PaletteView();
 		backgroundColor = Color.WHITE;
     	poolViewRow = 0;
     	poolViewCol = 0;

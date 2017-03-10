@@ -6,8 +6,8 @@ import javafx.scene.paint.Color;
 
 public interface PaletteInfo {
     
-    public Color getColor(int index);
+    Color getColor(int index);
     
-    public Map<Integer, Color> listColor();
+    Map<Integer, Color> listColor();
 
 }

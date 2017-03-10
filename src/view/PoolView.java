@@ -4,11 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-
-<<<<<<< HEAD
-import controller.StringProcessor;
-=======
->>>>>>> 881213ddba7523eeb5eea8da51e23ea677c0b7b7
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
