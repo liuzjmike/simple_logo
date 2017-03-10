@@ -13,11 +13,8 @@ import util.SLogoObserver;
 
 public class VariableView extends ScrollView implements SLogoObserver<List<Entry<String, Literal>>> {
 	
-	Consumer<String> myHandler;
-	
 	public VariableView(Consumer<String> guiHandler) {
-	    super("Variable");
-		myHandler = guiHandler;
+	    super("Variable", guiHandler);
 	}
 	
 	private HBox getVariableText(Entry<String,Literal> entry) {
@@ -34,7 +31,7 @@ public class VariableView extends ScrollView implements SLogoObserver<List<Entry
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
 		        	try {
-		        		myHandler.accept(getExecuteString(newValueText.getText(),entry));
+		        	    execute(getExecuteString(newValueText.getText(),entry));
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
