@@ -49,7 +49,7 @@ public class GUI {
 
     public static final String STYLESHEET = "default.css";
 
-    public static final double SCREEN_RATIO = 0.8;
+    public static final double SCREEN_RATIO = 0.9;
     public static final double LEFT_CONSTRAINT = 75;
     public static final double TOP_CONSTRAINT = 60;
 
@@ -125,8 +125,8 @@ public class GUI {
 
         myRoot.add(myPoolView.getRoot(), 0, 0, 1, 1);
         myRoot.add(myConsoleView.getRoot(), 0, 1, 1, 1);
-        myRoot.add(createTabPane(myVariableView, myCommandView), 1, 0, 1, 1);
-        myRoot.add(createTabPane(), 0, 1, 1, 1);
+        myRoot.add(createTabPane(myVariableView), 1, 0, 1, 1);
+        myRoot.add(createTabPane(myCommandView), 1, 1, 1, 1);
         //TODO: Add new tabs here
     }
 
