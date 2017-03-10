@@ -63,6 +63,7 @@ public class GUI {
 	private WorkspaceHandler myWorkspaceHandler;
 	
 	private Stage myStage;
+	private Scene myScene;
 	
 	public enum FileType {COMMANDS,SAVED_STATE}
 	
@@ -76,12 +77,17 @@ public class GUI {
     	poolViewCol = 0;
     	myGridPane = getGridPane();
 	}
-    public void show(Stage stage) {
-    	Scene myScene = new Scene(getGridPane(),backgroundColor);
+    
+	public void show(Stage stage) {
+    	myScene = new Scene(getGridPane(),backgroundColor);
+    	keyHandle();
     	myStage = stage;
     	stage.setTitle("SLogo IDE");
     	stage.setScene(myScene);
     	stage.show();
+	}
+	private void keyHandle() {
+		myScene.setOnKeyPressed(e -> myPoolView.handleKeyInput(e.getCode()));	
 	}
     
     public void setHandlers(ControlHandler handler) {
@@ -218,19 +224,6 @@ public class GUI {
 		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton,penSettingBox);
 		return userBar;
 	}
-	
-//	private void setPenSetting() {
-//		Popup myPop = new Popup();
-//		ObservableList<String> options = FXCollections.observableArrayList(
-//		        "Thin",
-//		        "Moderate",
-//		        "Thick"
-//		    );
-//		myPop.getContent().add(new ComboBox(options));
-//		myPop.show(myStage);
-//
-//		
-//	}
 	public HBox getUserBar2() {
 		HBox userBar = new HBox();
 		userBar.setAlignment(Pos.CENTER_LEFT);
