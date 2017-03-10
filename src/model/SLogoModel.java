@@ -12,8 +12,15 @@ import util.SLogoObserver;
 
 public class SLogoModel {
     
+    public static final double DEFAULT_WIDTH = 800;
+    public static final double DEFAULT_HEIGHT = 600;
+    
     private Environment myEnv;
     private Interpreter myInterpreter;
+    
+    public SLogoModel() {
+        this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
     
     public SLogoModel(double width, double height) {
         myEnv = new Environment(width, height);

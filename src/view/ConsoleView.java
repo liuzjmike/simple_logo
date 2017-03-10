@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -18,14 +17,12 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class ConsoleView {
+public class ConsoleView extends View<GridPane> {
 	
 	VBox outputVBox;
 	
 	ScrollPane output;
 	TextArea input;
-	
-	GridPane root;
 	
 	ArrayList<String> myStrings;
 	String currentCommand;
@@ -36,13 +33,13 @@ public class ConsoleView {
 	
 	private Consumer<String> myHandler;
 	
-	public ConsoleView() {
+	public ConsoleView(Consumer<String> guiHandler) {
+	    super("Console", new GridPane());
+	    myHandler = guiHandler;
 		
 		outputVBox = new VBox();
 		output = new ScrollPane(outputVBox);
 		input = new TextArea();
-		
-		root = new GridPane();
 		
 		ColumnConstraints cons1 = new ColumnConstraints();
         cons1.setHgrow(Priority.NEVER);
@@ -52,7 +49,7 @@ public class ConsoleView {
         cons2.setHgrow(Priority.NEVER);
         cons2.setPercentWidth(5);
         
-        root.getColumnConstraints().addAll(cons1, cons2);
+        getRoot().getColumnConstraints().addAll(cons1, cons2);
         
         RowConstraints rcons1 = new RowConstraints();
         rcons1.setVgrow(Priority.NEVER);
@@ -62,21 +59,17 @@ public class ConsoleView {
         rcons2.setVgrow(Priority.NEVER); 
         rcons2.setPercentHeight(20);
 
-        root.getRowConstraints().addAll(rcons1, rcons2);
+        getRoot().getRowConstraints().addAll(rcons1, rcons2);
         
         enterButton = new Button("Run");
         installEnterButtonHandler();
 
-		root.add(output,0,0,2,1);
-		root.add(input,0,1,1,1);
-		root.add(enterButton, 1, 1,1,1);
+        getRoot().add(output,0,0,2,1);
+        getRoot().add(input,0,1,1,1);
+        getRoot().add(enterButton, 1, 1,1,1);
 		
 		GridPane.setValignment(enterButton,VPos.CENTER);
     	GridPane.setHalignment(enterButton,HPos.CENTER);
-	}
-	
-	public void setHandler(Consumer<String> handler) {
-		myHandler = handler;
 	}
 
     public String getActiveText() {
@@ -105,10 +98,6 @@ public class ConsoleView {
 					}
 		        }
 		});
-	}
-	
-	public Node getNode() {
-		return root;
 	}
 	
 	private void installEnterButtonHandler() {
