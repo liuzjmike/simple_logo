@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import javax.xml.transform.TransformerException;
 
 import controller.ControlHandler;
-import controller.StringProcessor;
 import controller.WorkspaceHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,7 +34,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.executable.Literal;
 import model.executable.command.Command;
@@ -59,7 +58,7 @@ public class GUI {
 	
 	private ControlHandler myHandler;
 	
-	private StringProcessor myGUIHandler;
+	private Consumer<String> myGUIHandler;
 	private WorkspaceHandler myWorkspaceHandler;
 	
 	private Stage myStage;

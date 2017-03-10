@@ -1,6 +1,7 @@
 package view;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 import controller.StringProcessor;
 import javafx.event.EventHandler;
@@ -17,7 +18,7 @@ public class CommandView implements SLogoObserver<Map<String, Command>> {
 	private VBox vBox;
 	private ScrollPane myPane;
 	
-	private StringProcessor myHandler;
+	private Consumer<String> myHandler;
 	
 	public CommandView() {
 		vBox = new VBox();
@@ -26,7 +27,7 @@ public class CommandView implements SLogoObserver<Map<String, Command>> {
 		vBox.getChildren().add(text);
 	}
     
-    public void setHandler(StringProcessor handler) {
+    public void setHandler(Consumer<String> handler) {
         myHandler = handler;
     }
 	
@@ -35,7 +36,7 @@ public class CommandView implements SLogoObserver<Map<String, Command>> {
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
 		        	try {
-						myHandler.execute(myText.getText());
+						myHandler.accept(myText.getText());
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
