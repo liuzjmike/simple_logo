@@ -15,7 +15,7 @@ public class Palette extends SLogoObservable<PaletteInfo> implements PaletteInfo
     
     public static final double CHANNEL_RANGE = 255;
     public static final int NUM_COLORS = 3;
-    public static final List<Color> INITIAL_COLOR = Arrays.asList(Color.WHITE, Color.RED, Color.ORANGE);
+    public static final List<Color> INITIAL_COLOR = Arrays.asList(Color.WHITE, Color.BLACK, Color.RED, Color.ORANGE);
 
     private Map<Integer, Color> myPalette;
     

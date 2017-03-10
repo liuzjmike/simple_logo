@@ -26,7 +26,7 @@ public class TurtleView {
 
     public TurtleView(ImageView image, TurtleInfo turtle, LineDrawer lineDrawer,
             double xOffset, double yOffset) {
-        setImage(image);
+        myImage = image;
         setHeading(turtle.getHeading());
         setSize(DEFAULT_HEIGHT, DEFAULT_WIDTH);
         setVisible(turtle.isVisible());
@@ -60,10 +60,8 @@ public class TurtleView {
             lineDrawer.removeLines(myLines);
             myLines.clear();
         }
-    }
-
-    private void setImage(ImageView image) {
-        myImage = image;
+        System.out.println(myTurtle.isVisible() + " " + myTurtle.getPenInfo().isDown());
+        System.out.println(myImage.getX() + " " + myImage.getY());
     }
 
     private void setVisible(boolean isVisible){
