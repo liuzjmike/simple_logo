@@ -1,11 +1,10 @@
 package model.turtle.info;
 
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 public interface PenInfo {
 
-    public Color getColor();
+    public int getColor();
     
     public double getSize();
     

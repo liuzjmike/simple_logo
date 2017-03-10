@@ -9,18 +9,18 @@ public class Pen implements PenInfo {
     public static final Color DEFAULT_COLOR = Color.BLACK;
     public static final double DEFAULT_SIZE = 1;
 	
-	private Color myColor;
+	private int myColor;
 	private double mySize;
 	private boolean isDown;
 	
 	public Pen() {
-		myColor = DEFAULT_COLOR;
+		myColor = 0;
 		mySize = DEFAULT_SIZE;
 		isDown = true;
 	}
 	
 	@Override
-	public Color getColor() {
+	public int getColor() {
 	    return myColor;
 	}
 
@@ -46,8 +46,9 @@ public class Pen implements PenInfo {
         return line;
     }
 	
-	public void setColor(Color color) {
-	    myColor = color;
+	public int setColor(int index) {
+	    myColor = index;
+	    return index;
 	}
 	
 	public void setSize(double size) {

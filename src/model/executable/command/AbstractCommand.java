@@ -24,9 +24,11 @@ public abstract class AbstractCommand implements Command {
         //TODO: Unlimited Parameters
     	checkParams();
         double ret = 0;
-        for(offset = 0; offset < myParams.size(); offset += numParams()) {
+        offset = 0;
+        do {
         	ret = run(env);
-        }
+        	offset += numParams();
+        } while(offset < myParams.size());
         return new Literal(ret);
     }
     
@@ -64,7 +66,7 @@ public abstract class AbstractCommand implements Command {
     }
     
     protected void checkParams() {
-    	if(numParams != 0 && myParams.size() % numParams() != 0) {
+    	if(myParams.size() < numParams || (numParams() != 0 && myParams.size() % numParams() != 0)) {
             throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
         }
     }

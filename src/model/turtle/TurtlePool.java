@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import javafx.scene.paint.Color;
 import model.turtle.info.PoolInfo;
 import model.turtle.info.TurtleInfo;
 import util.SLogoException;
@@ -20,13 +19,12 @@ import util.SLogoObservable;
 public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
 	
 	public static final int INITIAL_ID = 1;
-	public static final Color DEFAULT_BACKGROUND = Color.WHITE;
 
     private Pen defaultPen;
     private Map<Integer, Turtle> allTurtles;
     private List<Integer> activeIDs;
     private int activeIndex;
-    private Color myBG;
+    private int myBG;
     
     public TurtlePool() {
         super();
@@ -36,7 +34,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
         allTurtles.put(INITIAL_ID, new ToroidalTurtle(defaultPen));
         activeIDs.add(INITIAL_ID);
         activeIndex = 0;
-        myBG = DEFAULT_BACKGROUND;
+        myBG = 0;
     }
     
     public <T> T apply(Function<Turtle, T> function) {
@@ -93,12 +91,13 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     }
     
     @Override
-    public Color getBackground() {
+    public int getBackground() {
         return myBG;
     }
     
-    public void setBackground(Color color) {
-        myBG = color;
+    public int setBackground(int index) {
+        myBG = index;
+        return index;
     }
 
     @Override
@@ -111,6 +110,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     }
     
     public void tell(List<Integer> ids) {
+    	ids.forEach(id -> System.out.println(id));
     	activeIDs.clear();
     	activeIndex = -1;
     	for(int id: ids) {
