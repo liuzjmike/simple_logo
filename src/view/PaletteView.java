@@ -5,62 +5,68 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import model.Palette;
 import model.info.PaletteInfo;
 import util.SLogoObserver;
 
-public class PaletteView implements SLogoObserver<PaletteInfo> {
+public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo> {
 	
-	public static final String[] COLORS = {"White", "Red", "Blue", "Green", "Yellow", "Gray", "Orange", "Indigo"};
-	public static final String PEN = "Pen";
+	public static final String PEN = "PenColor";
 	public static final String BG = "Background";
 	
-    private ScrollPane scrollpane;
-    private VBox myBox;
 	private Consumer<String> myHandler;
 	private String type;
+	private ScrollView myColors;
+	private PaletteInfo myPalette;
     
     public PaletteView(Consumer<String> handler) {
-    	Pane pane = new Pane();
-    	RadioButton rb1 = new RadioButton();
-    	rb1.setText(PEN);
-    	rb1.setOnMouseClicked(e -> type = rb1.getText());
-    	RadioButton rb2 = new RadioButton();
-    	rb2.setText(BG);
-    	rb2.setOnMouseClicked(e -> type = rb2.getText());
-    	pane.getChildren().addAll(rb1, rb2);
-    	scrollpane = new ScrollPane(pane);
+    	super("Palette", new VBox());
+    	myColors = new ScrollView("Colors");
+    	getRoot().getChildren().addAll(createChoice(), myColors.getRoot());
     	myHandler = handler;
+    	myPalette = new Palette();
     }
     
     @Override
-    public void update(PaletteInfo arg) {
-        List<Color> colors = populateList(arg);
-        setupChoices(colors);
+    public void update(PaletteInfo palette) {
+    	myPalette = palette;
+        setupChoices(populateList(palette));
     }
     
-    public Node getRoot() {
-    	return scrollpane;
+    public PaletteInfo getPalette() {
+    	return myPalette;
+    }
+    
+    private HBox createChoice() {
+    	HBox hbox = new HBox(createRadioButton(PEN), createRadioButton(BG));
+    	hbox.setId("palette-mode");
+    	return hbox;
+    }
+    
+    private RadioButton createRadioButton(String text) {
+    	RadioButton rb = new RadioButton(text);
+    	rb.setOnMouseClicked(e -> type = rb.getText());
+    	return rb;
     }
     
     private void setupChoices(List<Color> colors) {
+    	myColors.clear();
     	for(int i=0; i<colors.size(); i++) {
     		HBox hbox = new HBox();
     		Text text = new Text(i + ": ");
-    		Rectangle rec = new Rectangle();
+    		Rectangle rec = new Rectangle(20, 20);
     		rec.setFill(colors.get(i));
     		hbox.getChildren().add(text);
     		hbox.getChildren().add(rec);
-    		hbox.setOnMouseClicked(e -> myHandler.accept(type));
-    		myBox.getChildren().add(hbox);
+    		int index = i;
+    		hbox.setOnMouseClicked(e -> myHandler.accept("Set" + type + " " + index));
+    		myColors.addElement(hbox);
     	}
     }
     
