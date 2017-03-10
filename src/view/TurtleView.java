@@ -6,6 +6,7 @@ import java.util.List;
 import controller.StringProcessor;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 import model.turtle.TurtleHist;
@@ -47,48 +48,42 @@ public class TurtleView {
 	}
 	
 	 private void addDragAndDropHandler(ImageView imageView) {
-	    	
-	    	EventHandler<MouseEvent> onMousePressedHandler = new EventHandler<MouseEvent>() {
-	    		 
-	            @Override
-	            public void handle(MouseEvent t) {
-	                orgSceneX = t.getSceneX();
-	                orgSceneY = t.getSceneY();
-	                orgTranslateX = ((ImageView)(t.getSource())).getTranslateX();
-	                orgTranslateY = ((ImageView)(t.getSource())).getTranslateY();
-	            }
-	        };
-	        
 	        EventHandler<MouseEvent> onMouseDraggedHandler = 
 	                new EventHandler<MouseEvent>() {
 	        	 
 	            @Override
 	            public void handle(MouseEvent t) {
-	                double offsetX = t.getSceneX() - orgSceneX;
-	                double offsetY = t.getSceneY() - orgSceneY;
-	                newTranslateX = orgTranslateX + offsetX;
-	                newTranslateY = orgTranslateY + offsetY;
-	                 
-	                ((ImageView)(t.getSource())).setTranslateX(newTranslateX);
-	                ((ImageView)(t.getSource())).setTranslateY(newTranslateY);
-
+	                ((ImageView)(t.getSource())).setX(t.getSceneX()-DEFAULT_WIDTH/2);
+	                ((ImageView)(t.getSource())).setY(t.getSceneY()-DEFAULT_HEIGHT/2);
+	                
 	            }
 	        };
 	        
 	        EventHandler<MouseEvent> onMouseReleasedHandler = 
-	        		new EventHandler<MouseEvent>() {
-
+	        		new EventHandler<MouseEvent>() {        			
 						@Override
 						public void handle(MouseEvent t) {
-							myHandler.execute("setxy "+newTranslateX+" "+newTranslateY);
+							myHandler.execute("setxy "+(t.getSceneX()-xOffset)+" "+(-t.getSceneY()+yOffset));
 						}
 	        	
 	        };
-	        
-	        imageView.setOnMousePressed(onMousePressedHandler);
 	        imageView.setOnMouseDragged(onMouseDraggedHandler);
 	        imageView.setOnMouseReleased(onMouseReleasedHandler);
 	    }
+	 private void handleKeyInput(KeyCode code){
+		 if(code == KeyCode.UP){
+			 myHandler.execute("setxy"+(myImage.getX())+" "+(myImage.getY()));
+		 }
+		 else if(code == KeyCode.DOWN){
+			 
+		 }
+		 else if(code == KeyCode.RIGHT){
+			 
+		 }
+		 else if(code == KeyCode.LEFT){
+			 
+		 }
+	 }
     
     public void update(){
         setVisible(myTurtle.isVisible());

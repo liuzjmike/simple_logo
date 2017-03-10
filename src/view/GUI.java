@@ -13,7 +13,8 @@ import javax.xml.transform.TransformerException;
 import controller.ControlHandler;
 import controller.StringProcessor;
 import controller.WorkspaceHandler;
-import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -24,6 +25,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -31,9 +33,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.executable.Literal;
 import model.executable.command.Command;
@@ -204,11 +205,32 @@ public class GUI {
 		showReferenceButton.setOnMouseClicked(onClick -> promptForReference());
 		Button changeLanguageButton = new Button("Change Language");
 		changeLanguageButton.setOnMouseClicked(onClick -> promptLanguage());
+		ObservableList<String> options = FXCollections.observableArrayList(
+		        "Thin",
+		        "Moderate",
+		        "Thick"
+		    );
+		ComboBox penSettingBox = new ComboBox(options);
+		penSettingBox.setPromptText("Pen Thickness");
+		//penSettingButton.setOnMouseClicked(onClick -> setPenSetting());
 		
-		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton);
+		
+		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton,penSettingBox);
 		return userBar;
 	}
 	
+//	private void setPenSetting() {
+//		Popup myPop = new Popup();
+//		ObservableList<String> options = FXCollections.observableArrayList(
+//		        "Thin",
+//		        "Moderate",
+//		        "Thick"
+//		    );
+//		myPop.getContent().add(new ComboBox(options));
+//		myPop.show(myStage);
+//
+//		
+//	}
 	public HBox getUserBar2() {
 		HBox userBar = new HBox();
 		userBar.setAlignment(Pos.CENTER_LEFT);

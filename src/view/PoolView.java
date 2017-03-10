@@ -5,16 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import controller.StringProcessor;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -27,7 +20,7 @@ import util.SLogoObserver;
 
 public class PoolView implements SLogoObserver<PoolInfo> {
 	public static final String TURTLE_IMAGE = "TurtleImage.png";
-	public static final String DEFAULT_BACKGROUND_COLOR = "white";
+	//public static final String DEFAULT_BACKGROUND_COLOR = "white";
 	public static final String CSS_FILE = "resources/PaneColor.css";
 
 	private Pane myPane;
@@ -94,6 +87,7 @@ public class PoolView implements SLogoObserver<PoolInfo> {
 		setTurtle(arg.getTurtles());
 		drawTurtle();
 	}
+	
 	
 	public Color getBackgroundColor() {
 		return (Color) myPane.getBackground().getFills().get(0).getFill();
