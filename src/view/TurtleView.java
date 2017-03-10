@@ -6,7 +6,6 @@ import java.util.List;
 import controller.StringProcessor;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 import model.turtle.TurtleHist;
@@ -23,9 +22,6 @@ public class TurtleView {
 	private List<Line> myLines;
 	private LineDrawer lineDrawer; 
 	private double xOffset, yOffset;
-	
-	double orgSceneX,orgSceneY;
-	double orgTranslateX, orgTranslateY;
 	
 	 double newTranslateX;
      double newTranslateY;
@@ -70,20 +66,7 @@ public class TurtleView {
 	        imageView.setOnMouseDragged(onMouseDraggedHandler);
 	        imageView.setOnMouseReleased(onMouseReleasedHandler);
 	    }
-	 private void handleKeyInput(KeyCode code){
-		 if(code == KeyCode.UP){
-			 myHandler.execute("setxy"+(myImage.getX())+" "+(myImage.getY()));
-		 }
-		 else if(code == KeyCode.DOWN){
-			 
-		 }
-		 else if(code == KeyCode.RIGHT){
-			 
-		 }
-		 else if(code == KeyCode.LEFT){
-			 
-		 }
-	 }
+	 
     
     public void update(){
         setVisible(myTurtle.isVisible());
