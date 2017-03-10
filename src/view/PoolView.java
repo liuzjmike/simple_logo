@@ -36,14 +36,12 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
     private Map<Integer, TurtleView> myTurtles;
     private LineDrawer lineDrawer;
 
-    private Consumer<String> myHandler;
 	private Supplier<PaletteInfo> myPaletteSupplier;
 
     private int activeTurtleID;
 
     public PoolView(double width, double height, Consumer<String> guiHandler, Supplier<PaletteInfo> paletteSupplier) {
-        super("Pool", new Pane());
-        myHandler = guiHandler;
+        super("Pool", new Pane(), guiHandler);
     	myPaletteSupplier = paletteSupplier;
         myTurtles = new HashMap<Integer,TurtleView>();
         setBackgroundColor(Color.WHITE);
@@ -94,7 +92,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
             public void handle(MouseEvent t) {
                 ((ImageView)(t.getSource())).setX(t.getSceneX()-TurtleView.DEFAULT_WIDTH/2);
                 ((ImageView)(t.getSource())).setY(t.getSceneY()-TurtleView.DEFAULT_HEIGHT/2);
-                myHandler.accept(String.format(ASK_SETXYCOMMAND,activeTurtleID,(t.getSceneX()-getRoot().getPrefWidth()/2),(-t.getSceneY()+getRoot().getPrefHeight()/2)));
+                execute(String.format(ASK_SETXYCOMMAND,activeTurtleID,(t.getSceneX()-getRoot().getPrefWidth()/2),(-t.getSceneY()+getRoot().getPrefHeight()/2)));
             }
         };
         imageView.setOnMouseDragged(onMouseDraggedHandler);
@@ -102,16 +100,16 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 	
 	public void handleKeyInput(KeyCode code){
 		 if(code == KeyCode.W){
-			 myHandler.accept(String.format(ASK_MOVECOMMAND,activeTurtleID,FORWARD_COMMAND,DEFALUT_STEP));
+			 execute(String.format(ASK_MOVECOMMAND,activeTurtleID,FORWARD_COMMAND,DEFALUT_STEP));
 		 }
 		 else if(code == KeyCode.S){
-			 myHandler.accept(String.format(ASK_MOVECOMMAND,activeTurtleID,BACKWARD_COMMAND,DEFALUT_STEP));
+		     execute(String.format(ASK_MOVECOMMAND,activeTurtleID,BACKWARD_COMMAND,DEFALUT_STEP));
 		 }
 		 else if(code == KeyCode.D){
-			 myHandler.accept(String.format(ASK_MOVECOMMAND,activeTurtleID,TURNRIGHT_COMMAND,DEFALUT_STEP));
+		     execute(String.format(ASK_MOVECOMMAND,activeTurtleID,TURNRIGHT_COMMAND,DEFALUT_STEP));
 		 }
 		 else if(code == KeyCode.A){
-			 myHandler.accept(String.format(ASK_MOVECOMMAND,activeTurtleID,TURNLEFT_COMMAND,DEFALUT_STEP));
+		     execute(String.format(ASK_MOVECOMMAND,activeTurtleID,TURNLEFT_COMMAND,DEFALUT_STEP));
 		 }
 	 }
 	

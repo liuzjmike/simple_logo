@@ -11,11 +11,8 @@ import util.SLogoObserver;
 
 public class CommandView extends ScrollView implements SLogoObserver<Map<String, Command>> {
 	
-	private Consumer<String> myHandler;
-	
 	public CommandView(Consumer<String> guiHandler) {
-	    super("Command");
-		myHandler = guiHandler;
+	    super("Command", guiHandler);
 	}
 	
 	private void installHandler(Text myText) {
@@ -23,7 +20,7 @@ public class CommandView extends ScrollView implements SLogoObserver<Map<String,
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
 		        	try {
-						myHandler.accept(myText.getText());
+		        	    execute(myText.getText());
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

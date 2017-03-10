@@ -11,7 +11,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import model.Palette;
 import model.info.PaletteInfo;
 import util.SLogoObserver;
 
@@ -20,17 +19,14 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
 	public static final String PEN = "PenColor";
 	public static final String BG = "Background";
 	
-	private Consumer<String> myHandler;
 	private String type;
 	private ScrollView myColors;
 	private PaletteInfo myPalette;
     
     public PaletteView(Consumer<String> handler) {
-    	super("Palette", new VBox());
+    	super("Palette", new VBox(), handler);
     	myColors = new ScrollView("Colors");
     	getRoot().getChildren().addAll(createChoice(), myColors.getRoot());
-    	myHandler = handler;
-    	myPalette = new Palette();
     }
     
     @Override
@@ -65,7 +61,7 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     		hbox.getChildren().add(text);
     		hbox.getChildren().add(rec);
     		int index = i;
-    		hbox.setOnMouseClicked(e -> myHandler.accept("Set" + type + " " + index));
+    		hbox.setOnMouseClicked(e -> execute("Set" + type + " " + index));
     		myColors.addElement(hbox);
     	}
     }
