@@ -3,7 +3,6 @@ package view;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import model.executable.command.Command;
@@ -16,17 +15,7 @@ public class CommandView extends ScrollView implements SLogoObserver<Map<String,
 	}
 	
 	private void installHandler(Text myText) {
-		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, 
-		    new EventHandler<MouseEvent>() {
-		        public void handle(MouseEvent e) {
-		        	try {
-		        	    execute(myText.getText());
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-		        }
-		});
+		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> execute(myText.getText()));
 	}
 
     public void addCommandToScreen(String myCommand) {

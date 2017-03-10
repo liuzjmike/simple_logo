@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 
 public class XMLParserWriter {
 	
-	public static void saveState(String file,String root, Map<String,String> parameters,String directory) throws TransformerException, IOException {
+	public static void saveState(String file, String root, Map<String,String> parameters,String directory) throws TransformerException, IOException {
 		try {
 			Document myDoc = getDocument();
 			Element workspaceElement = myDoc.createElement(root);
@@ -51,7 +51,7 @@ public class XMLParserWriter {
 		parentEl.appendChild(el);
 	}
 	
-	public static Map<String,String> extractContent(File file,boolean orderMatters) {
+	public static Map<String,String> extractContent(File file, boolean orderMatters) {
 		Map<String,String> parameters;
 		if (orderMatters) {
 			parameters = new LinkedHashMap<String,String>();
@@ -61,7 +61,7 @@ public class XMLParserWriter {
 		try {
 			Document myDoc = getDocument(file);
 			NodeList nodeList = getNodeList(myDoc);
-			for (int i = 1; i<nodeList.getLength();i++) {
+			for (int i = 1; i<nodeList.getLength(); i++) {
 				readElement(nodeList.item(i),parameters,myDoc);
 			}
 		} catch (SAXException e) {

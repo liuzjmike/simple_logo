@@ -188,7 +188,7 @@ public class GUI {
         saveState.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 try {
-                    saveState();
+                    saveWorkspacePref();
                 } catch (TransformerException | IOException e) {
                     e.printStackTrace();
                 }
@@ -264,12 +264,12 @@ public class GUI {
         myStage.toFront();
     }
 
-    private void saveState() throws TransformerException, IOException {
+    private void saveWorkspacePref() throws TransformerException, IOException {
         String fileName = promptUserForFileName();
         Map<String,String> parameters = new HashMap<String,String>();
-        parameters.put("color", myPoolView.getBackgroundColor().toString());
-        parameters.put("language", myHandler.getLanguage());
-        XMLParserWriter.saveState(fileName, "workspace",parameters,"SavedStates");
+        parameters.put("Background color", myPoolView.getBackgroundColor().toString());
+        parameters.put("Language", myHandler.getLanguage());
+        XMLParserWriter.saveState(fileName, "Workspace", parameters, "SavedStates");
     }
 
     private File promptUserForFile() {
