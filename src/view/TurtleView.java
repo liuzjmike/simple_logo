@@ -23,9 +23,6 @@ public class TurtleView {
 	private LineDrawer lineDrawer; 
 	private double xOffset, yOffset;
 	
-	double orgSceneX,orgSceneY;
-	double orgTranslateX, orgTranslateY;
-	
 	 double newTranslateX;
      double newTranslateY;
 	
@@ -47,48 +44,29 @@ public class TurtleView {
 	}
 	
 	 private void addDragAndDropHandler(ImageView imageView) {
-	    	
-	    	EventHandler<MouseEvent> onMousePressedHandler = new EventHandler<MouseEvent>() {
-	    		 
-	            @Override
-	            public void handle(MouseEvent t) {
-	                orgSceneX = t.getSceneX();
-	                orgSceneY = t.getSceneY();
-	                orgTranslateX = ((ImageView)(t.getSource())).getTranslateX();
-	                orgTranslateY = ((ImageView)(t.getSource())).getTranslateY();
-	            }
-	        };
-	        
 	        EventHandler<MouseEvent> onMouseDraggedHandler = 
 	                new EventHandler<MouseEvent>() {
 	        	 
 	            @Override
 	            public void handle(MouseEvent t) {
-	                double offsetX = t.getSceneX() - orgSceneX;
-	                double offsetY = t.getSceneY() - orgSceneY;
-	                newTranslateX = orgTranslateX + offsetX;
-	                newTranslateY = orgTranslateY + offsetY;
-	                 
-	                ((ImageView)(t.getSource())).setTranslateX(newTranslateX);
-	                ((ImageView)(t.getSource())).setTranslateY(newTranslateY);
-
+	                ((ImageView)(t.getSource())).setX(t.getSceneX()-DEFAULT_WIDTH/2);
+	                ((ImageView)(t.getSource())).setY(t.getSceneY()-DEFAULT_HEIGHT/2);
+	                
 	            }
 	        };
 	        
 	        EventHandler<MouseEvent> onMouseReleasedHandler = 
-	        		new EventHandler<MouseEvent>() {
-
+	        		new EventHandler<MouseEvent>() {        			
 						@Override
 						public void handle(MouseEvent t) {
-							myHandler.accept("setxy "+newTranslateX+" "+newTranslateY);
+							myHandler.accept("setxy "+(t.getSceneX()-xOffset)+" "+(-t.getSceneY()+yOffset));
 						}
 	        	
 	        };
-	        
-	        imageView.setOnMousePressed(onMousePressedHandler);
 	        imageView.setOnMouseDragged(onMouseDraggedHandler);
 	        imageView.setOnMouseReleased(onMouseReleasedHandler);
 	    }
+	 
     
     public void update(){
         setVisible(myTurtle.isVisible());

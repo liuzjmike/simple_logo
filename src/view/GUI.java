@@ -13,6 +13,8 @@ import javax.xml.transform.TransformerException;
 
 import controller.ControlHandler;
 import controller.WorkspaceHandler;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -23,6 +25,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -31,6 +34,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.executable.Literal;
 import model.executable.command.Command;
@@ -59,6 +63,7 @@ public class GUI {
 	private WorkspaceHandler myWorkspaceHandler;
 	
 	private Stage myStage;
+	private Scene myScene;
 	
 	public enum FileType {COMMANDS,SAVED_STATE}
 	
@@ -72,12 +77,17 @@ public class GUI {
     	poolViewCol = 0;
     	myGridPane = getGridPane();
 	}
-    public void show(Stage stage) {
-    	Scene myScene = new Scene(getGridPane(),backgroundColor);
+    
+	public void show(Stage stage) {
+    	myScene = new Scene(getGridPane(),backgroundColor);
+    	keyHandle();
     	myStage = stage;
     	stage.setTitle("SLogo IDE");
     	stage.setScene(myScene);
     	stage.show();
+	}
+	private void keyHandle() {
+		myScene.setOnKeyPressed(e -> myPoolView.handleKeyInput(e.getCode()));	
 	}
     
     public void setHandlers(ControlHandler handler) {
@@ -201,11 +211,19 @@ public class GUI {
 		showReferenceButton.setOnMouseClicked(onClick -> promptForReference());
 		Button changeLanguageButton = new Button("Change Language");
 		changeLanguageButton.setOnMouseClicked(onClick -> promptLanguage());
+		ObservableList<String> options = FXCollections.observableArrayList(
+		        "Thin",
+		        "Moderate",
+		        "Thick"
+		    );
+		ComboBox penSettingBox = new ComboBox(options);
+		penSettingBox.setPromptText("Pen Thickness");
+		//penSettingButton.setOnMouseClicked(onClick -> setPenSetting());
 		
-		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton);
+		
+		userBar.getChildren().addAll(changeColorButton,showReferenceButton,changeLanguageButton,penSettingBox);
 		return userBar;
 	}
-	
 	public HBox getUserBar2() {
 		HBox userBar = new HBox();
 		userBar.setAlignment(Pos.CENTER_LEFT);
