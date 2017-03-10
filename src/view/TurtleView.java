@@ -76,15 +76,15 @@ public class TurtleView {
             myLines.clear();
             TurtleHist oldHist = lastMove.get(i), newHist = lastMove.get(i+1);
             newHist = lastMove.get(i+1);
-            if(oldHist.penDown()) {
-                Line line = myTurtle.getPenInfo().drawLine(
-                                                           transformX(oldHist.getX()),
-                                                           transformY(oldHist.getY()),
-                                                           transformX(newHist.getX()), 
-                                                           transformY(newHist.getY()));
-                lineDrawer.addLine(line);
-                myLines.add(line);
-            }
+//            if(oldHist.penDown()) {
+//                Line line = myTurtle.getPenInfo().drawLine(
+//                                                           transformX(oldHist.getX()),
+//                                                           transformY(oldHist.getY()),
+//                                                           transformX(newHist.getX()), 
+//                                                           transformY(newHist.getY()));
+//                lineDrawer.addLine(line);
+//                myLines.add(line);
+//            }
         }
         setXY(myTurtle.getX(), myTurtle.getY());
         if(myTurtle.isReset()) {

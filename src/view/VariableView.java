@@ -4,40 +4,20 @@ import java.util.Map.Entry;
 import java.util.function.Consumer;
 
 import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.executable.Literal;
 import util.SLogoObserver;
 
-public class VariableView implements SLogoObserver<List<Entry<String, Literal>>> {
-	
-	VBox vBox;
-	ScrollPane myPane;
+public class VariableView extends ScrollView implements SLogoObserver<List<Entry<String, Literal>>> {
 	
 	Consumer<String> myHandler;
 	
-	public VariableView() {
-		vBox = new VBox();
-		myPane = new ScrollPane(vBox);
-		Text text = new Text("Variables:\n");
-		vBox.getChildren().add(text);
-	}
-    
-    public void setHandler(Consumer<String> handler) {
-        myHandler = handler;
-    }
-
-	public Node getNode() {
-		return myPane;
-	}
-	private void addVariableToScreen(Entry<String,Literal> entry) {
-		HBox myText = getVariableText(entry);
-		vBox.getChildren().add(myText);
+	public VariableView(Consumer<String> guiHandler) {
+	    super("Variable");
+		myHandler = guiHandler;
 	}
 	
 	private HBox getVariableText(Entry<String,Literal> entry) {
@@ -69,9 +49,9 @@ public class VariableView implements SLogoObserver<List<Entry<String, Literal>>>
 
     @Override
     public void update(List<Entry<String, Literal>> arg) {
-    	vBox.getChildren().clear();
+    	clear();
         for (Entry<String,Literal> entry : arg) {
-            addVariableToScreen(entry);
+            addElement(getVariableText(entry));
         }
     }
 
