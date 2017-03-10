@@ -1,3 +1,11 @@
-#palette-mode {
+#radio-button {
+    -fx-pref-height: 200 !important;
+    -fx-pref-width: 200;
+    -fx-padding: 10;
     
+    -fx-alignment: center;
+}
+
+#big-container {
+    -fx-spacing: 20px;
 }

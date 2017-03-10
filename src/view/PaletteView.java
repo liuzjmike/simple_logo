@@ -29,6 +29,7 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     	super("Palette", new VBox());
     	myColors = new ScrollView("Colors");
     	getRoot().getChildren().addAll(createChoice(), myColors.getRoot());
+    	getRoot().setId("big-container");
     	myHandler = handler;
     	myPalette = new Palette();
     }
@@ -45,7 +46,7 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     
     private HBox createChoice() {
     	HBox hbox = new HBox(createRadioButton(PEN), createRadioButton(BG));
-    	hbox.setId("palette-mode");
+    	hbox.setId("radio-button");
     	return hbox;
     }
     
