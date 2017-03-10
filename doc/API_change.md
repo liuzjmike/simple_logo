@@ -3,7 +3,33 @@ SLogo External API Change
 
 ## GUI
 
-1) 
+1) void show(Stage stage)
+
+Added the stage parameter to initialize a stage.
+
+2) void setViewHandler(ControlHandler handler)
+
+Added the setViewHandler method for initializing all necessary handlers for each View.
+
+3) double getPoolViewHeight()
+
+Added this method to return the PoolView's height.
+
+4) double getPoolViewWidth()
+
+Added this method to return the PoolView's width.
+
+5) SLogoObserver<Collection<Turtle>> getPoolObserver()
+
+Added this method to return the Turtle Pool View.
+
+6) SLogoObserver<List<Entry<String, Literal>>> getVariableObserver()
+
+Added this method to return the VariableView.
+
+7) SLogoObserver<List<Entry<String, Command>>> getCommandObserver()
+
+Added this method to return the CommandView.
 
 
 ## SLogoModel

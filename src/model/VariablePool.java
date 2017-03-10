@@ -1,60 +1,83 @@
 package model;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import model.executable.Literal;
-import util.SLogoObserver;
-import util.SObservableOrderedMap;
+import util.SLogoException;
+import util.SLogoObservable;
 
-public class VariablePool {
+public class VariablePool extends SLogoObservable<List<Entry<String, Literal>>> {
+	
+	public static final int STACK_LIMIT = 1024;
     
-    private SObservableOrderedMap<String, Literal> myVariables;
     private Deque<Map<String, Literal>> myStack;
+    private int callStack;
     
     public VariablePool() {
-        myVariables = new SObservableOrderedMap<>();
         myStack = new ArrayDeque<>();
+        callStack = 0;
     }
     
     public void add(String name, double value) {
-    	myVariables.put(name, new Literal(value));
+        add(name, new Literal(value));
+    }
+    
+    public void add(String name, Literal value) {
+        myStack.getFirst().put(name, value);
+        notifyObservers();
     }
     
     public Literal get(String name) {
-        if(myStack.isEmpty() || !myStack.getFirst().containsKey(name)) {
-            return myVariables.get(name);
-        } else {
-            return myStack.getFirst().get(name);
+        for(Map<String, Literal> scope: myStack) {
+            if(scope.containsKey(name)) {
+                return scope.get(name);
+            }
+        }
+        throw new SLogoException(SLogoException.NO_VARIABLE_IN_SCOPE);
+    }
+    
+    public void alloc() {
+        if(myStack.isEmpty() || callStack > 0) {
+            myStack.push(new HashMap<>());
+        }
+        callStack++;
+        if (callStack > STACK_LIMIT) {
+        	throw new SLogoException(SLogoException.STACK_OVERFLOW);
         }
     }
     
-    public void allocTemp() {
-        myStack.push(new HashMap<String, Literal>());
-    }
-    
-    public void addTemp(String name, Literal value) {
-        myStack.getFirst().put(name, value);
-    }
-    
-    public void releaseTemp() {
-        myStack.pop();
+    public void release() {
+        if(callStack == 0) {
+            throw new SLogoException(SLogoException.STACK_UNDERFLOW);
+        }
+        if(callStack > 1) {
+            myStack.pop();
+        }
+        callStack--;
+        notifyObservers();
     }
     
     List<Entry<String, Literal>> getVariables() {
-        return myVariables.getAll();
+        return notification();
     }
-    
-    void addObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
-        myVariables.addObserver(so);
-    }
-    
-    void removeObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
-        myVariables.removeObserver(so);
+
+    @Override
+    protected List<Entry<String, Literal>> notification() {
+        List<Entry<String, Literal>> ret = new ArrayList<>();
+        myStack.forEach(
+                scope -> ret.addAll(scope.entrySet()
+                                         .stream()
+                                         .sorted(Comparator.comparing(Entry<String, Literal>::getKey))
+                                         .collect(Collectors.toList())));
+        return ret;
     }
 
 }

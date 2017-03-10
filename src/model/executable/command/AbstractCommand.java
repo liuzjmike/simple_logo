@@ -6,33 +6,57 @@ import java.util.List;
 import model.Environment;
 import model.executable.Executable;
 import model.executable.Literal;
+import util.SLogoException;
 
 public abstract class AbstractCommand implements Command {
 
-    List<Executable> myParams;
+    private List<Executable> myParams;
+    private int numParams;
     
-    public AbstractCommand() {
+    public AbstractCommand(int numParams) {
         myParams = new ArrayList<>();
+        this.numParams = numParams;
     }
     
     @Override
     public Literal execute(Environment env) {
-        if(myParams.size() != numParams()) {
+        //TODO: Unlimited Parameters
+        if(myParams.size() % numParams() != 0) {
+            throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
+        }
+        return new Literal(concreteExecute(env));
+    }
+    
+    @Override
+    public Command copy() {
+        Command ret = newInstance();
+    	myParams.forEach(exec -> ret.addParam(exec.copy()));
+    	return ret;
+    }
+    
+    @Override
+    public Command newInstance() {
+        try {
+            return getClass().newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
             throw new RuntimeException();
         }
-        return concreteExecute(env);
+    }
+    
+    @Override
+    public int numParams() {
+    	return numParams;
     }
     
     @Override
     public void addParam(Executable exec) {
-        if(myParams.size() >= numParams()) {
-            throw new RuntimeException();
-        }
         myParams.add(exec);
     }
     
     @Override
-    public void resetParams() {
+    public void clearParams() {
     	myParams.clear();
     }
     
@@ -44,5 +68,5 @@ public abstract class AbstractCommand implements Command {
         return myParams.get(index).execute(env).getValue();
     }
     
-    protected abstract Literal concreteExecute(Environment env);
+    protected abstract double concreteExecute(Environment env);
 }

@@ -11,29 +11,29 @@ public class CustomizedCommand extends AbstractCommand {
 	private ExecutableList varParams, myBody;
 
 	public CustomizedCommand(ExecutableList params, ExecutableList body) {
+		super(params.size());
 		varParams = params;
 		myBody = body;
 	}
 	
 	@Override
-	public int numParams() {
-		return varParams.size();
+	public CustomizedCommand newInstance() {
+	    return new CustomizedCommand(varParams.copy(), myBody.copy());
 	}
 
 	@Override
-	protected Literal concreteExecute(Environment env) {
-	    env.getVariablePool().allocTemp();
+	protected double concreteExecute(Environment env) {
+	    env.getVariablePool().alloc();
 		for(int i = 0; i < varParams.size(); i++) {
 			Variable var = (Variable)varParams.get(i);
-			env.getVariablePool().addTemp(var.getName(), getParam(i).execute(env));
+			env.getVariablePool().add(var.getName(), getParam(i).execute(env));
 		}
 		Literal ret = new Literal(0);
 		for(Executable exec : myBody) {
 			ret = exec.execute(env);
 		}
-		env.getVariablePool().releaseTemp();
-		resetParams();
-		return ret;
+		env.getVariablePool().release();
+		return ret.getValue();
 	}
 
 }

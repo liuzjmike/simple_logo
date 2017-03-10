@@ -2,17 +2,16 @@ package model.turtle;
 
 public class ToroidalTurtle extends AbstractTurtle {
     
-    public ToroidalTurtle(int id) {
-        super(id);
+    public ToroidalTurtle(Pen pen) {
+        super(pen);
     }
     
     @Override
     protected void move(double dx, double dy, double wRadius, double hRadius) {
         double newX = getX() + dx;
-        double newY = getY() + Math.copySign(dx * Math.tan(radianHeading()),
-                Math.sin(radianHeading()));
+        double newY = getY() + dx * Math.tan(radianHeading());
         if(inBounds(newX, newY, wRadius, hRadius)) {
-            moveOn(newX, newY, penDown());
+            moveOn(newX, newY, getPen().isDown());
             return;
         }
         double oldX = getX();
@@ -20,7 +19,7 @@ public class ToroidalTurtle extends AbstractTurtle {
         moveOn(getInboundPos(newX, newY, wRadius, hRadius));
         dx -= getX() - oldX;
         dy -= getY() - oldY;
-        moveOn(switchSide(getX(), dx, wRadius), switchSide(getY(), dy, hRadius), penDown());
+        moveOn(switchSide(getX(), dx, wRadius), switchSide(getY(), dy, hRadius), getPen().isDown());
         move(dx, dy, wRadius, hRadius);
     }
     
@@ -29,13 +28,11 @@ public class ToroidalTurtle extends AbstractTurtle {
     }
     
     private TurtleHist getInboundPos(double x, double y, double wRadius, double hRadius) {
-        double dx = Math.cos(radianHeading()) > 0 ? wRadius - getX() : wRadius + getX();
-        double yIntersect = getY() + Math.copySign(dx * Math.tan(radianHeading()),
-                Math.sin(radianHeading()));
+        double dx = x > getX() ? wRadius - getX() : - wRadius - getX();
+        double yIntersect = getY() + dx * Math.tan(radianHeading());
         if(yIntersect < -hRadius || yIntersect > hRadius) {
-            double dy = Math.sin(radianHeading()) > 0 ? hRadius - getY() : hRadius + getY();
-            return new TurtleHist(getX() + Math.copySign(dy / Math.tan(radianHeading()),
-                    Math.cos(radianHeading())), y < 0 ? -hRadius : hRadius-1, false);
+            double dy = y > getY() ? hRadius - getY() : - hRadius - getY();
+            return new TurtleHist(getX() + dy / Math.tan(radianHeading()), y < 0 ? -hRadius : hRadius-1, false);
         } else {
             return new TurtleHist(x < 0 ? -wRadius : wRadius-1, yIntersect, false);
         }

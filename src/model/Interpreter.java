@@ -11,6 +11,7 @@ import model.executable.Variable;
 import model.executable.command.Command;
 import model.executable.command.To;
 import util.RegexParser;
+import util.SLogoException;
 
 public class Interpreter {
 	
@@ -26,7 +27,7 @@ public class Interpreter {
     public Executable parse(String commands, Environment env) {
     	Deque<String> dq = new ArrayDeque<>();
     	for (String s : commands.split(typeParser.getRegex("Newline"))) {
-    		s.trim();
+    		s = s.trim();
     		if (is(s, "Comment") || s.isEmpty()) {
     			continue;
     		}
@@ -41,7 +42,7 @@ public class Interpreter {
     
     private Executable parse(Deque<String> expressions, Environment env) {
         if(expressions.isEmpty()) {
-            throw new RuntimeException();
+        	throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
         }
         String exp = expressions.pop();
         if(is(exp, "ListStart")) {
@@ -59,8 +60,11 @@ public class Interpreter {
             return new Literal(Double.parseDouble(exp));
         }
         else if(exp.toLowerCase().equals("to")) {
-            To to = new To(expressions.pop());
-            to.addParam(parseParam(expressions));
+            String name = expressions.pop();
+            ExecutableList params = parseParam(expressions);
+            env.getCommandPool().define(name, params.size());
+            To to = new To(name);
+            to.addParam(params);
             to.addParam(parse(expressions, env));
             return to;
         }
@@ -72,7 +76,7 @@ public class Interpreter {
             return command;
         }
         else {
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.ILLEGAL_INPUT, exp);
         }
     }
 
@@ -82,7 +86,7 @@ public class Interpreter {
     
     private ExecutableList parseParam(Deque<String> expressions) {
         if(!is(expressions.pop(), "ListStart")) {
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.MISSING_LIST);
         }
         ExecutableList params = new ExecutableList();
         String exp;

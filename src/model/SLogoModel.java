@@ -1,12 +1,13 @@
 package model;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import model.executable.Literal;
 import model.executable.command.Command;
-import model.turtle.Turtle;
+import model.turtle.info.PoolInfo;
+import model.turtle.info.TurtleInfo;
 import util.SLogoObserver;
 
 public class SLogoModel {
@@ -20,30 +21,35 @@ public class SLogoModel {
     }
     
     public double interpret(String commands) {
-        return myInterpreter.parse(commands, myEnv).execute(myEnv).getValue();
+    	return myInterpreter.parse(commands, myEnv).execute(myEnv).getValue();
     }
     
     public void setLanguage(String language) {
         myEnv.getCommandPool().setLanguage(language);
     }
     
-    public void setSize(double width, double height) {
-        myEnv.getTurtlePool().setSize(width, height);
+    public String getLanguage() {
+    	return myEnv.getCommandPool().getLanguage();
     }
     
-    public void addPoolObserver(SLogoObserver<Collection<Turtle>> so) {
+    public void setSize(double width, double height) {
+        myEnv.setWidth(width);
+        myEnv.setHeight(height);
+    }
+    
+    public void addPoolObserver(SLogoObserver<PoolInfo> so) {
         myEnv.getTurtlePool().addObserver(so);
     }
     
-    public void removePoolObserver(SLogoObserver<Collection<Turtle>> so) {
+    public void removePoolObserver(SLogoObserver<PoolInfo> so) {
         myEnv.getTurtlePool().removeObserver(so);
     }
     
-    public void addCommandObserver(SLogoObserver<List<Entry<String, Command>>> so) {
-        myEnv.getCommandPool().addUserObserver(so);
+    public void addCommandObserver(SLogoObserver<Map<String, Command>> so) {
+        myEnv.getCommandPool().addObserver(so);
     }
     
-    public void removeCommandObserver(SLogoObserver<List<Entry<String, Command>>> so) {
+    public void removeCommandObserver(SLogoObserver<Map<String, Command>> so) {
         myEnv.getCommandPool().removeObserver(so);
     }
     
@@ -55,11 +61,11 @@ public class SLogoModel {
         myEnv.getVariablePool().removeObserver(so);
     }
     
-    public Collection<Turtle> getTurtles() {
+    public Map<Integer, TurtleInfo> getTurtles() {
         return myEnv.getTurtlePool().getTurtles();
     }
     
-    public List<Entry<String, Command>> getCommands() {
+    public Map<String, Command> getCommands() {
         return myEnv.getCommandPool().getUserCommands();
     }
     

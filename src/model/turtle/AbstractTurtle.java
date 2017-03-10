@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import model.turtle.info.PenInfo;
 import util.Constants;
 
 public abstract class AbstractTurtle implements Turtle {
@@ -11,25 +12,23 @@ public abstract class AbstractTurtle implements Turtle {
     private double myX;
     private double myY;
     private double myHeading;
-    private boolean penDown;
     private boolean isVisible, isReset;
-    private int myID;
+    Pen myPen;
     private List<TurtleHist> lastMove;
 
-    public AbstractTurtle(int id) {
-        myID = id;
+    public AbstractTurtle() {
+        this(new Pen());
+    }
+    
+    public AbstractTurtle(Pen pen) {
         myX = 0;
         myY = 0;
         myHeading = 0;
-        penDown = true;
         isVisible = true;
+        isReset = false;
+        myPen = pen;
         lastMove = new ArrayList<TurtleHist>();
-        lastMove.add(new TurtleHist(myX, myY, penDown));
-    }
-
-    @Override
-    public int getID() {
-        return myID;
+        lastMove.add(new TurtleHist(myX, myY, myPen.isDown()));
     }
 
     @Override
@@ -53,11 +52,6 @@ public abstract class AbstractTurtle implements Turtle {
     }
 
     @Override
-    public boolean penDown() {
-        return penDown;
-    }
-
-    @Override
     public boolean isVisible() {
         return isVisible;
     }
@@ -67,10 +61,16 @@ public abstract class AbstractTurtle implements Turtle {
         return isReset;
     }
 
+    @Override
+    public PenInfo getPenInfo() {
+        return myPen;
+    }
+
     /*****Translational movement*****/
-    double move(double dist, double wRadius, double hRadius) {
+    @Override
+    public double move(double dist, double width, double height) {
         clearHist();
-        move(dist * Math.cos(radianHeading()), dist * Math.sin(radianHeading()), wRadius, hRadius);
+        move(dist * Math.cos(radianHeading()), dist * Math.sin(radianHeading()), width/2, height/2);
         return dist;
     }
     
@@ -93,33 +93,46 @@ public abstract class AbstractTurtle implements Turtle {
         return moveOn(x, y, penDown);
     }
 
-    double setXY(double x, double y) {
-        return startMove(x, y, penDown());
+    @Override
+    public double setXY(double x, double y) {
+        return startMove(x, y, myPen.isDown());
     }
 
-    double home() {
+    @Override
+    public double home() {
         myHeading = 0;
-        return startMove(0, 0, penDown());
+        return startMove(0, 0, myPen.isDown());
+    }
+
+    @Override
+    public double reset() {
+        double ret = home();
+        clearHist();
+        isReset = true;
+        return ret;
     }
     
-    void clearHist() {
+    private void clearHist() {
         lastMove.clear();
-        lastMove.add(new TurtleHist(myX, myY, penDown));
+        lastMove.add(new TurtleHist(myX, myY, myPen.isDown()));
     }
 
     /*****Rotational movement*****/
-    double turn(double degree) {
+    @Override
+    public double turn(double degree) {
         myHeading = (myHeading + degree) % Constants.ROUND_ANGLE;
         return degree;
     }
 
-    double setHeading(double heading) {
+    @Override
+    public double setHeading(double heading) {
         double oldHeading = myHeading;
         myHeading = heading;
         return myHeading - oldHeading;
     }
 
-    double towards(double x, double y) {
+    @Override
+    public double towards(double x, double y) {
         double oldHeading = myHeading;
         myHeading = Math.atan2(y - myY, x - myX) / Constants.RADIAN_PER_DEGREE;
         return myHeading - oldHeading;
@@ -130,22 +143,19 @@ public abstract class AbstractTurtle implements Turtle {
     }
 
     /*****Visual property*****/
-    boolean setPen(boolean penDown) {
-        this.penDown = penDown;
-        return penDown;
+    @Override
+    public Pen getPen() {
+        return myPen;
     }
 
-    boolean setVisible(boolean isVisible) {
+    @Override
+    public boolean setVisible(boolean isVisible) {
         this.isVisible = isVisible;
         return isVisible;
     }
-    
-    /*****Handle reset*****/
-    void setReset() {
-        isReset = true;
-    }
-    
-    void clearReset() {
+
+    @Override
+    public void clearReset() {
         isReset = false;
     }
 

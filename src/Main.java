@@ -9,9 +9,8 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage arg0) throws Exception {
-        Controller myControlHandler = new Controller();
-        myControlHandler.start(arg0);
+    public void start(Stage stage) throws Exception {
+        Controller myController = new Controller(stage);
     }
 
 }
