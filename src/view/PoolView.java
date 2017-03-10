@@ -128,11 +128,16 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
     }
 
     public void setBackgroundColor(Color color) {
-        getRoot().setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
+        getRoot().setBackground(new Background(
+                new BackgroundFill(
+                        color,
+                        CornerRadii.EMPTY,
+                        Insets.EMPTY)));
     }
 
     @Override
     public void update(PoolInfo arg) {
+        setBackgroundColor(myPaletteSupplier.get().getColor(arg.getBackground()));
         setTurtle(arg.getTurtles());
         drawTurtle();
         moveActiveTurtle();

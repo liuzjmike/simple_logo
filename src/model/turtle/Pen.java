@@ -15,7 +15,7 @@ public class Pen implements PenInfo {
 	private boolean isDown;
 	
 	public Pen() {
-		myColor = 0;
+		myColor = 1;
 		mySize = DEFAULT_SIZE;
 		isDown = true;
 	}
