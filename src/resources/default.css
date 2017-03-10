@@ -1,8 +1,8 @@
 #radio-button {
-    -fx-pref-height: 200 !important;
+    -fx-pref-height: 50;
     -fx-pref-width: 200;
     -fx-padding: 10;
-    
+    -fx-spacing: 20;
     -fx-alignment: center;
 }
 

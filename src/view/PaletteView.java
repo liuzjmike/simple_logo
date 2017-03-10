@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -45,14 +46,16 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     }
     
     private HBox createChoice() {
-    	HBox hbox = new HBox(createRadioButton(PEN), createRadioButton(BG));
+    	ToggleGroup group = new ToggleGroup();
+    	HBox hbox = new HBox(createRadioButton(PEN, group), createRadioButton(BG, group));
     	hbox.setId("radio-button");
     	return hbox;
     }
     
-    private RadioButton createRadioButton(String text) {
-    	RadioButton rb = new RadioButton(text);
+    private RadioButton createRadioButton(String text, ToggleGroup group) {
+     	RadioButton rb = new RadioButton(text);
     	rb.setOnMouseClicked(e -> type = rb.getText());
+    	rb.setToggleGroup(group);
     	return rb;
     }
     
