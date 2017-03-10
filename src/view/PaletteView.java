@@ -20,6 +20,11 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
 	
 	public static final String PEN = "PenColor";
 	public static final String BG = "Background";
+	public static final String SV_ID = "scroll-view";
+	public static final String ROOT_ID = "big-container";
+	public static final String RB_ID = "radio-button";
+	public static final String SM_CONTAINER = "small-container";
+	public static final String TC_ID = "text-color";
 	
 	private Consumer<String> myHandler;
 	private String type;
@@ -29,8 +34,9 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     public PaletteView(Consumer<String> handler) {
     	super("Palette", new VBox());
     	myColors = new ScrollView("Colors");
+    	myColors.setId(SV_ID);
     	getRoot().getChildren().addAll(createChoice(), myColors.getRoot());
-    	getRoot().setId("big-container");
+    	getRoot().setId(ROOT_ID);
     	myHandler = handler;
     	myPalette = new Palette();
     }
@@ -47,8 +53,11 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     
     private HBox createChoice() {
     	ToggleGroup group = new ToggleGroup();
-    	HBox hbox = new HBox(createRadioButton(PEN, group), createRadioButton(BG, group));
-    	hbox.setId("radio-button");
+    	RadioButton penRB = createRadioButton(PEN, group);
+    	penRB.setSelected(true);
+    	type = penRB.getText();
+    	HBox hbox = new HBox(penRB, createRadioButton(BG, group));
+    	hbox.setId(RB_ID);
     	return hbox;
     }
     
@@ -63,13 +72,15 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     	myColors.clear();
     	for(int i=0; i<colors.size(); i++) {
     		HBox hbox = new HBox();
+    		hbox.setId(SM_CONTAINER);
     		Text text = new Text(i + ": ");
-    		Rectangle rec = new Rectangle(20, 20);
+    		Rectangle rec = new Rectangle(100, 20);
     		rec.setFill(colors.get(i));
     		hbox.getChildren().add(text);
     		hbox.getChildren().add(rec);
     		int index = i;
     		hbox.setOnMouseClicked(e -> myHandler.accept("Set" + type + " " + index));
+    		hbox.setId(TC_ID);
     		myColors.addElement(hbox);
     	}
     }

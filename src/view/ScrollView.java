@@ -29,5 +29,9 @@ public class ScrollView extends View<ScrollPane> {
     public void clear() {
         myBox.getChildren().clear();
     }
+    
+    public void setId(String id) {
+    	myBox.setId(id);
+    }
 
 }

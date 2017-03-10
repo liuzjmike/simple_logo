@@ -7,7 +7,9 @@ public class SLogoException extends RuntimeException {
 	public static final String MISSING_LIST = "Missing List bracket(s).";
 	public static final String NO_VARIABLE_IN_SCOPE = "Variable does not exist in this scope.";
 	public static final String NO_ACTIVE_TURTLE = "No turtle is active.";
+	
 	public static final String INSTANTIATION_ERROR = "Command is not found/instantiated.";
+	
 	public static final String STACK_UNDERFLOW = "Stack is empty. Cannot pop.";
 	public static final String STACK_OVERFLOW = "Stack is full. Cannot push.";
 	

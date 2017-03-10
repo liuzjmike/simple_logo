@@ -54,7 +54,6 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     public void applyPen(Consumer<Pen> consumer) {
         allTurtles.values().forEach(turtle -> consumer.accept(turtle.getPen()));
         defaultPen = getActiveTurtle().getPen().copy();
-        notifyObservers();
     }
     
     public void applyShape() {

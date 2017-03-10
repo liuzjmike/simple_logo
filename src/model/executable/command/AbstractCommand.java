@@ -44,9 +44,7 @@ public abstract class AbstractCommand implements Command {
         try {
             return getClass().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            throw new RuntimeException();
+            throw new SLogoException(SLogoException.INSTANTIATION_ERROR);
         }
     }
     

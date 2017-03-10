@@ -7,5 +7,22 @@
 }
 
 #big-container {
-    -fx-spacing: 20px;
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+#small-container {
+    -fx-border-style: solid inside;
+    -fx-alignment: center;
+}
+
+#text-color {
+    -fx-padding: 10;
+    -fx-alignment: center;
+    -fx-spacing: 5;
+}
+
+#scroll-view {
+    -fx-text-alignment: center;
+    -fx-padding: 10;
 }
