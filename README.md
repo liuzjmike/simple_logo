@@ -40,16 +40,16 @@ Worked on some parts of GUI
 ## Any known bugs, crashes, or problems with the project's functionality
 ### Incomplete error handling for tell commands
 ## Any extra features included in the project
-### to see the state of the turtle 
-### to see palettes of images/colors with numbers
-### to set, save, and load workspace preferences
-### to create multiple workspaces
-### to select active turtles graphically and toggle whether or not to graphically identify the currently active turtles in a workspace's display window
-### to move the current turtle(s) graphically
-### to change the current pen's properties graphically
-### recognize these additional commands 
-### grouping: allow variable number of parameters to procedures where appropriate by using parentheses
-### scope: allow dynamic variable scope and local variables
-### recursion: allow user defined commands to include recursive calls
+* to see the state of the turtle 
+* to see palettes of images/colors with numbers
+* to set, save, and load workspace preferences
+* to create multiple workspaces
+* to select active turtles graphically and toggle whether or not to graphically identify the currently active turtles in a workspace's display window
+* to move the current turtle(s) graphically
+* to change the current pen's properties graphically
+* recognize these additional commands 
+* grouping: allow variable number of parameters to procedures where appropriate by using parentheses
+* scope: allow dynamic variable scope and local variables
+* recursion: allow user defined commands to include recursive calls
 ## Your impressions of the assignment to help improve it in the future
 ### Challenging!
