@@ -60,4 +60,11 @@ public class Palette extends SLogoObservable<PaletteInfo> implements PaletteInfo
     	return ret;
     }
     
+    public int getIndex(Color color) {
+    	for (Integer key : listColor().keySet()) {
+    		if (color.equals(listColor().get(key))) return key;
+    }
+    	throw new SLogoException(SLogoException.COLOR_NOT_IN_PALETTE);
+    }
+    
 }

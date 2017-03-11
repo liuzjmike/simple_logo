@@ -14,6 +14,7 @@ public class SLogoException extends RuntimeException {
 	public static final String STACK_OVERFLOW = "Stack is full. Cannot push.";
 	
 	public static final String INVALID_COLOR_INDEX = "Color index is invalid.";
+	public static final String COLOR_NOT_IN_PALETTE = "Color is not in palette";
 	public static final String INVALID_KEY = "Key is invalid.";
 	public static final String INVALID_COMMAND = "Command is not valid.";
 	public static final String ILLEGAL_ID = "ID cannot be smaller than 1.";

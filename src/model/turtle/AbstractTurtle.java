@@ -157,6 +157,12 @@ public abstract class AbstractTurtle implements Turtle {
     public int getShape() {
     	return myShape;
     }
+    
+    @Override
+    public int setShape(int shape) {
+    	myShape = shape;
+    	return shape;
+    }
 
     @Override
     public boolean setVisible(boolean isVisible) {

@@ -12,7 +12,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -114,8 +113,8 @@ public class GUI {
 			}
 
 			@Override
-			public List<ImageView> getShapes() {
-				return myShapeView.getShapes();
+			public ShapeInfo getShapeInfo() {
+				return myShapeView;
 			}
         	
         });
@@ -127,7 +126,7 @@ public class GUI {
 
         myRoot.add(myPoolView.getRoot(), 0, 0, 1, 1);
         myRoot.add(myConsoleView.getRoot(), 0, 1, 1, 1);
-        myRoot.add(createTabPane(myVariableView, myCommandView), 1, 0, 1, 1);
+        myRoot.add(createTabPane(myVariableView, myCommandView, new PenView(myHandler)), 1, 0, 1, 1);
         myRoot.add(createTabPane(myPaletteView, myShapeView, new OptionView(myHandler)), 1, 1, 1, 1);
     }
 
