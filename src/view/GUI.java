@@ -125,7 +125,7 @@ public class GUI {
 
         myRoot.add(myPoolView.getRoot(), 0, 0, 1, 1);
         myRoot.add(myConsoleView.getRoot(), 0, 1, 1, 1);
-        myRoot.add(createTabPane(myVariableView, myCommandView), 1, 0, 1, 1);
+        myRoot.add(createTabPane(myVariableView, myCommandView, new PenView(myHandler)), 1, 0, 1, 1);
         myRoot.add(createTabPane(myPaletteView, myShapeView, new OptionView(myHandler)), 1, 1, 1, 1);
     }
 

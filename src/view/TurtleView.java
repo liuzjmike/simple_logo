@@ -35,6 +35,7 @@ public class TurtleView {
     private Popup myInfoWindow;
     private ListView<String> infoBox;
     private double xOffset, yOffset;
+    private int turtleImageIndex;
 
     double newTranslateX;
     double newTranslateY;
@@ -51,6 +52,7 @@ public class TurtleView {
         myInfoWindow = new Popup();
         infoBox = new ListView<String>();
         myInfoWindow.getContent().addAll(infoBox);
+        turtleImageIndex = 0;
     }
 
     public void update(PaletteInfo palette, ShapeInfo shapeInfo) {
@@ -70,10 +72,14 @@ public class TurtleView {
                 myLines.add(line);
             }
         }
-        drawer.removeTurtleIV(myImage);
-        myImage = shapeInfo.getShape(myTurtle.getShape());
-        processImage(myTurtle);
-        drawer.addTurtleIV(myImage);
+        if(turtleImageIndex != myTurtle.getShape()){
+        	drawer.removeTurtleIV(myImage);
+            turtleImageIndex = myTurtle.getShape();
+            myImage = shapeInfo.getShape(turtleImageIndex);
+            processImage(myTurtle);
+            drawer.addTurtleIV(myImage);
+            setXY(myTurtle.getX(), myTurtle.getY());
+        }   
         setXY(myTurtle.getX(), myTurtle.getY());
         if(myTurtle.isReset()) {
             drawer.removeLines(myLines);

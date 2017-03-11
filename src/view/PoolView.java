@@ -72,6 +72,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
     private void moveActiveTurtle() {
 		for (Integer id : myTurtles.keySet()) {
 			myTurtles.get(id).getImageView().setOnMouseClicked(e -> handleClick(e, id));
+			
 		}
 	}
 
@@ -85,10 +86,10 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 				myTurtles.get(Id).getImageView().setScaleY(1);
 			}
 		}
-		myTurtles.get(id).getImageView().setOnMouseDragged(e -> handleMouseInput(e));
+		myTurtles.get(id).getImageView().setOnMouseDragged(e -> handleDrag(e));
 	}
 
-	public void handleMouseInput(MouseEvent t) {
+	public void handleDrag(MouseEvent t) {
 		((ImageView) (t.getSource())).setX(t.getSceneX() - TurtleView.DEFAULT_WIDTH / 2);
 		((ImageView) (t.getSource())).setY(t.getSceneY() - TurtleView.DEFAULT_HEIGHT / 2);
 		execute(String.format(ASK_SETXYCOMMAND, activeTurtleID, (t.getSceneX() - getRoot().getPrefWidth() / 2),
