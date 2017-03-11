@@ -15,7 +15,7 @@ Hours in total: 150
 #### Bihan Zhuang: 
 1) Together designed the class hierarchy.
 
-2) Designed, implemented, and refactored the Command hierarchy and resource files.
+2) Designed, implemented, and refactored the Command hierarchy and resource files. Unlimited parameters.
 
 3) Wrote Interpreter, RegexParser, error handling, some Info files, and CommandSaver.
 
