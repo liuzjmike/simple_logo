@@ -1,29 +1,46 @@
-## Names of all people who worked on the project
-### Wei-Ting Yeh, Mike Liu, Bihan Zhuang, Sarah Zhou
-## Date you started, date you finished, and an estimate of the number of hours worked on the project
-### Date started: 2/21
-### Date finished: 3/10
-### Hours in total: 150
+# CompSci 308 SLogo Project 
+Wei-Ting Yeh, Mike Liu, Bihan Zhuang, Sarah Zhou
+
+Date started: 2/21
+
+Date finished: 3/10
+
+Hours in total: 150
+
 ## Each person's role in developing the project
-### Mike Liu: Back end and refactored code on front end
-### Bihan Zhuang: 
-Together designed the class hierarchy.
-Designed, implemented, and refactored the Command hierarchy and resource files.
-Wrote Interpreter, RegexParser, error handling, some Info fiiles, and CommandSaver.
-PaletteView, ShapeView, ViewSupplier.
-### Wei-Ting Yeh:
-Wrote TurtleView, PoolView, and PenView
-Worked on some parts of GUI
-### Sarah Zhou: Front end and controller
-## Any books, papers, online, or human resources that you used in developing the project
-### Oracle, StackOverflow
-## Files used to start the project (the class(es) containing main) 
-### Main.java
-## files used to test the project
-###
-## Any data or resource files required by the project (including format of non-standard files)
-### Classpath.properties, Syntax.properties, all the language resource files, and default.css	
-## Any information about using the program (i.e., command-line/applet arguments, key inputs, interesting example data files, or easter eggs)
+
+#### Mike Liu: 
+1) 
+
+#### Bihan Zhuang: 
+1) Together designed the class hierarchy.
+
+2) Designed, implemented, and refactored the Command hierarchy and resource files.
+
+3) Wrote Interpreter, RegexParser, error handling, some Info files, and CommandSaver.
+
+4) PaletteView, ShapeView, ViewSupplier.
+
+#### Wei-Ting Yeh:
+1) Wrote TurtleView, PoolView, and PenView
+
+2) Worked on some parts of GUI
+
+#### Sarah Zhou: Front end and controller
+
+## Resources used
+Oracle, StackOverflow
+
+## Files used to start the project
+Main.java
+
+## Files used to test the project
+All the provided .logo files.
+
+## Data or resource files required by the project
+Classpath.properties, Syntax.properties, all the language resource files, and default.css	
+
+## Information about using the program
 * To graphically move the turtle in the pool, there are two ways. One thing the user has to do first in either way is to click on the turtle to set it active. The active turtle will be larger. One way after that is to use “w, a, s, d” keys to move forward, turn left, backwards, and turn right. The other way is to simply drag the turtle around with your mouse. To view the current properties of the turtle, press “I” to get a popup window. Once the user releases “I”, the window disappears.
 * Use the “set” command to save user-defined variables and they will show up in the “Variable” tab.
 * All user-defined commands will show up in the “Command” tab. Click on them to run them again.
@@ -37,9 +54,10 @@ Worked on some parts of GUI
 * All return values of all commands will be printed under the corresponding command.
 * Click any command in the command history field to run it again. 
 
-## Any known bugs, crashes, or problems with the project's functionality
-### Incomplete error handling for tell commands
-## Any extra features included in the project
+## Known bugs, crashes, or problems with the project's functionality
+Incomplete error handling for tell commands
+
+## Extra features included in the project
 * to see the state of the turtle 
 * to see palettes of images/colors with numbers
 * to set, save, and load workspace preferences
@@ -52,5 +70,5 @@ Worked on some parts of GUI
 * scope: allow dynamic variable scope and local variables
 * recursion: allow user defined commands to include recursive calls
 
-## Your impressions of the assignment to help improve it in the future
-### Challenging!
+## Impressions of the assignment
+Challenging!
