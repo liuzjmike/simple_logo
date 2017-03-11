@@ -6,6 +6,7 @@ import java.util.List;
 import controller.ControlHandler;
 import javafx.stage.Stage;
 import util.SLogoException;
+import view.factory.ConstraintsFactory;
 import view.factory.ControlFactory;
 
 public class OptionView extends ScrollView {
@@ -22,7 +23,7 @@ public class OptionView extends ScrollView {
     }
 
     private void populateButtons() {
-        ControlFactory cf = new ControlFactory();
+    	ControlFactory cf = new ControlFactory();
         addAllElements(cf.createButton("Help", e -> showHelp()),
                        cf.createButton("New Workspace", e -> myHandler.newWorkspace()),
                        cf.createButton("Save Workspace", e -> myHandler.saveWorkspace()),

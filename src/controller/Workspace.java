@@ -1,8 +1,11 @@
 package controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.transform.TransformerException;
 
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -56,30 +59,32 @@ public class Workspace {
             myModel.setLanguage(language);
         }
 
-        @Override
         public void newWorkspace() {
             newInstance().show();
         }
 
-        @Override
         public void saveWorkspace() {
             File dataFile = mySelector.saveTo(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = new HashMap<String,String>();
-                parameters.put("Background color", myGUI.getBackgroundColor().toString());
+                parameters.put("Color", myGUI.getBackgroundColor().toString());
                 parameters.put("Language", myModel.getLanguage());
-                //XMLParserWriter.saveState(dataFile, "Workspace", parameters, "SavedStates");
-                //TODO
+                try {
+					XMLParserWriter.saveState(dataFile, "Workspace", parameters);
+				} catch (TransformerException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
             }
         }
         
-        @Override
         public void loadWorkspace() {
             File dataFile = mySelector.open(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = XMLParserWriter.extractContent(dataFile, false);
                 myGUI.setBackgroundColor(Color.web(parameters.get("color")));
-                myModel.setLanguage(parameters.get("language"));
+                myModel.setLanguage(parameters.get("Language"));
             }
         }
     }
