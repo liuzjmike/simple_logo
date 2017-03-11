@@ -14,13 +14,18 @@ public class FileSelector {
         myChooser = makeFileChooser(extension);
     }
     
-    public File chooseFile(String text) {
-        return chooseFile(text, null);
+    public File open() {
+        return open(null);
     }
     
-    public File chooseFile(String text, Stage stage) {
-        myChooser.setTitle(text);
+    public File open(Stage stage) {
+        myChooser.setTitle("Choose file");
         return myChooser.showOpenDialog(stage);
+    }
+    
+    public File saveTo(Stage stage) {
+        myChooser.setTitle("Save to");
+        return myChooser.showSaveDialog(stage);
     }
     
     private FileChooser makeFileChooser(String extension) {

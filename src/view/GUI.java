@@ -4,7 +4,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import controller.ControlHandler;
 import javafx.scene.Scene;
@@ -42,7 +42,7 @@ public class GUI {
     private ShapeView myShapeView;
 
     private ControlHandler myHandler;
-    private Consumer<String> guiHandler;
+    private Function<String, Double> guiHandler;
 
     public GUI(Stage stage, ControlHandler handler) {
         myRoot = createRoot();
@@ -138,17 +138,19 @@ public class GUI {
         return scene;
     }
 
-    private Consumer<String> createHandler(ControlHandler handler) {
+    private Function<String, Double> createHandler(ControlHandler handler) {
         return command -> {
+            double ret = 0;
             if (!command.isEmpty()) {
                 try {
-                    handler.accept(command);
+                    ret = handler.apply(command);
                 } catch (SLogoException e) {
                     Alert alert = new Alert(AlertType.ERROR, e.getMessage());
                     alert.show();
                 }
-                myConsoleView.addCommandToScreen(command);
+                myConsoleView.addCommandHist(command, ret);
             }
+            return ret;
         };
     }
     

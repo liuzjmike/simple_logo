@@ -2,7 +2,7 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,7 +17,7 @@ public class ShapeView extends ScrollView implements ShapeInfo {
 
 	private List<ImageView> myShapes;
 	
-	public ShapeView(Consumer<String> guiHandler) {
+	public ShapeView(Function<String, Double> guiHandler) {
 		super("Shapes", "big-container", guiHandler);
 		myShapes = new ArrayList<>();
 		setupShapes();

@@ -3,7 +3,7 @@ package view;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
@@ -24,11 +24,11 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 
 	public static final String TURTLE_IMAGE = "TurtleImage.png";
 	public static final String ASK_MOVECOMMAND = "ask [ %d ] [ %s %d ]";
-	public static final String ASK_SETXYCOMMAND = "ask [ %d ] [ setxy %f %f ]";
-	public static final String FORWARD_COMMAND = "fd";
-	public static final String BACKWARD_COMMAND = "bk";
-	public static final String TURNRIGHT_COMMAND = "right";
-	public static final String TURNLEFT_COMMAND = "left";
+	public static final String ASK_SETXYCOMMAND = "ask [ %d ] [ SetPosition %f %f ]";
+	public static final String FORWARD_COMMAND = "Forward";
+	public static final String BACKWARD_COMMAND = "Backward";
+	public static final String TURNRIGHT_COMMAND = "Right";
+	public static final String TURNLEFT_COMMAND = "Left";
 	public static final int DEFALUT_STEP = 10;
 
 	private Map<Integer, TurtleView> myTurtles;
@@ -38,7 +38,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 	
     private int activeTurtleID;
 
-    public PoolView(double width, double height, Consumer<String> guiHandler, ViewSupplier viewSupplier) {
+    public PoolView(double width, double height, Function<String, Double> guiHandler, ViewSupplier viewSupplier) {
         super("Pool", new Pane(), guiHandler);
     	myViewSupplier = viewSupplier;
         myTurtles = new HashMap<Integer,TurtleView>();
