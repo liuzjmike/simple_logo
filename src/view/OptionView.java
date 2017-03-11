@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
+import util.GUIUtils;
 import util.SLogoException;
 
 public class OptionView extends ScrollView {
@@ -27,19 +28,13 @@ public class OptionView extends ScrollView {
     }
 
     private void populateButtons() {
-        addAllElements(createButton("Help", e -> showHelp()),
-                       createButton("New Workspace", e -> myHandler.newWorkspace()),
-                       createButton("Save Workspace", e -> myHandler.saveWorkspace()),
-                       createButton("Load Workspace", e -> myHandler.loadWorkspace()),
+        addAllElements(GUIUtils.createButton("Help", e -> showHelp()),
+        		GUIUtils.createButton("New Workspace", e -> myHandler.newWorkspace()),
+        		GUIUtils.createButton("Save Workspace", e -> myHandler.saveWorkspace()),
+        		GUIUtils.createButton("Load Workspace", e -> myHandler.loadWorkspace()),
                        createComboBox("Choose Language", LANGUAGES, (observable, oldValue, newValue) -> {
                            myHandler.setLanguage(newValue);
                        }));
-    }
-
-    private Button createButton(String text, EventHandler<ActionEvent> handler) {
-        Button button = new Button(text);
-        button.setOnAction(handler);
-        return button;
     }
     
     private ComboBox<String> createComboBox(String promptText, List<String> content,

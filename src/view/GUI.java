@@ -11,10 +11,7 @@ import controller.ControlHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.executable.Literal;
@@ -22,6 +19,7 @@ import model.executable.command.Command;
 import model.info.PaletteInfo;
 import model.info.PoolInfo;
 import util.Constants;
+import util.GUIUtils;
 import util.SLogoObserver;
 
 public class GUI {
@@ -29,7 +27,7 @@ public class GUI {
     public static final String STYLESHEET = "default.css";
 
     public static final double SCREEN_RATIO = 0.9;
-    public static final double LEFT_CONSTRAINT = 85;
+    public static final double LEFT_CONSTRAINT = 70;
     public static final double TOP_CONSTRAINT = 60;
 
     private Stage myStage;
@@ -99,10 +97,10 @@ public class GUI {
         root.setPrefWidth(gd.getDisplayMode().getWidth() * SCREEN_RATIO);
         root.setPrefHeight(gd.getDisplayMode().getHeight() * SCREEN_RATIO);
 
-        root.getColumnConstraints().addAll(getColumnConstraints(LEFT_CONSTRAINT),
-                                             getColumnConstraints(100 - LEFT_CONSTRAINT));
-        root.getRowConstraints().addAll(getRowConstraints(TOP_CONSTRAINT),
-                                          getRowConstraints(100 - TOP_CONSTRAINT));
+        root.getColumnConstraints().addAll(GUIUtils.getColumnConstraints(LEFT_CONSTRAINT),
+        		GUIUtils.getColumnConstraints(100 - LEFT_CONSTRAINT));
+        root.getRowConstraints().addAll(GUIUtils.getRowConstraints(TOP_CONSTRAINT),
+        		GUIUtils.getRowConstraints(100 - TOP_CONSTRAINT));
         return root;
     }
     
@@ -153,19 +151,5 @@ public class GUI {
     
     private Tab createTab(View<?> view) {
         return new Tab(view.getName(), view.getRoot());
-    }
-
-    private ColumnConstraints getColumnConstraints(double percent) {
-        ColumnConstraints ret = new ColumnConstraints();
-        ret.setHgrow(Priority.NEVER);
-        ret.setPercentWidth(percent);
-        return ret;
-    }
-
-    private RowConstraints getRowConstraints(double percent) {
-        RowConstraints ret = new RowConstraints();
-        ret.setVgrow(Priority.NEVER);
-        ret.setPercentHeight(percent);
-        return ret;
     }
 }
