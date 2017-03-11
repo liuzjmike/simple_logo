@@ -1,7 +1,7 @@
 package view;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -9,7 +9,7 @@ import util.SLogoObserver;
 
 public class CommandView extends ScrollView implements SLogoObserver<List<String>> {
 	
-	public CommandView(Consumer<String> guiHandler) {
+	public CommandView(Function<String, Double> guiHandler) {
 	    super("Command", guiHandler);
 	}
 	

@@ -1,7 +1,7 @@
 package view;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
@@ -25,7 +25,7 @@ public class ConsoleView extends View<GridPane> {
 	
 	String activeText;
 	
-	public ConsoleView(Consumer<String> guiHandler) {
+	public ConsoleView(Function<String, Double> guiHandler) {
 	    super("Console", new GridPane(), guiHandler);
 		output = new ScrollView("Output", guiHandler);
 		input = new TextArea();
@@ -52,7 +52,7 @@ public class ConsoleView extends View<GridPane> {
     	GridPane.setHalignment(inputBox,HPos.CENTER);
 	}
     
-    public void addCommandToScreen(String command) {
+    public void addCommandHist(String command) {
     	Text text = new Text(command);
     	text.setOnMouseClicked(e -> execute(text.getText()));
     	output.addElement(text);

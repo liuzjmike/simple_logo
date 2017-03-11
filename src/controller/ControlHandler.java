@@ -1,8 +1,8 @@
 package controller;
 
-import java.util.function.Consumer;
+import java.util.function.Function;
 
-public interface ControlHandler extends Consumer<String> {
+public interface ControlHandler extends Function<String, Double> {
 	
 	public void setLanguage(String language);
 	

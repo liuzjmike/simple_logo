@@ -1,18 +1,18 @@
 package view;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import model.executable.Literal;
 import util.SLogoObserver;
 
 public class VariableView extends ScrollView implements SLogoObserver<List<Entry<String, Double>>> {
+    
+    public static final String MAKE = "Make %s %s";
 	
-	public VariableView(Consumer<String> guiHandler) {
+	public VariableView(Function<String, Double> guiHandler) {
 	    super("Variable", guiHandler);
 	}
 
@@ -25,20 +25,10 @@ public class VariableView extends ScrollView implements SLogoObserver<List<Entry
     }
 	
 	private HBox getVariableText(Entry<String, Double> entry) {
-		HBox myHBox = new HBox();
-		Text text = new Text(entry.getKey()+" = ");
+		Text text = new Text(entry.getKey());
 		TextField tf = new TextField(Double.toString(entry.getValue()));
-		myHBox.getChildren().addAll(text,tf);
-		installHandler(entry,text,tf);
-		return myHBox;
-	}
-	
-	private void installHandler(Entry<String,Double> entry, Text myText, TextField newValueText) {
-		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> execute(myText.getText()));
-	}
-	
-	private String getExecuteString(String newValue, Entry<String,Literal> entry) {
-		return "MAKE "+entry.getKey()+" "+newValue;
+		tf.setOnAction(e -> execute(String.format(MAKE, text.getText(), tf.getText())));
+		return new HBox(text,tf);
 	}
 
 }
