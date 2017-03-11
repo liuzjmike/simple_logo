@@ -55,7 +55,7 @@ public class TurtleView {
         myInfoWindow.getContent().addAll(infoBox);
     }
 
-    public void update(PaletteInfo palette) {
+    public void update(PaletteInfo palette, List<ImageView> shapes) {
         setVisible(myTurtle.isVisible());
         setHeading(myTurtle.getHeading());
         List<TurtleHist> lastMove = myTurtle.getLastMove();

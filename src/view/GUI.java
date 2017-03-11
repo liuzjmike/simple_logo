@@ -9,8 +9,11 @@ import java.util.function.Consumer;
 
 import controller.ControlHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -22,6 +25,7 @@ import model.executable.command.Command;
 import model.info.PaletteInfo;
 import model.info.PoolInfo;
 import util.Constants;
+import util.SLogoException;
 import util.SLogoObserver;
 
 public class GUI {
@@ -29,7 +33,7 @@ public class GUI {
     public static final String STYLESHEET = "default.css";
 
     public static final double SCREEN_RATIO = 0.9;
-    public static final double LEFT_CONSTRAINT = 85;
+    public static final double LEFT_CONSTRAINT = 80;
     public static final double TOP_CONSTRAINT = 60;
 
     private Stage myStage;
@@ -40,6 +44,7 @@ public class GUI {
     private VariableView myVariableView;
     private CommandView myCommandView;
     private PaletteView myPaletteView;
+    private ShapeView myShapeView;
 
     private ControlHandler myHandler;
     private Consumer<String> guiHandler;
@@ -104,18 +109,29 @@ public class GUI {
     }
     
     private void initView() {
-        myPoolView = new PoolView(getPoolWidth(), getPoolHeight(), guiHandler, () -> {
-        	return myPaletteView.getPalette();
+        myPoolView = new PoolView(getPoolWidth(), getPoolHeight(), guiHandler, new ViewSupplier() {
+
+			@Override
+			public PaletteInfo getPalette() {
+				return myPaletteView.getPalette();
+			}
+
+			@Override
+			public List<ImageView> getShapes() {
+				return myShapeView.getShapes();
+			}
+        	
         });
         myConsoleView = new ConsoleView(guiHandler);
         myVariableView = new VariableView(guiHandler);
         myCommandView = new CommandView(guiHandler);
         myPaletteView = new PaletteView(guiHandler);
+        myShapeView = new ShapeView(guiHandler);
 
         myRoot.add(myPoolView.getRoot(), 0, 0, 1, 1);
         myRoot.add(myConsoleView.getRoot(), 0, 1, 1, 1);
         myRoot.add(createTabPane(myVariableView, myCommandView), 1, 0, 1, 1);
-        myRoot.add(createTabPane(myPaletteView, new OptionView(myHandler)), 1, 1, 1, 1);
+        myRoot.add(createTabPane(myPaletteView, myShapeView, new OptionView(myHandler)), 1, 1, 1, 1);
     }
 
     private Scene createScene() {
@@ -131,8 +147,9 @@ public class GUI {
             if (!command.isEmpty()) {
                 try {
                     handler.accept(command);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (SLogoException e) {
+                    Alert alert = new Alert(AlertType.ERROR, e.getMessage());
+                    alert.show();
                 }
                 myConsoleView.addCommandToScreen(command);
             }

@@ -27,17 +27,7 @@ public class VariableView extends ScrollView implements SLogoObserver<List<Entry
 	}
 	
 	private void installHandler(Entry<String,Literal> entry, Text myText, TextField newValueText) {
-		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, 
-		    new EventHandler<MouseEvent>() {
-		        public void handle(MouseEvent e) {
-		        	try {
-		        	    execute(getExecuteString(newValueText.getText(),entry));
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-		        }
-		});
+		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> execute(myText.getText()));
 	}
 	
 	private String getExecuteString(String newValue, Entry<String,Literal> entry) {

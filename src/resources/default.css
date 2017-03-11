@@ -12,7 +12,6 @@
 }
 
 #small-container {
-    -fx-border-style: solid inside;
     -fx-alignment: center;
 }
 
@@ -25,4 +24,9 @@
 #scroll-view {
     -fx-text-alignment: center;
     -fx-padding: 10;
+}
+
+#shape-legend {
+    -fx-fit-height: 30;
+    -fx-fit-width: 30;
 }

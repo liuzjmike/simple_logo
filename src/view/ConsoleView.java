@@ -84,17 +84,7 @@ public class ConsoleView extends View<GridPane> {
     }
     
     private void installHandler(Text myText) {
-		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, 
-		    new EventHandler<MouseEvent>() {
-		        public void handle(MouseEvent e) {
-		        	try {
-		        	    execute(myText.getText());
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-		        }
-		});
+		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> execute(myText.getText()));
 	}
 	
 	private void installEnterButtonHandler() {
