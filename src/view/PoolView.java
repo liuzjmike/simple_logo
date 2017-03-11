@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 import javafx.geometry.Insets;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -33,7 +32,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 	public static final int DEFALUT_STEP = 10;
 
 	private Map<Integer, TurtleView> myTurtles;
-	private LineDrawer lineDrawer;
+	private Drawer drawer;
 
 	private ViewSupplier myViewSupplier;
 	
@@ -44,7 +43,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
     	myViewSupplier = viewSupplier;
         myTurtles = new HashMap<Integer,TurtleView>();
         setBackgroundColor(Color.WHITE);
-        lineDrawer = new LineDrawer() {
+        drawer = new Drawer() {
 
             @Override
             public void addLine(Line line) {
@@ -55,6 +54,16 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
             public void removeLines(Collection<Line> lines) {
                 getRoot().getChildren().removeAll(lines);
             }
+
+			@Override
+			public void addTurtleIV(ImageView iv) {
+				getRoot().getChildren().add(iv);
+			}
+
+			@Override
+			public void removeTurtleIV(ImageView iv) {
+				getRoot().getChildren().remove(iv);
+			}
         };
         getRoot().setPrefWidth(width);
         getRoot().setPrefHeight(height);
@@ -63,6 +72,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
     private void moveActiveTurtle() {
 		for (Integer id : myTurtles.keySet()) {
 			myTurtles.get(id).getImageView().setOnMouseClicked(e -> handleClick(e, id));
+			
 		}
 	}
 
@@ -76,10 +86,10 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 				myTurtles.get(Id).getImageView().setScaleY(1);
 			}
 		}
-		myTurtles.get(id).getImageView().setOnMouseDragged(e -> handleMouseInput(e));
+		myTurtles.get(id).getImageView().setOnMouseDragged(e -> handleDrag(e));
 	}
 
-	public void handleMouseInput(MouseEvent t) {
+	public void handleDrag(MouseEvent t) {
 		((ImageView) (t.getSource())).setX(t.getSceneX() - TurtleView.DEFAULT_WIDTH / 2);
 		((ImageView) (t.getSource())).setY(t.getSceneY() - TurtleView.DEFAULT_HEIGHT / 2);
 		execute(String.format(ASK_SETXYCOMMAND, activeTurtleID, (t.getSceneX() - getRoot().getPrefWidth() / 2),
@@ -114,12 +124,11 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 	public void setTurtle(Map<Integer, TurtleInfo> turtles) {
 		for (int key : turtles.keySet()) {
 			if (!myTurtles.containsKey(key)) {
-				ImageView turtleImage = new ImageView(
-						new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGE)));
-				TurtleView turtle = new TurtleView(turtleImage, turtles.get(key), lineDrawer,
+				ImageView turtleImage = myViewSupplier.getShapeInfo().getShape(turtles.get(key).getShape());
+				TurtleView turtle = new TurtleView(turtleImage, turtles.get(key), drawer,
 						getRoot().getPrefWidth() / 2, getRoot().getPrefHeight() / 2);
 				myTurtles.put(key, turtle);
-				getRoot().getChildren().add(turtleImage);
+				drawer.addTurtleIV(turtleImage);
 			}
 		}
 	}
@@ -130,7 +139,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
     
     public void drawTurtle(){
         for(Integer id: myTurtles.keySet()){
-            myTurtles.get(id).update(myViewSupplier.getPalette(), myViewSupplier.getShapes());
+            myTurtles.get(id).update(myViewSupplier.getPalette(), myViewSupplier.getShapeInfo());
         }
     }
 
