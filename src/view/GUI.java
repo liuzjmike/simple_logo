@@ -117,7 +117,7 @@ public class GUI {
 
         myRoot.add(myPoolView.getRoot(), 0, 0, 1, 1);
         myRoot.add(myConsoleView.getRoot(), 0, 1, 1, 1);
-        myRoot.add(createTabPane(myVariableView, myPaletteView, new OptionView(myHandler)), 1, 0, 1, 1);
+        myRoot.add(createTabPane(myVariableView, myPaletteView, new OptionView(myHandler),  new PenView(myHandler)), 1, 0, 1, 1);
         myRoot.add(createTabPane(myCommandView), 1, 1, 1, 1);
         //TODO: Add new tabs here
     }
