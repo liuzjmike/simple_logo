@@ -77,13 +77,12 @@ public class Workspace {
 
         @Override
         public void saveWorkspace() {
-            File dataFile = chooseFile("Save to");
+        	File dataFile = myChooser.showSaveDialog(new Stage());
             if(dataFile != null) {
                 Map<String,String> parameters = new HashMap<String,String>();
                 parameters.put("Background color", myGUI.getBackgroundColor().toString());
                 parameters.put("Language", myModel.getLanguage());
-                //XMLParserWriter.saveState(dataFile, "Workspace", parameters, "SavedStates");
-                //TODO
+                XMLParserWriter.saveState(dataFile, "Workspace", parameters, "SavedStates");
             }
         }
         

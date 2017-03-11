@@ -32,17 +32,9 @@ public class OptionView extends ScrollView {
         		GUIUtils.createButton("New Workspace", e -> myHandler.newWorkspace()),
         		GUIUtils.createButton("Save Workspace", e -> myHandler.saveWorkspace()),
         		GUIUtils.createButton("Load Workspace", e -> myHandler.loadWorkspace()),
-                       createComboBox("Choose Language", LANGUAGES, (observable, oldValue, newValue) -> {
+        		GUIUtils.createComboBox("Choose Language", LANGUAGES, (observable, oldValue, newValue) -> {
                            myHandler.setLanguage(newValue);
                        }));
-    }
-    
-    private ComboBox<String> createComboBox(String promptText, List<String> content,
-            ChangeListener<String> listener) {
-        ComboBox<String> cb = new ComboBox<>(FXCollections.observableArrayList(content));
-        cb.setPromptText(promptText);
-        cb.getSelectionModel().selectedItemProperty().addListener(listener);
-        return cb;
     }
     
     private void showHelp() {
