@@ -69,8 +69,8 @@ public class Workspace {
             File dataFile = mySelector.saveTo(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = new HashMap<String,String>();
-                parameters.put("Color", myGUI.getBackgroundColor().toString());
-                parameters.put("Language", myModel.getLanguage());
+                parameters.put("color", myGUI.getBackgroundColor().toString());
+                parameters.put("language", myModel.getLanguage());
                 try {
                     XMLParserWriter.saveState(dataFile, "Workspace", parameters);
                 } catch (TransformerException | IOException e) {
@@ -84,7 +84,7 @@ public class Workspace {
             if(dataFile != null) {
                 Map<String,String> parameters = XMLParserWriter.extractContent(dataFile, false);
                 myGUI.setBackgroundColor(Color.web(parameters.get("color")));
-                myModel.setLanguage(parameters.get("Language"));
+                myModel.setLanguage(parameters.get("language"));
             }
         }
 
