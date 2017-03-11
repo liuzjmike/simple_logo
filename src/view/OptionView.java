@@ -21,7 +21,7 @@ public class OptionView extends ScrollView {
     private ControlHandler myHandler;
 
     public OptionView(ControlHandler handler) {
-        super("Options");
+        super("Options", "big-container", handler);
         myHandler = handler;
         populateButtons();
     }

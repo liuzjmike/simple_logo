@@ -43,9 +43,6 @@ public class GUI {
 
     private ControlHandler myHandler;
     private Consumer<String> guiHandler;
-    
-
-    public enum FileType {COMMANDS, SAVED_STATE}
 
     public GUI(Stage stage, ControlHandler handler) {
         myRoot = createRoot();
@@ -117,9 +114,8 @@ public class GUI {
 
         myRoot.add(myPoolView.getRoot(), 0, 0, 1, 1);
         myRoot.add(myConsoleView.getRoot(), 0, 1, 1, 1);
-        myRoot.add(createTabPane(myVariableView, myPaletteView, new OptionView(myHandler)), 1, 0, 1, 1);
-        myRoot.add(createTabPane(myCommandView), 1, 1, 1, 1);
-        //TODO: Add new tabs here
+        myRoot.add(createTabPane(myVariableView, myCommandView), 1, 0, 1, 1);
+        myRoot.add(createTabPane(myPaletteView, new OptionView(myHandler)), 1, 1, 1, 1);
     }
 
     private Scene createScene() {
@@ -152,7 +148,9 @@ public class GUI {
     }
     
     private Tab createTab(View<?> view) {
-        return new Tab(view.getName(), view.getRoot());
+        Tab ret = new Tab(view.getName(), view.getRoot());
+        ret.setClosable(false);
+        return ret;
     }
 
     private ColumnConstraints getColumnConstraints(double percent) {

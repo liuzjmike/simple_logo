@@ -32,7 +32,7 @@ public class RegexParser {
 	
 	public String getSymbol(String name) {
         for (Entry<String, Pattern> e : symbolTable) {
-            if (e.getValue().matcher(name).matches()) {
+            if (e.getValue().matcher(name).matches() || e.getKey().equals(name)) {
                 return e.getKey();
             }
         }
