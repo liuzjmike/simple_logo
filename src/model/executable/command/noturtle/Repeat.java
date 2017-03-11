@@ -26,7 +26,7 @@ public class Repeat extends AbstractCommand {
 		env.getVariablePool().alloc();
 		for (int i = 1; i <= count; i++) {
 			env.getVariablePool().add(":repCount", i);
-			ret = getParam(1).execute(env);
+			ret = getParam(1).copy().execute(env);
 		}
         env.getVariablePool().release();
 		return ret.getValue();

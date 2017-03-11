@@ -36,6 +36,7 @@ public class CommandPool extends SLogoObservable<List<String>>{
     public void add(String name, Command command) {
         userCommands.put(name, command);
         myDefinitions.remove(name);
+        notifyObservers();
     }
     
     public void define(String name, int numParams) {

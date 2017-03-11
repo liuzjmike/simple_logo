@@ -42,10 +42,6 @@ public class SLogoModel {
     	return myEnv.getCommandPool().getLanguage();
     }
     
-    public PaletteInfo getPalette() {
-        return myEnv.getPalette();
-    }
-    
     public void setSize(double width, double height) {
         myEnv.setWidth(width);
         myEnv.setHeight(height);
