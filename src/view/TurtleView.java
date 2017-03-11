@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import model.info.PaletteInfo;
 import model.info.TurtleInfo;
 import model.turtle.TurtleHist;
+import model.turtle.info.ShapeInfo;
 import util.Constants;
 
 public class TurtleView {

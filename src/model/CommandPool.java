@@ -69,6 +69,10 @@ public class CommandPool extends SLogoObservable<List<String>>{
         }
     }
     
+    public Map<String, Command> getUserCommand() {
+    	return userCommands;
+    }
+    
     void setLanguage(String language) {
         myLanguage = language;
         commandParser.setPattern(DEFAULT_LANGUAGE_SUBPACKAGE + language);

@@ -11,4 +11,8 @@ public interface ControlHandler extends Function<String, Double> {
 	public void saveWorkspace();
 	
 	public void loadWorkspace();
+	
+	public void saveCommands();
+	
+	public void loadCommands();
 }

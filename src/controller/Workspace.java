@@ -87,6 +87,19 @@ public class Workspace {
                 myModel.setLanguage(parameters.get("Language"));
             }
         }
+
+		@Override
+		public void saveCommands() {
+			File dataFile = mySelector.saveTo(myStage);
+			if(dataFile != null) {
+				
+			}
+		}
+
+		@Override
+		public void loadCommands() {
+			
+		}
     }
     
 }

@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.info.PaletteInfo;
 import model.info.PoolInfo;
+import model.turtle.info.ShapeInfo;
 import util.Constants;
 import util.SLogoException;
 import util.SLogoObserver;

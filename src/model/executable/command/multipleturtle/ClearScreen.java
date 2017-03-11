@@ -1,6 +1,7 @@
-package model.executable.command.singleturtle;
+package model.executable.command.multipleturtle;
 
-import model.executable.command.SingleCommand;
+import model.Environment;
+import model.executable.command.MultipleCommand;
 import model.turtle.Turtle;
 
 /**
@@ -10,14 +11,14 @@ import model.turtle.Turtle;
  * @author zhuangbihan
  *
  */
-public class ClearScreen extends SingleCommand {
+public class ClearScreen extends MultipleCommand {
 
 	public ClearScreen() {
 		super(0);
 	}
-	
+
 	@Override
-	protected double turtleExecute(Turtle turtle) {
+	protected double turtleExecute(Environment env, Turtle turtle) {
 		return turtle.reset();
 	}
 
