@@ -24,6 +24,7 @@ import model.info.TurtleInfo;
 import util.SLogoObserver;
 
 public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
+
 	public static final String TURTLE_IMAGE = "TurtleImage.png";
 	public static final String ASK_MOVECOMMAND = "ask [ %d ] [ %s %d ]";
 	public static final String ASK_SETXYCOMMAND = "ask [ %d ] [ setxy %f %f ]";
@@ -36,14 +37,12 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 	private Map<Integer, TurtleView> myTurtles;
 	private LineDrawer lineDrawer;
 
-	private Consumer<String> myHandler;
 	private Supplier<PaletteInfo> myPaletteSupplier;
 
 	private int activeTurtleID;
 
 	public PoolView(double width, double height, Consumer<String> guiHandler, Supplier<PaletteInfo> paletteSupplier) {
-		super("Pool", new Pane());
-		myHandler = guiHandler;
+		super("Pool", new Pane(), guiHandler);
 		myPaletteSupplier = paletteSupplier;
 		myTurtles = new HashMap<Integer, TurtleView>();
 		setBackgroundColor(Color.WHITE);
@@ -85,7 +84,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 	public void handleMouseInput(MouseEvent t) {
 		((ImageView) (t.getSource())).setX(t.getSceneX() - TurtleView.DEFAULT_WIDTH / 2);
 		((ImageView) (t.getSource())).setY(t.getSceneY() - TurtleView.DEFAULT_HEIGHT / 2);
-		myHandler.accept(String.format(ASK_SETXYCOMMAND, activeTurtleID, (t.getSceneX() - getRoot().getPrefWidth() / 2),
+		execute(String.format(ASK_SETXYCOMMAND, activeTurtleID, (t.getSceneX() - getRoot().getPrefWidth() / 2),
 				(-t.getSceneY() + getRoot().getPrefHeight() / 2)));
 	}
 
@@ -103,8 +102,9 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 			myTurtles.get(activeTurtleID).setPopUp(activeTurtleID,stage);		
 			return;
 		}
-		myHandler.accept(String.format(ASK_MOVECOMMAND, activeTurtleID, command, DEFALUT_STEP));
+		execute(String.format(ASK_MOVECOMMAND, activeTurtleID, command, DEFALUT_STEP));
 	}
+	
 	public void handleRelease(KeyCode code, Stage stage){
 		if(code == KeyCode.I){
 			myTurtles.get(activeTurtleID).hidePopUp(stage);

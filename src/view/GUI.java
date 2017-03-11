@@ -52,7 +52,7 @@ public class GUI {
     public static final String STYLESHEET = "default.css";
 
     public static final double SCREEN_RATIO = 0.9;
-    public static final double LEFT_CONSTRAINT = 75;
+    public static final double LEFT_CONSTRAINT = 85;
     public static final double TOP_CONSTRAINT = 60;
 
     private Stage myStage;
@@ -190,7 +190,7 @@ public class GUI {
         saveState.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 try {
-                    saveState();
+                    saveWorkspacePref();
                 } catch (TransformerException | IOException e) {
                     e.printStackTrace();
                 }
@@ -266,12 +266,12 @@ public class GUI {
         myStage.toFront();
     }
 
-    private void saveState() throws TransformerException, IOException {
+    private void saveWorkspacePref() throws TransformerException, IOException {
         String fileName = promptUserForFileName();
         Map<String,String> parameters = new HashMap<String,String>();
-        parameters.put("color", myPoolView.getBackgroundColor().toString());
-        parameters.put("language", myHandler.getLanguage());
-        XMLParserWriter.saveState(fileName, "workspace",parameters,"SavedStates");
+        parameters.put("Background color", myPoolView.getBackgroundColor().toString());
+        parameters.put("Language", myHandler.getLanguage());
+        XMLParserWriter.saveState(fileName, "Workspace", parameters, "SavedStates");
     }
 
     private File promptUserForFile() {

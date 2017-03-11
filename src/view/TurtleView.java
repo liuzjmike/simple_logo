@@ -78,8 +78,6 @@ public class TurtleView {
             lineDrawer.removeLines(myLines);
             myLines.clear();
         }
-        System.out.println(myTurtle.isVisible() + " " + myTurtle.getPenInfo().isDown());
-        System.out.println(myImage.getX() + " " + myImage.getY());
     }
 
     private void setVisible(boolean isVisible){
