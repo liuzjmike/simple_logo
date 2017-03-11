@@ -1,6 +1,6 @@
 package view;
 
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -9,15 +9,16 @@ import javafx.scene.layout.VBox;
 public class ScrollView extends View<ScrollPane> {
     
     private VBox myBox;
-    
-    public ScrollView(String name) {
-        this(name, null);
-    }
 
-    public ScrollView(String name, Consumer<String> guiHandler) {
+    public ScrollView(String name, Function<String, Double> guiHandler) {
         super(name, new ScrollPane(), guiHandler);
         myBox = new VBox();
         getRoot().setContent(myBox);
+    }
+    
+    public ScrollView(String name, String id, Function<String, Double> guiHandler) {
+        this(name, guiHandler);
+        myBox.setId(id);
     }
     
     public void addElement(Node node) {

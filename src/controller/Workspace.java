@@ -8,11 +8,9 @@ import java.util.Map;
 import javax.xml.transform.TransformerException;
 
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import model.SLogoModel;
-import model.info.PaletteInfo;
+import util.FileSelector;
 import util.XMLParserWriter;
 import view.GUI;
 
@@ -21,13 +19,13 @@ public class Workspace {
     public static final String DATA_FILE_EXTENSION = "*.xml";
 
     private Stage myStage;
-    private FileChooser myChooser;
+    private FileSelector mySelector;
     private GUI myGUI;
     private SLogoModel myModel;
 
     public Workspace(Stage stage) {
         myStage = stage;
-        myChooser = makeFileChooser(DATA_FILE_EXTENSION);
+        mySelector = new FileSelector(DATA_FILE_EXTENSION);
         myModel = new SLogoModel();
         myGUI = new GUI(stage, new MyControlHandler());
         myModel.setSize(myGUI.getPoolWidth(), myGUI.getPoolHeight());
@@ -49,24 +47,11 @@ public class Workspace {
         return new Workspace(new Stage());
     }
     
-    private FileChooser makeFileChooser(String extensionAccepted) {
-        FileChooser result = new FileChooser();
-        result.setInitialDirectory(new File(System.getProperty("user.dir")));
-        result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
-        return result;
-    }
-    
-    private File chooseFile(String text) {
-        myChooser.setTitle(text);
-        File file = myChooser.showOpenDialog(myStage);
-        return file;
-    }
-    
     private class MyControlHandler implements ControlHandler {
         
         @Override
-        public void accept(String command) {
-            myModel.interpret(command);
+        public Double apply(String command) {
+            return myModel.interpret(command);
         }
 
         @Override
@@ -79,10 +64,10 @@ public class Workspace {
         }
 
         public void saveWorkspace() {
-        	File dataFile = myChooser.showSaveDialog(new Stage());
+            File dataFile = mySelector.saveTo(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = new HashMap<String,String>();
-                //parameters.put("Background color", myGUI.getBackgroundColor().toString());
+                parameters.put("Color", myGUI.getBackgroundColor().toString());
                 parameters.put("Language", myModel.getLanguage());
                 try {
 					XMLParserWriter.saveState(dataFile, "Workspace", parameters);
@@ -95,12 +80,11 @@ public class Workspace {
         }
         
         public void loadWorkspace() {
-            File dataFile = chooseFile("Choose file");
+            File dataFile = mySelector.open(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = XMLParserWriter.extractContent(dataFile, false);
-                //myGUI.setBackgroundColor(Color.web(parameters.get("color")));
-//                myGUI.setBackgroundColor(myModel.);
-                myModel.setLanguage(parameters.get("language"));
+                myGUI.setBackgroundColor(Color.web(parameters.get("color")));
+                myModel.setLanguage(parameters.get("Language"));
             }
         }
     }

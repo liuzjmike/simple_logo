@@ -12,8 +12,8 @@
 }
 
 #small-container {
-    -fx-border-style: solid inside;
     -fx-alignment: center;
+    -fx-spacing: 20;
 }
 
 #text-color {
@@ -25,4 +25,9 @@
 #scroll-view {
     -fx-text-alignment: center;
     -fx-padding: 10;
+}
+
+#shape-legend {
+    -fx-fit-height: 30;
+    -fx-fit-width: 30;
 }

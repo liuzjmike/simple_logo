@@ -32,7 +32,6 @@ public class XMLParserWriter {
 			myDoc.appendChild(workspaceElement);
 		    
 			for (String parameter : parameters.keySet()) {
-				System.out.println(parameters.get(parameter));
 				writeParameter(parameter,parameters.get(parameter),myDoc,workspaceElement);
 			}
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();

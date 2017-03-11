@@ -3,7 +3,7 @@ package view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -30,9 +30,9 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
 	private ScrollView myColors;
 	private PaletteInfo myPalette;
     
-    public PaletteView(Consumer<String> handler) {
+    public PaletteView(Function<String, Double> handler) {
     	super("Palette", new VBox(), handler);
-    	myColors = new ScrollView("Colors");
+    	myColors = new ScrollView("Colors", handler);
     	myColors.setId(SV_ID);
     	getRoot().getChildren().addAll(createChoice(), myColors.getRoot());
     	getRoot().setId(ROOT_ID);

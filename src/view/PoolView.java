@@ -3,8 +3,7 @@ package view;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -18,7 +17,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
-import model.info.PaletteInfo;
 import model.info.PoolInfo;
 import model.info.TurtleInfo;
 import util.SLogoObserver;
@@ -37,32 +35,32 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 	private Map<Integer, TurtleView> myTurtles;
 	private LineDrawer lineDrawer;
 
-	private Supplier<PaletteInfo> myPaletteSupplier;
+	private ViewSupplier myViewSupplier;
+	
+    private int activeTurtleID;
 
-	private int activeTurtleID;
+    public PoolView(double width, double height, Function<String, Double> guiHandler, ViewSupplier viewSupplier) {
+        super("Pool", new Pane(), guiHandler);
+    	myViewSupplier = viewSupplier;
+        myTurtles = new HashMap<Integer,TurtleView>();
+        setBackgroundColor(Color.WHITE);
+        lineDrawer = new LineDrawer() {
 
-	public PoolView(double width, double height, Consumer<String> guiHandler, Supplier<PaletteInfo> paletteSupplier) {
-		super("Pool", new Pane(), guiHandler);
-		myPaletteSupplier = paletteSupplier;
-		myTurtles = new HashMap<Integer, TurtleView>();
-		setBackgroundColor(Color.WHITE);
-		lineDrawer = new LineDrawer() {
+            @Override
+            public void addLine(Line line) {
+                getRoot().getChildren().add(line);
+            }
 
-			@Override
-			public void addLine(Line line) {
-				getRoot().getChildren().add(line);
-			}
-
-			@Override
-			public void removeLines(Collection<Line> lines) {
-				getRoot().getChildren().removeAll(lines);
-			}
-		};
-		getRoot().setPrefWidth(width);
-		getRoot().setPrefHeight(height);
-	}
-
-	private void moveActiveTurtle() {
+            @Override
+            public void removeLines(Collection<Line> lines) {
+                getRoot().getChildren().removeAll(lines);
+            }
+        };
+        getRoot().setPrefWidth(width);
+        getRoot().setPrefHeight(height);
+    }
+	
+    private void moveActiveTurtle() {
 		for (Integer id : myTurtles.keySet()) {
 			myTurtles.get(id).getImageView().setOnMouseClicked(e -> handleClick(e, id));
 		}
@@ -101,6 +99,8 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 		} else if (code == KeyCode.I) {
 			myTurtles.get(activeTurtleID).setPopUp(activeTurtleID,stage);		
 			return;
+		} else {
+		    return;
 		}
 		execute(String.format(ASK_MOVECOMMAND, activeTurtleID, command, DEFALUT_STEP));
 	}
@@ -124,25 +124,26 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 		}
 	}
 
-	public void drawTurtle() {
-		for (Integer id : myTurtles.keySet()) {
-			myTurtles.get(id).update(myPaletteSupplier.get());
-		}
-	}
-
 	public void setBackgroundColor(Color color) {
 		getRoot().setBackground(new Background(new BackgroundFill(color, CornerRadii.EMPTY, Insets.EMPTY)));
 	}
+    
+    public void drawTurtle(){
+        for(Integer id: myTurtles.keySet()){
+            myTurtles.get(id).update(myViewSupplier.getPalette(), myViewSupplier.getShapes());
+        }
+    }
 
-	@Override
-	public void update(PoolInfo arg) {
-		setBackgroundColor(myPaletteSupplier.get().getColor(arg.getBackground()));
-		setTurtle(arg.getTurtles());
-		drawTurtle();
-		moveActiveTurtle();
-	}
+    @Override
+    public void update(PoolInfo arg) {
+        setBackgroundColor(myViewSupplier.getPalette().getColor(arg.getBackground()));
+        setTurtle(arg.getTurtles());
+        drawTurtle();
+        moveActiveTurtle();
+    }
 
-	public Color getBackgroundColor() {
-		return (Color) getRoot().getBackground().getFills().get(0).getFill();
-	}
+
+    public Color getBackgroundColor() {
+        return (Color) getRoot().getBackground().getFills().get(0).getFill();
+    }
 }

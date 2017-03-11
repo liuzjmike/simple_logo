@@ -4,15 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import controller.ControlHandler;
-import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
-import util.GUIUtils;
 import util.SLogoException;
+import view.factory.ConstraintsFactory;
+import view.factory.ControlFactory;
 
 public class OptionView extends ScrollView {
     
@@ -22,17 +17,18 @@ public class OptionView extends ScrollView {
     private ControlHandler myHandler;
 
     public OptionView(ControlHandler handler) {
-        super("Options");
+        super("Options", "big-container", handler);
         myHandler = handler;
         populateButtons();
     }
 
     private void populateButtons() {
-        addAllElements(GUIUtils.createButton("Help", e -> showHelp()),
-        		GUIUtils.createButton("New Workspace", e -> myHandler.newWorkspace()),
-        		GUIUtils.createButton("Save Workspace", e -> myHandler.saveWorkspace()),
-        		GUIUtils.createButton("Load Workspace", e -> myHandler.loadWorkspace()),
-        		GUIUtils.createComboBox("Choose Language", LANGUAGES, (observable, oldValue, newValue) -> {
+    	ControlFactory cf = new ControlFactory();
+        addAllElements(cf.createButton("Help", e -> showHelp()),
+                       cf.createButton("New Workspace", e -> myHandler.newWorkspace()),
+                       cf.createButton("Save Workspace", e -> myHandler.saveWorkspace()),
+                       cf.createButton("Load Workspace", e -> myHandler.loadWorkspace()),
+                       cf.createComboBox("Choose Language", LANGUAGES, (observable, oldValue, newValue) -> {
                            myHandler.setLanguage(newValue);
                        }));
     }
