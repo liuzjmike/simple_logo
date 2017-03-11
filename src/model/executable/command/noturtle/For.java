@@ -31,7 +31,7 @@ public class For extends AbstractCommand {
 		env.getVariablePool().alloc();
 		for (double i = start; i <= end; i += incre) {
 			env.getVariablePool().add(varName, new Literal(i));
-			ret = getParam(1).execute(env);
+			ret = getParam(1).copy().execute(env);
 		}
 		env.getVariablePool().release();
 		return ret.getValue();

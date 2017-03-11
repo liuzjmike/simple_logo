@@ -19,9 +19,10 @@ public class Interpreter {
     
 	public static final String NEWLINE = "Newline";
     private static final String WHITESPACE = "Whitespace";
-    private static final String COMMENT = "Comment";
     private static final String LIST_START = "ListStart";
     private static final String LIST_END = "ListEnd";
+    private static final String GROUP_START = "GroupStart";
+    private static final String GROUP_END = "GroupEnd";
     private static final String CONSTANT = "Constant";
     private static final String VARIABLE = "Variable";
     private static final String COMMAND = "Command";
@@ -38,7 +39,7 @@ public class Interpreter {
     	Deque<String> dq = new ArrayDeque<>();
     	for (String s : commands.split(typeParser.getRegex(NEWLINE))) {
     		s = s.trim();
-    		if (is(s, COMMENT) || s.isEmpty()) {
+    		if (s.startsWith("#") || s.isEmpty()) {
     			continue;
     		}
     		dq.addAll(Arrays.asList(s.split(typeParser.getRegex(WHITESPACE))));
@@ -63,6 +64,10 @@ public class Interpreter {
             expressions.pop();
             return ret;
         }
+//        else if(is(exp, GROUP_START)) {
+//            
+//        }
+        //TODO
         else if(is(exp, VARIABLE)) {
             return new Variable(exp);
         } 

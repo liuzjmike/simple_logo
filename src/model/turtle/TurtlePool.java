@@ -42,6 +42,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     }
     
     public <T> T applyAll(Function<Turtle, T> function) {
+        validateActive();
     	T ret = null;
     	for(int i = 0; i < activeSize(); i++) {
     	    ret = apply(function, false);

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.SLogoModel;
@@ -70,12 +72,10 @@ public class Workspace {
                 parameters.put("Color", myGUI.getBackgroundColor().toString());
                 parameters.put("Language", myModel.getLanguage());
                 try {
-					XMLParserWriter.saveState(dataFile, "Workspace", parameters);
-				} catch (TransformerException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+                    XMLParserWriter.saveState(dataFile, "Workspace", parameters);
+                } catch (TransformerException | IOException e) {
+                    new Alert(AlertType.ERROR, "Save failed").show();
+                }
             }
         }
         

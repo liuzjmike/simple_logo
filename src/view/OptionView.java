@@ -6,7 +6,6 @@ import java.util.List;
 import controller.ControlHandler;
 import javafx.stage.Stage;
 import util.SLogoException;
-import view.factory.ConstraintsFactory;
 import view.factory.ControlFactory;
 
 public class OptionView extends ScrollView {
