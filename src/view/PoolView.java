@@ -44,6 +44,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
     	myViewSupplier = viewSupplier;
         myTurtles = new HashMap<Integer,TurtleView>();
         setBackgroundColor(Color.WHITE);
+        activeTurtleID = 1;
         lineDrawer = new LineDrawer() {
 
             @Override

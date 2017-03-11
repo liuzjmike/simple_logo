@@ -13,6 +13,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -133,7 +134,12 @@ public class GUI {
     private Scene createScene() {
         Scene scene = new Scene(myRoot);
         scene.getStylesheets().add(Constants.DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
-        scene.setOnKeyPressed(e -> myPoolView.handleKeyInput(e.getCode(), myStage));
+        scene.setOnKeyPressed(e -> {
+            KeyCode code = e.getCode();
+            if(!myConsoleView.handleKeyInput(code)) {
+                myPoolView.handleKeyInput(code, myStage);
+            }
+        });
         scene.setOnKeyReleased(e -> myPoolView.handleRelease(e.getCode(), myStage));
         return scene;
     }
