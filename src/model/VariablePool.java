@@ -1,5 +1,6 @@
 package model;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,13 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import model.executable.Literal;
 import util.SLogoException;
 import util.SLogoObservable;
 
-public class VariablePool extends SLogoObservable<List<Entry<String, Literal>>> {
+public class VariablePool extends SLogoObservable<List<Entry<String, Double>>> {
 	
 	public static final int STACK_LIMIT = 1024;
     
@@ -65,18 +65,21 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Literal>>> 
         notifyObservers();
     }
     
-    List<Entry<String, Literal>> getVariables() {
+    List<Entry<String, Double>> getVariables() {
         return notification();
     }
 
     @Override
-    protected List<Entry<String, Literal>> notification() {
-        List<Entry<String, Literal>> ret = new ArrayList<>();
-        myStack.forEach(
-                scope -> ret.addAll(scope.entrySet()
-                                         .stream()
-                                         .sorted(Comparator.comparing(Entry<String, Literal>::getKey))
-                                         .collect(Collectors.toList())));
+    protected List<Entry<String, Double>> notification() {
+        List<Entry<String, Double>> ret = new ArrayList<>();
+        for(Map<String, Literal> stack: myStack) {
+            List<Entry<String, Double>> toAdd = new ArrayList<>();
+            for(String key: stack.keySet()) {
+                toAdd.add(new SimpleEntry<>(key, stack.get(key).getValue()));
+            }
+            toAdd.sort(Comparator.comparing(Entry::getValue));
+            ret.addAll(toAdd);
+        }
         return ret;
     }
 

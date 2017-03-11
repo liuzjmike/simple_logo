@@ -99,6 +99,8 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 		} else if (code == KeyCode.I) {
 			myTurtles.get(activeTurtleID).setPopUp(activeTurtleID,stage);		
 			return;
+		} else {
+		    return;
 		}
 		execute(String.format(ASK_MOVECOMMAND, activeTurtleID, command, DEFALUT_STEP));
 	}

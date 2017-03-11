@@ -3,7 +3,6 @@ package view;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 
@@ -14,19 +13,15 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import model.executable.Literal;
-import model.executable.command.Command;
 import model.info.PaletteInfo;
 import model.info.PoolInfo;
 import util.Constants;
 import util.SLogoException;
 import util.SLogoObserver;
+import view.factory.ConstraintsFactory;
 
 public class GUI {
 
@@ -34,7 +29,7 @@ public class GUI {
 
     public static final double SCREEN_RATIO = 0.9;
     public static final double LEFT_CONSTRAINT = 80;
-    public static final double TOP_CONSTRAINT = 60;
+    public static final double TOP_CONSTRAINT = 55;
 
     private Stage myStage;
     private GridPane myRoot;
@@ -75,11 +70,11 @@ public class GUI {
         return myPoolView;
     }
 
-    public SLogoObserver<List<Entry<String, Literal>>> getVariableObserver() {
+    public SLogoObserver<List<Entry<String, Double>>> getVariableObserver() {
         return myVariableView;
     }
 
-    public SLogoObserver<Map<String, Command>> getCommandObserver() {
+    public SLogoObserver<List<String>> getCommandObserver() {
         return myCommandView;
     }
     
@@ -101,10 +96,11 @@ public class GUI {
         root.setPrefWidth(gd.getDisplayMode().getWidth() * SCREEN_RATIO);
         root.setPrefHeight(gd.getDisplayMode().getHeight() * SCREEN_RATIO);
 
-        root.getColumnConstraints().addAll(getColumnConstraints(LEFT_CONSTRAINT),
-                                             getColumnConstraints(100 - LEFT_CONSTRAINT));
-        root.getRowConstraints().addAll(getRowConstraints(TOP_CONSTRAINT),
-                                          getRowConstraints(100 - TOP_CONSTRAINT));
+        ConstraintsFactory cf = new ConstraintsFactory();
+        root.getColumnConstraints().addAll(cf.getColumnConstraints(LEFT_CONSTRAINT),
+                                           cf.getColumnConstraints(100 - LEFT_CONSTRAINT));
+        root.getRowConstraints().addAll(cf.getRowConstraints(TOP_CONSTRAINT),
+                                        cf.getRowConstraints(100 - TOP_CONSTRAINT));
         return root;
     }
     
@@ -167,20 +163,6 @@ public class GUI {
     private Tab createTab(View<?> view) {
         Tab ret = new Tab(view.getName(), view.getRoot());
         ret.setClosable(false);
-        return ret;
-    }
-
-    private ColumnConstraints getColumnConstraints(double percent) {
-        ColumnConstraints ret = new ColumnConstraints();
-        ret.setHgrow(Priority.NEVER);
-        ret.setPercentWidth(percent);
-        return ret;
-    }
-
-    private RowConstraints getRowConstraints(double percent) {
-        RowConstraints ret = new RowConstraints();
-        ret.setVgrow(Priority.NEVER);
-        ret.setPercentHeight(percent);
         return ret;
     }
 }
