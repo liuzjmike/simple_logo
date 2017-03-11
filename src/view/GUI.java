@@ -148,7 +148,7 @@ public class GUI {
                     Alert alert = new Alert(AlertType.ERROR, e.getMessage());
                     alert.show();
                 }
-                myConsoleView.addCommandHist(command);
+                myConsoleView.addCommandHist(command, ret);
             }
             return ret;
         };

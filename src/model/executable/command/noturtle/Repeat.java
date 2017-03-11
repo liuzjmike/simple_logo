@@ -23,10 +23,12 @@ public class Repeat extends AbstractCommand {
 	protected double run(Environment env) {
 		Literal ret = new Literal(0);
 		double count = getParamValue(env, 0);
+		env.getVariablePool().alloc();
 		for (int i = 1; i <= count; i++) {
 			env.getVariablePool().add(":repCount", i);
 			ret = getParam(1).execute(env);
 		}
+        env.getVariablePool().release();
 		return ret.getValue();
 	}
 
