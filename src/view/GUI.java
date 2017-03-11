@@ -29,6 +29,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -51,7 +52,7 @@ public class GUI {
     public static final String STYLESHEET = "default.css";
 
     public static final double SCREEN_RATIO = 0.9;
-    public static final double LEFT_CONSTRAINT = 75;
+    public static final double LEFT_CONSTRAINT = 80;
     public static final double TOP_CONSTRAINT = 60;
 
     private Stage myStage;
@@ -62,6 +63,7 @@ public class GUI {
     private VariableView myVariableView;
     private CommandView myCommandView;
     private PaletteView myPaletteView;
+    private ShapeView myShapeView;
 
     private ControlHandler myHandler;
     private Consumer<String> guiHandler;
@@ -121,18 +123,29 @@ public class GUI {
     }
     
     private void initView() {
-        myPoolView = new PoolView(getPoolWidth(), getPoolHeight(), guiHandler, () -> {
-        	return myPaletteView.getPalette();
+        myPoolView = new PoolView(getPoolWidth(), getPoolHeight(), guiHandler, new ViewSupplier() {
+
+			@Override
+			public PaletteInfo getPalette() {
+				return myPaletteView.getPalette();
+			}
+
+			@Override
+			public List<ImageView> getShapes() {
+				return myShapeView.getShapes();
+			}
+        	
         });
         myConsoleView = new ConsoleView(guiHandler);
         myVariableView = new VariableView(guiHandler);
         myCommandView = new CommandView(guiHandler);
         myPaletteView = new PaletteView(guiHandler);
+        myShapeView = new ShapeView(guiHandler);
 
         myRoot.add(myPoolView.getRoot(), 0, 0, 1, 1);
         myRoot.add(myConsoleView.getRoot(), 0, 1, 1, 1);
-        myRoot.add(createTabPane(myVariableView, myPaletteView), 1, 0, 1, 1);
-        myRoot.add(createTabPane(myCommandView), 1, 1, 1, 1);
+        myRoot.add(createTabPane(myPaletteView, myShapeView), 1, 0, 1, 1);
+        myRoot.add(createTabPane(myCommandView, myVariableView), 1, 1, 1, 1);
         //TODO: Add new tabs here
     }
 

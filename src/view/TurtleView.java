@@ -37,7 +37,7 @@ public class TurtleView {
         this.yOffset = yOffset;
     }
 
-    public void update(PaletteInfo palette) {
+    public void update(PaletteInfo palette, List<ImageView> shapes) {
         setVisible(myTurtle.isVisible());
         setHeading(myTurtle.getHeading());
         List<TurtleHist> lastMove = myTurtle.getLastMove();
@@ -60,8 +60,6 @@ public class TurtleView {
             lineDrawer.removeLines(myLines);
             myLines.clear();
         }
-        System.out.println(myTurtle.isVisible() + " " + myTurtle.getPenInfo().isDown());
-        System.out.println(myImage.getX() + " " + myImage.getY());
     }
 
     private void setVisible(boolean isVisible){

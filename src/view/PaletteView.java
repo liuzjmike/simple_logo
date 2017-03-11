@@ -26,18 +26,16 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
 	public static final String SM_CONTAINER = "small-container";
 	public static final String TC_ID = "text-color";
 	
-	private Consumer<String> myHandler;
 	private String type;
 	private ScrollView myColors;
 	private PaletteInfo myPalette;
     
     public PaletteView(Consumer<String> handler) {
-    	super("Palette", new VBox());
+    	super("Palette", new VBox(), handler);
     	myColors = new ScrollView("Colors");
     	myColors.setId(SV_ID);
     	getRoot().getChildren().addAll(createChoice(), myColors.getRoot());
     	getRoot().setId(ROOT_ID);
-    	myHandler = handler;
     	myPalette = new Palette();
     }
     
@@ -79,7 +77,7 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     		hbox.getChildren().add(text);
     		hbox.getChildren().add(rec);
     		int index = i;
-    		hbox.setOnMouseClicked(e -> myHandler.accept("Set" + type + " " + index));
+    		hbox.setOnMouseClicked(e -> execute("Set" + type + " " + index));
     		hbox.setId(TC_ID);
     		myColors.addElement(hbox);
     	}

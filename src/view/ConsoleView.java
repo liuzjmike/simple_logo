@@ -31,11 +31,8 @@ public class ConsoleView extends View<GridPane> {
 	
 	String activeText;
 	
-	private Consumer<String> myHandler;
-	
 	public ConsoleView(Consumer<String> guiHandler) {
-	    super("Console", new GridPane());
-	    myHandler = guiHandler;
+	    super("Console", new GridPane(), guiHandler);
 		
 		outputVBox = new VBox();
 		output = new ScrollPane(outputVBox);
@@ -87,19 +84,14 @@ public class ConsoleView extends View<GridPane> {
     }
     
     private void installHandler(Text myText) {
-		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, 
-		    new EventHandler<MouseEvent>() {
-		        public void handle(MouseEvent e) {
-						myHandler.accept(myText.getText());
-		        }
-		});
+		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> execute(myText.getText()));
 	}
 	
 	private void installEnterButtonHandler() {
 		enterButton.addEventHandler(MouseEvent.MOUSE_PRESSED, 
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
-		            myHandler.accept(getActiveText());
+		            execute(getActiveText());
 		        	input.clear();
 		        }
 		});
