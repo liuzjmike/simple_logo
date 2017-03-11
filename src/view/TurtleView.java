@@ -78,7 +78,6 @@ public class TurtleView {
             myImage = shapeInfo.getShape(turtleImageIndex);
             processImage(myTurtle);
             drawer.addTurtleIV(myImage);
-            setXY(myTurtle.getX(), myTurtle.getY());
         }   
         setXY(myTurtle.getX(), myTurtle.getY());
         if(myTurtle.isReset()) {

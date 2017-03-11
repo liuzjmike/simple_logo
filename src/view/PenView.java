@@ -4,9 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import controller.ControlHandler;
-import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
-import javafx.scene.control.ComboBox;
 import util.GUIUtils;
 
 public class PenView extends ScrollView {
