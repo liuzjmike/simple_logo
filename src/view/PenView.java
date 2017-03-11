@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import controller.ControlHandler;
-import util.GUIUtils;
+import view.factory.ControlFactory;
 
 public class PenView extends ScrollView {
 	public static final List<String> THICKNESS = Arrays.asList("1", "2", "3", "4", "5");
@@ -18,9 +18,10 @@ public class PenView extends ScrollView {
 	public PenView(ControlHandler handler) {
 		super("Pen Setting", handler);
 		myHandler = handler;
-		addAllElements(GUIUtils.createComboBox("Pen Size", THICKNESS, (observable, oldValue, newValue) -> {
+		ControlFactory cf = new ControlFactory();
+		addAllElements(cf.createComboBox("Pen Size", THICKNESS, (observable, oldValue, newValue) -> {
             setPenSize(Integer.parseInt(newValue));
-        }), GUIUtils.createComboBox("Pen Down",PENDOWN , (observable, oldValue, newValue) -> {
+        }), cf.createComboBox("Pen Down",PENDOWN , (observable, oldValue, newValue) -> {
             setPenDown(newValue);
         }));
 	
