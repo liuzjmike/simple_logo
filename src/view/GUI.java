@@ -148,8 +148,9 @@ public class GUI {
             if (!command.isEmpty()) {
                 try {
                     handler.accept(command);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (SLogoException e) {
+                    Alert alert = new Alert(AlertType.ERROR, e.getMessage());
+                    alert.show();
                 }
                 myConsoleView.addCommandToScreen(command);
             }

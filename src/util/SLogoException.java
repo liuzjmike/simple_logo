@@ -15,6 +15,7 @@ public class SLogoException extends RuntimeException {
 	
 	public static final String INVALID_COLOR_INDEX = "Color index is invalid.";
 	public static final String INVALID_KEY = "Key is invalid.";
+	public static final String INVALID_COMMAND = "Command is not valid.";
 	public static final String ILLEGAL_ID = "ID cannot be smaller than 1.";
 	public static final String ILLEGAL_INPUT = "Input format is illegal: %s";
 	

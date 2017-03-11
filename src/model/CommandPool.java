@@ -51,7 +51,7 @@ public class CommandPool extends SLogoObservable<Map<String, Command>>{
                 return new Definition(name, myDefinitions.get(name));
             }
             else {
-                throw new RuntimeException();
+                throw new SLogoException(SLogoException.INVALID_COMMAND);
             }
         }
         ResourceBundle resources = ResourceBundle.getBundle(Constants.DEFAULT_RESOURCE_PACKAGE

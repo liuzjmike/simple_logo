@@ -90,12 +90,7 @@ public class ConsoleView extends View<GridPane> {
 		myText.addEventHandler(MouseEvent.MOUSE_PRESSED, 
 		    new EventHandler<MouseEvent>() {
 		        public void handle(MouseEvent e) {
-		        	try {
 						myHandler.accept(myText.getText());
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
 		        }
 		});
 	}
