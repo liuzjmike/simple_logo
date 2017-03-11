@@ -28,7 +28,7 @@ public class GUI {
     public static final String STYLESHEET = "default.css";
 
     public static final double SCREEN_RATIO = 0.9;
-    public static final double LEFT_CONSTRAINT = 80;
+    public static final double LEFT_CONSTRAINT = 85;
     public static final double TOP_CONSTRAINT = 55;
 
     private Stage myStage;
