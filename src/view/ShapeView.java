@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 
 public class ShapeView extends ScrollView {
 	
+	public static final int SIDE_LENGTH = 30;
 	public static final String[] TURTLE_IMAGES = {"TurtleImage.png", "turtle1.png", "turtle2.png", "turtle3.png", "turtle4.png"};
 
 	private List<ImageView> myShapes;
@@ -31,8 +32,8 @@ public class ShapeView extends ScrollView {
 			Text text = new Text(i + ": ");
 			ImageView image = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGES[i])));
 			image.setId("shape-legend");
-			image.setFitHeight(30);
-			image.setFitWidth(30);
+			image.setFitHeight(SIDE_LENGTH);
+			image.setFitWidth(SIDE_LENGTH);
 			myShapes.add(image);
 			hbox.getChildren().add(text);
 			hbox.getChildren().add(image);
