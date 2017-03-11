@@ -31,7 +31,7 @@ public class TurtleView {
     private ImageView myImage;
     private TurtleInfo myTurtle;
     private List<Line> myLines;
-    private LineDrawer lineDrawer; 
+    private Drawer drawer; 
     private Popup myInfoWindow;
     private ListView<String> infoBox;
     private double xOffset, yOffset;
@@ -39,15 +39,13 @@ public class TurtleView {
     double newTranslateX;
     double newTranslateY;
 
-    public TurtleView(ImageView image, TurtleInfo turtle, LineDrawer lineDrawer,
+    public TurtleView(ImageView image, TurtleInfo turtle, Drawer drawer,
             double xOffset, double yOffset) {
         myImage = image;
-        setHeading(turtle.getHeading());
-        setSize(DEFAULT_HEIGHT, DEFAULT_WIDTH);
-        setVisible(turtle.isVisible());
+        processImage(turtle);
         myTurtle = turtle;
         myLines = new ArrayList<Line>();
-        this.lineDrawer = lineDrawer;
+        this.drawer = drawer;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
         myInfoWindow = new Popup();
@@ -55,7 +53,7 @@ public class TurtleView {
         myInfoWindow.getContent().addAll(infoBox);
     }
 
-    public void update(PaletteInfo palette, List<ImageView> shapes) {
+    public void update(PaletteInfo palette, ShapeInfo shapeInfo) {
         setVisible(myTurtle.isVisible());
         setHeading(myTurtle.getHeading());
         List<TurtleHist> lastMove = myTurtle.getLastMove();
@@ -68,15 +66,25 @@ public class TurtleView {
                                                            transformY(oldHist.getY()),
                                                            transformX(newHist.getX()), 
                                                            transformY(newHist.getY()));
-                lineDrawer.addLine(line);
+                drawer.addLine(line);
                 myLines.add(line);
             }
         }
+        drawer.removeTurtleIV(myImage);
+        myImage = shapeInfo.getShape(myTurtle.getShape());
+        processImage(myTurtle);
+        drawer.addTurtleIV(myImage);
         setXY(myTurtle.getX(), myTurtle.getY());
         if(myTurtle.isReset()) {
-            lineDrawer.removeLines(myLines);
+            drawer.removeLines(myLines);
             myLines.clear();
         }
+    }
+    
+    private void processImage(TurtleInfo turtle) {
+    	setHeading(turtle.getHeading());
+        setSize(DEFAULT_HEIGHT, DEFAULT_WIDTH);
+        setVisible(turtle.isVisible());
     }
 
     private void setVisible(boolean isVisible){

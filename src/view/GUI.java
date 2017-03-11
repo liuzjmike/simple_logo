@@ -113,8 +113,8 @@ public class GUI {
 			}
 
 			@Override
-			public List<ImageView> getShapes() {
-				return myShapeView.getShapes();
+			public ShapeInfo getShapeInfo() {
+				return myShapeView;
 			}
         	
         });

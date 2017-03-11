@@ -9,9 +9,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
-public class ShapeView extends ScrollView {
+public class ShapeView extends ScrollView implements ShapeInfo {
 	
 	public static final int SIDE_LENGTH = 30;
+	public static final String COMMAND = "SetShape ";
 	public static final String[] TURTLE_IMAGES = {"TurtleImage.png", "turtle1.png", "turtle2.png", "turtle3.png", "turtle4.png"};
 
 	private List<ImageView> myShapes;
@@ -22,10 +23,11 @@ public class ShapeView extends ScrollView {
 		setupShapes();
 	}
 	
-	public List<ImageView> getShapes() {
-		return myShapes;
+	@Override
+	public ImageView getShape(int index) {
+		return new ImageView(myShapes.get(index).getImage());
 	}
-	
+
 	private void setupShapes() {
 		for(int i=0; i<TURTLE_IMAGES.length; i++) {
 			HBox hbox = new HBox();
@@ -37,8 +39,9 @@ public class ShapeView extends ScrollView {
 			myShapes.add(image);
 			hbox.getChildren().add(text);
 			hbox.getChildren().add(image);
+			int index = i;
+			hbox.setOnMouseClicked(e -> execute(COMMAND + index));
 			addElement(hbox);
 		}
 	}
-
 }
