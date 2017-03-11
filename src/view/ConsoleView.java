@@ -23,7 +23,7 @@ import view.factory.ControlFactory;
 
 public class ConsoleView extends View<GridPane> {
 
-    public static final double LEFT_CONSTRAINT = 90;
+    public static final double LEFT_CONSTRAINT = 95;
     public static final double TOP_CONSTRAINT = 70;
     
     public static final String NEWLINE_REGEX = "\\n";
