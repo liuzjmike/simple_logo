@@ -36,6 +36,7 @@ Worked on some parts of GUI
 * Use the “Save” button next to the Textfield to save all command history.
 * All return values of all commands will be printed under the corresponding command.
 * Click any command in the command history field to run it again. 
+
 ## Any known bugs, crashes, or problems with the project's functionality
 ### Incomplete error handling for tell commands
 ## Any extra features included in the project
