@@ -3,7 +3,7 @@ package view;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
@@ -38,7 +38,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 	
     private int activeTurtleID;
 
-    public PoolView(double width, double height, Consumer<String> guiHandler, ViewSupplier viewSupplier) {
+    public PoolView(double width, double height, Function<String, Double> guiHandler, ViewSupplier viewSupplier) {
         super("Pool", new Pane(), guiHandler);
     	myViewSupplier = viewSupplier;
         myTurtles = new HashMap<Integer,TurtleView>();

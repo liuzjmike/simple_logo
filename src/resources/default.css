@@ -13,6 +13,7 @@
 
 #small-container {
     -fx-alignment: center;
+    -fx-spacing: 20;
 }
 
 #text-color {

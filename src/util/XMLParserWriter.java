@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 
 public class XMLParserWriter {
 	
-	public static void saveState(String file, String root, Map<String,String> parameters,String directory) throws TransformerException, IOException {
+	public static void saveState(File file, String root, Map<String,String> parameters) throws TransformerException, IOException {
 		try {
 			Document myDoc = getDocument();
 			Element workspaceElement = myDoc.createElement(root);
@@ -36,8 +36,9 @@ public class XMLParserWriter {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(myDoc);
-			File currentDirectory = new File(".").getCanonicalFile();
-			StreamResult result = new StreamResult(new File(currentDirectory+File.separator+directory+File.separator+file+".xml"));
+//			File currentDirectory = new File(".").getCanonicalFile();
+			StreamResult result = new StreamResult(file);
+//			StreamResult result = new StreamResult(new File(currentDirectory+File.separator+directory+File.separator+file+".xml"));
 			transformer.transform(source, result);
 
 		} catch (ParserConfigurationException e) {

@@ -63,6 +63,7 @@ public class CommandPool extends SLogoObservable<List<String>>{
             clazz = Class.forName(resources.getString(command));
             return (Command)clazz.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            System.out.println(command);
             throw new SLogoException(SLogoException.INSTANTIATION_ERROR);
         }
     }

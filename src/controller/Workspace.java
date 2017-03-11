@@ -47,8 +47,8 @@ public class Workspace {
     private class MyControlHandler implements ControlHandler {
         
         @Override
-        public void accept(String command) {
-            myModel.interpret(command);
+        public Double apply(String command) {
+            return myModel.interpret(command);
         }
 
         @Override
@@ -63,7 +63,7 @@ public class Workspace {
 
         @Override
         public void saveWorkspace() {
-            File dataFile = mySelector.chooseFile("Save to", myStage);
+            File dataFile = mySelector.saveTo(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = new HashMap<String,String>();
                 parameters.put("Background color", myGUI.getBackgroundColor().toString());
@@ -75,7 +75,7 @@ public class Workspace {
         
         @Override
         public void loadWorkspace() {
-            File dataFile = mySelector.chooseFile("Choose file", myStage);
+            File dataFile = mySelector.open(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = XMLParserWriter.extractContent(dataFile, false);
                 myGUI.setBackgroundColor(Color.web(parameters.get("color")));
