@@ -13,12 +13,17 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.SLogoModel;
 import util.FileSelector;
+import util.SLogoException;
 import util.XMLParserWriter;
 import view.GUI;
 
 public class Workspace {
 
     public static final String DATA_FILE_EXTENSION = "*.xml";
+    
+    public static final String COLOR = "color";
+    public static final String LANGUAGE = "language";
+    public static final String WORKSPACE = "workspace";
 
     private Stage myStage;
     private FileSelector mySelector;
@@ -69,10 +74,10 @@ public class Workspace {
             File dataFile = mySelector.saveTo(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = new HashMap<String,String>();
-                parameters.put("color", myGUI.getBackgroundColor().toString());
-                parameters.put("language", myModel.getLanguage());
+                parameters.put(COLOR, myGUI.getBackgroundColor().toString());
+                parameters.put(LANGUAGE, myModel.getLanguage());
                 try {
-                    XMLParserWriter.saveState(dataFile, "Workspace", parameters);
+                    XMLParserWriter.saveState(dataFile, WORKSPACE, parameters);
                 } catch (TransformerException | IOException e) {
                     new Alert(AlertType.ERROR, "Save failed").show();
                 }
@@ -83,8 +88,8 @@ public class Workspace {
             File dataFile = mySelector.open(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = XMLParserWriter.extractContent(dataFile, false);
-                myGUI.setBackgroundColor(Color.web(parameters.get("color")));
-                myModel.setLanguage(parameters.get("language"));
+                myGUI.setBackgroundColor(Color.web(parameters.get(COLOR)));
+                myModel.setLanguage(parameters.get(LANGUAGE));
             }
         }
 
@@ -92,7 +97,7 @@ public class Workspace {
 		public void saveCommands() {
 			File dataFile = mySelector.saveTo(myStage);
 			if(dataFile != null) {
-				
+				throw new SLogoException(SLogoException.INVALID_FILE);
 			}
 		}
 

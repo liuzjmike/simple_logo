@@ -20,6 +20,8 @@ public class SLogoException extends RuntimeException {
 	public static final String ILLEGAL_ID = "ID cannot be smaller than 1.";
 	public static final String ILLEGAL_INPUT = "Input format is illegal: %s";
 	
+	public static final String INVALID_FILE = "File is invalid";
+	
 	public static final String HELP_VIEWER_FAILED = "HelpViewer failed to open.";
 	public static final String INVALID_COLOR_BUTTON = "Color button is invalid.";
 	
