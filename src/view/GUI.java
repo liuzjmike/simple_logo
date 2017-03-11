@@ -125,7 +125,8 @@ public class GUI {
     private Scene createScene() {
         Scene scene = new Scene(myRoot);
         scene.getStylesheets().add(Constants.DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
-        scene.setOnKeyPressed(e -> myPoolView.handleKeyInput(e.getCode()));
+        scene.setOnKeyPressed(e -> myPoolView.handleKeyInput(e.getCode(), myStage));
+        scene.setOnKeyReleased(e -> myPoolView.handleRelease(e.getCode(), myStage));
         return scene;
     }
 
