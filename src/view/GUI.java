@@ -29,6 +29,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -139,7 +140,8 @@ public class GUI {
     private Scene createScene() {
         Scene scene = new Scene(myRoot);
         scene.getStylesheets().add(Constants.DEFAULT_RESOURCE_PACKAGE + STYLESHEET);
-        scene.setOnKeyPressed(e -> myPoolView.handleKeyInput(e.getCode()));
+        scene.setOnKeyPressed(e -> myPoolView.handleKeyInput(e.getCode(), myStage));
+        scene.setOnKeyReleased(e -> myPoolView.handleRelease(e.getCode(), myStage));
         return scene;
     }
 
