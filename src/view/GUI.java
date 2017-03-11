@@ -3,32 +3,33 @@ package view;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import controller.ControlHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import model.executable.Literal;
-import model.executable.command.Command;
 import model.info.PaletteInfo;
 import model.info.PoolInfo;
 import util.Constants;
-import util.GUIUtils;
+import util.SLogoException;
 import util.SLogoObserver;
+import view.factory.ConstraintsFactory;
 
 public class GUI {
 
     public static final String STYLESHEET = "default.css";
 
     public static final double SCREEN_RATIO = 0.9;
-    public static final double LEFT_CONSTRAINT = 70;
-    public static final double TOP_CONSTRAINT = 60;
+    public static final double LEFT_CONSTRAINT = 80;
+    public static final double TOP_CONSTRAINT = 55;
 
     private Stage myStage;
     private GridPane myRoot;
@@ -38,12 +39,10 @@ public class GUI {
     private VariableView myVariableView;
     private CommandView myCommandView;
     private PaletteView myPaletteView;
+    private ShapeView myShapeView;
 
     private ControlHandler myHandler;
-    private Consumer<String> guiHandler;
-    
-
-    public enum FileType {COMMANDS, SAVED_STATE}
+    private Function<String, Double> guiHandler;
 
     public GUI(Stage stage, ControlHandler handler) {
         myRoot = createRoot();
@@ -71,11 +70,11 @@ public class GUI {
         return myPoolView;
     }
 
-    public SLogoObserver<List<Entry<String, Literal>>> getVariableObserver() {
+    public SLogoObserver<List<Entry<String, Double>>> getVariableObserver() {
         return myVariableView;
     }
 
-    public SLogoObserver<Map<String, Command>> getCommandObserver() {
+    public SLogoObserver<List<String>> getCommandObserver() {
         return myCommandView;
     }
     
@@ -97,27 +96,38 @@ public class GUI {
         root.setPrefWidth(gd.getDisplayMode().getWidth() * SCREEN_RATIO);
         root.setPrefHeight(gd.getDisplayMode().getHeight() * SCREEN_RATIO);
 
-        root.getColumnConstraints().addAll(GUIUtils.getColumnConstraints(LEFT_CONSTRAINT),
-        		GUIUtils.getColumnConstraints(100 - LEFT_CONSTRAINT));
-        root.getRowConstraints().addAll(GUIUtils.getRowConstraints(TOP_CONSTRAINT),
-        		GUIUtils.getRowConstraints(100 - TOP_CONSTRAINT));
+        ConstraintsFactory cf = new ConstraintsFactory();
+        root.getColumnConstraints().addAll(cf.getColumnConstraints(LEFT_CONSTRAINT),
+                                           cf.getColumnConstraints(100 - LEFT_CONSTRAINT));
+        root.getRowConstraints().addAll(cf.getRowConstraints(TOP_CONSTRAINT),
+                                        cf.getRowConstraints(100 - TOP_CONSTRAINT));
         return root;
     }
     
     private void initView() {
-        myPoolView = new PoolView(getPoolWidth(), getPoolHeight(), guiHandler, () -> {
-        	return myPaletteView.getPalette();
+        myPoolView = new PoolView(getPoolWidth(), getPoolHeight(), guiHandler, new ViewSupplier() {
+
+			@Override
+			public PaletteInfo getPalette() {
+				return myPaletteView.getPalette();
+			}
+
+			@Override
+			public List<ImageView> getShapes() {
+				return myShapeView.getShapes();
+			}
+        	
         });
         myConsoleView = new ConsoleView(guiHandler);
         myVariableView = new VariableView(guiHandler);
         myCommandView = new CommandView(guiHandler);
         myPaletteView = new PaletteView(guiHandler);
+        myShapeView = new ShapeView(guiHandler);
 
         myRoot.add(myPoolView.getRoot(), 0, 0, 1, 1);
         myRoot.add(myConsoleView.getRoot(), 0, 1, 1, 1);
-        myRoot.add(createTabPane(myVariableView, myPaletteView, new OptionView(myHandler),  new PenView(myHandler)), 1, 0, 1, 1);
-        myRoot.add(createTabPane(myCommandView), 1, 1, 1, 1);
-        //TODO: Add new tabs here
+        myRoot.add(createTabPane(myVariableView, myCommandView), 1, 0, 1, 1);
+        myRoot.add(createTabPane(myPaletteView, myShapeView, new OptionView(myHandler)), 1, 1, 1, 1);
     }
 
     private Scene createScene() {
@@ -128,16 +138,19 @@ public class GUI {
         return scene;
     }
 
-    private Consumer<String> createHandler(ControlHandler handler) {
+    private Function<String, Double> createHandler(ControlHandler handler) {
         return command -> {
+            double ret = 0;
             if (!command.isEmpty()) {
                 try {
-                    handler.accept(command);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    ret = handler.apply(command);
+                } catch (SLogoException e) {
+                    Alert alert = new Alert(AlertType.ERROR, e.getMessage());
+                    alert.show();
                 }
-                myConsoleView.addCommandToScreen(command);
+                myConsoleView.addCommandHist(command, ret);
             }
+            return ret;
         };
     }
     
@@ -150,6 +163,8 @@ public class GUI {
     }
     
     private Tab createTab(View<?> view) {
-        return new Tab(view.getName(), view.getRoot());
+        Tab ret = new Tab(view.getName(), view.getRoot());
+        ret.setClosable(false);
+        return ret;
     }
 }

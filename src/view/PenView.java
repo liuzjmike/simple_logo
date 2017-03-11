@@ -18,7 +18,7 @@ public class PenView extends ScrollView {
 	private ControlHandler myHandler;
 
 	public PenView(ControlHandler handler) {
-		super("Pen Setting");
+		super("Pen Setting", handler);
 		myHandler = handler;
 		addAllElements(createComboBox("Pen Size", THICKNESS, (observable, oldValue, newValue) -> {
             setPenSize(Integer.parseInt(newValue));
@@ -35,10 +35,10 @@ public class PenView extends ScrollView {
 		return cb;
 	}
 	private void setPenSize(int value){
-		myHandler.accept(String.format(PENSIZE_COMMAND,value));
+		myHandler.apply(String.format(PENSIZE_COMMAND,value));
 	}
 	private void setPenDown(String value){
-		if(value.equals("Up")) myHandler.accept(PENUP_COMMAND);
-		else if(value.equals("Down")) myHandler.accept(PENDOWN_COMMAND);
+		if(value.equals("Up")) myHandler.apply(PENUP_COMMAND);
+		else if(value.equals("Down")) myHandler.apply(PENDOWN_COMMAND);
 	}
 }

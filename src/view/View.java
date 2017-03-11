@@ -1,6 +1,6 @@
 package view;
 
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javafx.scene.Parent;
 
@@ -8,9 +8,9 @@ public abstract class View<T extends Parent> {
     
     private String myName;
     private T myRoot;
-    private Consumer<String> myHandler;
+    private Function<String, Double> myHandler;
 
-    public View(String name, T root, Consumer<String> guiHandler) {
+    public View(String name, T root, Function<String, Double> guiHandler) {
         myName = name;
         myRoot = root;
         myHandler = guiHandler;
@@ -24,7 +24,7 @@ public abstract class View<T extends Parent> {
         return myRoot;
     }
     
-    protected void execute(String command) {
-        myHandler.accept(command);
+    protected double execute(String command) {
+        return myHandler.apply(command);
     }
 }

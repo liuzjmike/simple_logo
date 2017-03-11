@@ -1,16 +1,15 @@
 package view;
 
-import java.util.Map;
-import java.util.function.Consumer;
+import java.util.List;
+import java.util.function.Function;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import model.executable.command.Command;
 import util.SLogoObserver;
 
-public class CommandView extends ScrollView implements SLogoObserver<Map<String, Command>> {
+public class CommandView extends ScrollView implements SLogoObserver<List<String>> {
 	
-	public CommandView(Consumer<String> guiHandler) {
+	public CommandView(Function<String, Double> guiHandler) {
 	    super("Command", guiHandler);
 	}
 	
@@ -25,8 +24,8 @@ public class CommandView extends ScrollView implements SLogoObserver<Map<String,
     }
 	
     @Override
-    public void update(Map<String, Command> arg) {
+    public void update(List<String> arg) {
     	clear();
-    	arg.keySet().stream().sorted().forEach(s -> addCommandToScreen(s));
+    	arg.forEach(s -> addCommandToScreen(s));
     }
 }
