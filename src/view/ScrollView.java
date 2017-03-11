@@ -9,15 +9,16 @@ import javafx.scene.layout.VBox;
 public class ScrollView extends View<ScrollPane> {
     
     private VBox myBox;
-    
-    public ScrollView(String name) {
-        this(name, null);
-    }
 
     public ScrollView(String name, Consumer<String> guiHandler) {
         super(name, new ScrollPane(), guiHandler);
         myBox = new VBox();
         getRoot().setContent(myBox);
+    }
+    
+    public ScrollView(String name, String id, Consumer<String> guiHandler) {
+        this(name, guiHandler);
+        myBox.setId(id);
     }
     
     public void addElement(Node node) {

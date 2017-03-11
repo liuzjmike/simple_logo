@@ -1,7 +1,9 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -12,7 +14,7 @@ import util.RegexParser;
 import util.SLogoException;
 import util.SLogoObservable;
 
-public class CommandPool extends SLogoObservable<Map<String, Command>>{
+public class CommandPool extends SLogoObservable<List<String>>{
     
     public static final String DEFAULT_LANGUAGE_SUBPACKAGE = "languages/";
     public static final String DEFAULT_CLASSPATH_FILE = "Classpath";
@@ -51,7 +53,7 @@ public class CommandPool extends SLogoObservable<Map<String, Command>>{
                 return new Definition(name, myDefinitions.get(name));
             }
             else {
-                throw new RuntimeException();
+                throw new SLogoException(SLogoException.INVALID_COMMAND);
             }
         }
         ResourceBundle resources = ResourceBundle.getBundle(Constants.DEFAULT_RESOURCE_PACKAGE
@@ -74,12 +76,14 @@ public class CommandPool extends SLogoObservable<Map<String, Command>>{
         return myLanguage;
     }
     
-    Map<String, Command> getUserCommands() {
+    List<String> getUserCommands() {
         return notification();
     }
 
     @Override
-    protected Map<String, Command> notification() {
-        return Collections.unmodifiableMap(userCommands);
+    protected List<String> notification() {
+        List<String> ret = new ArrayList<>(userCommands.keySet());
+        Collections.sort(ret);
+        return Collections.unmodifiableList(ret);
     }
 }

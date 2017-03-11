@@ -32,7 +32,7 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     
     public PaletteView(Consumer<String> handler) {
     	super("Palette", new VBox(), handler);
-    	myColors = new ScrollView("Colors");
+    	myColors = new ScrollView("Colors", handler);
     	myColors.setId(SV_ID);
     	getRoot().getChildren().addAll(createChoice(), myColors.getRoot());
     	getRoot().setId(ROOT_ID);

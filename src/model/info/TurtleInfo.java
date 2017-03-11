@@ -19,5 +19,7 @@ public interface TurtleInfo {
     boolean isReset();
     
     PenInfo getPenInfo();
+    
+    int getShape();
 
 }

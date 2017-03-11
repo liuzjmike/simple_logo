@@ -3,6 +3,8 @@ package view;
 import java.util.function.Consumer;
 
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public abstract class View<T extends Parent> {
     
@@ -25,6 +27,10 @@ public abstract class View<T extends Parent> {
     }
     
     protected void execute(String command) {
+        if(myHandler == null) {
+            Alert alert = new Alert(AlertType.ERROR, "Handler not Initialized");
+            alert.show();
+        }
         myHandler.accept(command);
     }
 }

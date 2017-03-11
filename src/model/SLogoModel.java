@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import model.executable.Literal;
-import model.executable.command.Command;
 import model.info.PaletteInfo;
 import model.info.PoolInfo;
 import model.info.TurtleInfo;
@@ -53,7 +51,7 @@ public class SLogoModel {
         myEnv.getTurtlePool().removeObserver(so);
     }
     
-    public void addCommandObserver(SLogoObserver<Map<String, Command>> so) {
+    public void addCommandObserver(SLogoObserver<List<String>> so) {
         myEnv.getCommandPool().addObserver(so);
     }
     
@@ -61,15 +59,15 @@ public class SLogoModel {
     	myEnv.getPalette().addObserver(so);
     }
     
-    public void removeCommandObserver(SLogoObserver<Map<String, Command>> so) {
+    public void removeCommandObserver(SLogoObserver<List<String>> so) {
         myEnv.getCommandPool().removeObserver(so);
     }
     
-    public void addVariableObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
+    public void addVariableObserver(SLogoObserver<List<Entry<String, Double>>> so) {
         myEnv.getVariablePool().addObserver(so);
     }
     
-    public void removeVariableObserver(SLogoObserver<List<Entry<String, Literal>>> so) {
+    public void removeVariableObserver(SLogoObserver<List<Entry<String, Double>>> so) {
         myEnv.getVariablePool().removeObserver(so);
     }
     
@@ -81,11 +79,11 @@ public class SLogoModel {
         return myEnv.getTurtlePool().getTurtles();
     }
     
-    public Map<String, Command> getCommands() {
+    public List<String> getCommands() {
         return myEnv.getCommandPool().getUserCommands();
     }
     
-    public List<Entry<String, Literal>> getVariables() {
+    public List<Entry<String, Double>> getVariables() {
         return myEnv.getVariablePool().getVariables();
     }
 }
