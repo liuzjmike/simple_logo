@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import model.turtle.info.ShapeInfo;
 
 public class ShapeView extends ScrollView implements ShapeInfo {
 	

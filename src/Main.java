@@ -13,5 +13,4 @@ public class Main extends Application {
         Workspace workspace = new Workspace(stage);
         workspace.show();
     }
-
 }

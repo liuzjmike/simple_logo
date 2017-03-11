@@ -1,5 +1,6 @@
 package model;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -7,6 +8,7 @@ import java.util.Map.Entry;
 import model.info.PaletteInfo;
 import model.info.PoolInfo;
 import model.info.TurtleInfo;
+import util.CommandSaver;
 import util.SLogoObserver;
 
 public class SLogoModel {
@@ -16,6 +18,7 @@ public class SLogoModel {
     
     private Environment myEnv;
     private Interpreter myInterpreter;
+    private CommandSaver myCommandSaver;
     
     public SLogoModel() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -24,6 +27,7 @@ public class SLogoModel {
     public SLogoModel(double width, double height) {
         myEnv = new Environment(width, height);
         myInterpreter = new Interpreter();
+        myCommandSaver = new CommandSaver();
     }
     
     public double interpret(String commands) {
@@ -90,4 +94,14 @@ public class SLogoModel {
     public List<Entry<String, Double>> getVariables() {
         return myEnv.getVariablePool().getVariables();
     }
+    
+    public void saveCommands(String srcPath) throws IOException {
+    	myCommandSaver.store(myEnv.getCommandPool().getUserCommand(), srcPath);
+    }
+    
+    public void loadCommand(String srcPath) throws ClassNotFoundException, IOException {
+    	myCommandSaver.loadCommands(srcPath);
+    }
+    
+    
 }
