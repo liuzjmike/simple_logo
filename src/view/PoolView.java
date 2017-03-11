@@ -25,11 +25,11 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 
 	public static final String TURTLE_IMAGE = "TurtleImage.png";
 	public static final String ASK_MOVECOMMAND = "ask [ %d ] [ %s %d ]";
-	public static final String ASK_SETXYCOMMAND = "ask [ %d ] [ setxy %f %f ]";
-	public static final String FORWARD_COMMAND = "fd";
-	public static final String BACKWARD_COMMAND = "bk";
-	public static final String TURNRIGHT_COMMAND = "right";
-	public static final String TURNLEFT_COMMAND = "left";
+	public static final String ASK_SETXYCOMMAND = "ask [ %d ] [ SetPosition %f %f ]";
+	public static final String FORWARD_COMMAND = "Forward";
+	public static final String BACKWARD_COMMAND = "Backward";
+	public static final String TURNRIGHT_COMMAND = "Right";
+	public static final String TURNLEFT_COMMAND = "Left";
 	public static final int DEFALUT_STEP = 10;
 
 	private Map<Integer, TurtleView> myTurtles;
