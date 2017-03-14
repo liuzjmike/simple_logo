@@ -15,7 +15,7 @@ public class Environment {
         turtlePool = new TurtlePool();
         commandPool = new CommandPool();
         variablePool = new VariablePool();
-        myLibrary = new Library(() -> variablePool.globalToString());
+        myLibrary = new Library(() -> variablePool.getGlobal());
         myPalette = new Palette();
         myWidth = width;
         myHeight = height;

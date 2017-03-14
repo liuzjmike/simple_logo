@@ -4,17 +4,21 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import util.CollectionTransformer;
 import util.Constants;
 
 public class Library {
+    
+    public static final String VARIABLE_COMMAND = "Make %s %s";
 
     Deque<List<String>> myLibrary;
-    Supplier<String> myGlobal;
+    Supplier<Map<String, Double>> myGlobal;
     
-    public Library(Supplier<String> globalVars) {
+    public Library(Supplier<Map<String, Double>> globalVars) {
         myLibrary = new ArrayDeque<>();
         myGlobal = globalVars;
     }
@@ -40,11 +44,16 @@ public class Library {
     
     @Override
     public String toString() {
-        return myGlobal.get()
-                + Constants.NEWLINE
-                + myLibrary.stream()
-                           .map(list -> list.stream()
-                                            .collect(Collectors.joining(" ")))
-                           .collect(Collectors.joining(Constants.NEWLINE));
+        StringBuilder sb = new StringBuilder(
+                new CollectionTransformer()
+                .mapToList(myGlobal.get())
+                .stream()                
+                .map(entry -> String.format(VARIABLE_COMMAND, entry.getKey(), Double.toString(entry.getValue())))
+                .collect(Collectors.joining(Constants.NEWLINE)));
+        sb.append(Constants.NEWLINE + myLibrary.stream()
+                                               .map(list -> list.stream()
+                                                                .collect(Collectors.joining(" ")))
+                                               .collect(Collectors.joining(Constants.NEWLINE)));
+        return sb.toString();
     }
 }

@@ -2,23 +2,20 @@ package model;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import model.executable.Literal;
-import util.Constants;
+import util.CollectionTransformer;
 import util.SLogoException;
 import util.SLogoObservable;
 
 public class VariablePool extends SLogoObservable<List<Entry<String, Double>>> {
 	
 	public static final int STACK_LIMIT = 1024;
-    public static final String COMMAND = "Make %s %s";
     
     private Deque<Map<String, Double>> myStack;
     
@@ -68,26 +65,15 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Double>>> {
     public Map<String, Double> getGlobal() {
         return myStack.getLast();
     }
-    
-    public String globalToString() {
-        return mapToList(getGlobal()).stream()
-                                     .map(entry -> String.format(COMMAND, entry.getKey(), Double.toString(entry.getValue())))
-                                     .collect(Collectors.joining(Constants.NEWLINE));
-    }
 
     @Override
     protected List<Entry<String, Double>> notification() {
         List<Entry<String, Double>> ret = new ArrayList<>();
+        CollectionTransformer transformer = new CollectionTransformer();
         for(Map<String, Double> stack: myStack) {
-            ret.addAll(mapToList(stack));
+            ret.addAll(transformer.mapToList(stack));
         }
         return ret;
-    }
-    
-    private List<Entry<String, Double>> mapToList(Map<String, Double> map) {
-        return map.entrySet().stream()
-                  .sorted(Comparator.comparing(Entry::getKey))
-                  .collect(Collectors.toList());
     }
 
 }

@@ -79,12 +79,10 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 
 	private void handleClick(MouseEvent event, Integer id) {
 		activeTurtleID = id;
-		myTurtles.get(id).getImageView().setScaleX(1.5);
-		myTurtles.get(id).getImageView().setScaleY(1.5);
+		myTurtles.get(id).setScale(1.5);
 		for (Integer Id : myTurtles.keySet()) {
 			if (Id != activeTurtleID) {
-				myTurtles.get(Id).getImageView().setScaleX(1);
-				myTurtles.get(Id).getImageView().setScaleY(1);
+				myTurtles.get(Id).setScale(1);
 			}
 		}
 		myTurtles.get(id).getImageView().setOnMouseDragged(e -> handleDrag(e));

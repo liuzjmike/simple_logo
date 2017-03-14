@@ -31,15 +31,13 @@ public class ShapeView extends ScrollView implements ShapeInfo {
 
 	private void setupShapes() {
 		for(int i=0; i<TURTLE_IMAGES.length; i++) {
-			HBox hbox = new HBox();
 			Text text = new Text(i + ": ");
 			ImageView image = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(TURTLE_IMAGES[i])));
 			image.setId("shape-legend");
 			image.setFitHeight(SIDE_LENGTH);
 			image.setFitWidth(SIDE_LENGTH);
 			myShapes.add(image);
-			hbox.getChildren().add(text);
-			hbox.getChildren().add(image);
+            HBox hbox = new HBox(text, image);
 			int index = i;
 			hbox.setOnMouseClicked(e -> execute(COMMAND + index));
 			addElement(hbox);

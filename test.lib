@@ -1,2 +1,3 @@
-Make :y 100.0
-to test [ :x ] [ fd :x ]
+Make :x 5.0
+to test [ ] [ 1 ]
+to te [ :y ] [ fd :y ]

@@ -20,6 +20,7 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
 	
 	public static final String PEN = "PenColor";
 	public static final String BG = "Background";
+	public static final String COMMAND = "Set%s %d";
 	
 	private String type;
 	private ScrollView myColors;
@@ -63,15 +64,13 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     private void setupChoices(List<Color> colors) {
     	myColors.clear();
     	for(int i=0; i<colors.size(); i++) {
-    		HBox hbox = new HBox();
-    		hbox.setId("big-container");
     		Text text = new Text(i + ": ");
     		Rectangle rec = new Rectangle(100, 20);
     		rec.setFill(colors.get(i));
-    		hbox.getChildren().add(text);
-    		hbox.getChildren().add(rec);
-    		int index = i;
-    		hbox.setOnMouseClicked(e -> execute("Set" + type + " " + index));
+            HBox hbox = new HBox(text, rec);
+            hbox.setId("big-container");
+    		final int index = i;
+    		hbox.setOnMouseClicked(e -> execute(String.format(COMMAND, type, index)));
     		hbox.setId("text-color");
     		myColors.addElement(hbox);
     	}

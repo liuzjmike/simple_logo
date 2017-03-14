@@ -87,6 +87,28 @@ public class TurtleView {
         }
     }
     
+    public void setScale(double scale) {
+        myImage.setScaleX(scale);
+        myImage.setScaleY(scale);
+    }
+
+    public ImageView getImageView() {
+        return myImage;
+    }
+    
+    public void setPopUp(Integer id, Stage stage){
+        String penDown = myTurtle.getPenInfo().isDown() ? DOWN:UP;
+        ObservableList<String> items = FXCollections.observableArrayList(String.format(ID_INFO, id),String.format(XPOS_INFO, myTurtle.getX()), String.format(YPOS_INFO, myTurtle.getY()), String.format(HEADING_INFO, myTurtle.getHeading()), String.format(PEN_INFO,penDown ));
+        infoBox.setItems(items);
+        infoBox.setPrefHeight(BOX_HEIGHT);
+        infoBox.setLayoutX(myImage.getX()-xOffset);
+        infoBox.setLayoutY(myImage.getY()-yOffset);
+        myInfoWindow.show(stage);
+    }
+    public void hidePopUp(Stage stage){
+        myInfoWindow.hide();
+    }
+    
     private void processImage(TurtleInfo turtle) {
     	setHeading(turtle.getHeading());
         setSize(DEFAULT_HEIGHT, DEFAULT_WIDTH);
@@ -119,23 +141,6 @@ public class TurtleView {
 
     private double transformY(double y) {
         return - y + yOffset;
-    }
-
-    public ImageView getImageView() {
-        return myImage;
-    }
-    
-    public void setPopUp(Integer id, Stage stage){
-    	String penDown = myTurtle.getPenInfo().isDown() ? DOWN:UP;
-		ObservableList<String> items = FXCollections.observableArrayList(String.format(ID_INFO, id),String.format(XPOS_INFO, myTurtle.getX()), String.format(YPOS_INFO, myTurtle.getY()), String.format(HEADING_INFO, myTurtle.getHeading()), String.format(PEN_INFO,penDown ));
-		infoBox.setItems(items);
-		infoBox.setPrefHeight(BOX_HEIGHT);
-		infoBox.setLayoutX(myImage.getX()-xOffset);
-		infoBox.setLayoutY(myImage.getY()-yOffset);
-		myInfoWindow.show(stage);
-    }
-    public void hidePopUp(Stage stage){
-    	myInfoWindow.hide();
     }
 
 }

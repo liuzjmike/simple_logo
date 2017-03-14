@@ -99,16 +99,16 @@ public class ConsoleView extends View<GridPane> {
     }
     
     private void loadProject() {
-        try {
-            putCommand(myParser.load());
-        } catch(SLogoException se) {
-            new Alert(AlertType.ERROR, se.getMessage()).show();
-        }
+        tryAlert(() -> putCommand(myParser.load()));
     }
     
     private void saveHist() {
+        tryAlert(() -> myParser.save(history, null));
+    }
+    
+    private void tryAlert(Runnable func) {
         try {
-            myParser.save(history, null);
+            func.run();
         } catch(SLogoException se) {
             new Alert(AlertType.ERROR, se.getMessage()).show();
         }
