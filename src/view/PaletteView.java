@@ -20,11 +20,6 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
 	
 	public static final String PEN = "PenColor";
 	public static final String BG = "Background";
-	public static final String SV_ID = "scroll-view";
-	public static final String ROOT_ID = "big-container";
-	public static final String RB_ID = "radio-button";
-	public static final String SM_CONTAINER = "small-container";
-	public static final String TC_ID = "text-color";
 	
 	private String type;
 	private ScrollView myColors;
@@ -32,10 +27,9 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     
     public PaletteView(Function<String, Double> handler) {
     	super("Palette", new VBox(), handler);
-    	myColors = new ScrollView("Colors", handler);
-    	myColors.setId(SV_ID);
+    	myColors = new ScrollView("Colors", handler, false);
     	getRoot().getChildren().addAll(createChoice(), myColors.getRoot());
-    	getRoot().setId(ROOT_ID);
+    	getRoot().setId("big-container");
     	myPalette = new Palette();
     }
     
@@ -55,7 +49,7 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     	penRB.setSelected(true);
     	type = penRB.getText();
     	HBox hbox = new HBox(penRB, createRadioButton(BG, group));
-    	hbox.setId(RB_ID);
+    	hbox.setId("radio-button");
     	return hbox;
     }
     
@@ -70,7 +64,7 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     	myColors.clear();
     	for(int i=0; i<colors.size(); i++) {
     		HBox hbox = new HBox();
-    		hbox.setId(SM_CONTAINER);
+    		hbox.setId("big-container");
     		Text text = new Text(i + ": ");
     		Rectangle rec = new Rectangle(100, 20);
     		rec.setFill(colors.get(i));
@@ -78,7 +72,7 @@ public class PaletteView extends View<VBox> implements SLogoObserver<PaletteInfo
     		hbox.getChildren().add(rec);
     		int index = i;
     		hbox.setOnMouseClicked(e -> execute("Set" + type + " " + index));
-    		hbox.setId(TC_ID);
+    		hbox.setId("text-color");
     		myColors.addElement(hbox);
     	}
     }

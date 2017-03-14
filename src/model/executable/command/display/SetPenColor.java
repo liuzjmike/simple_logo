@@ -1,7 +1,6 @@
 package model.executable.command.display;
 
 import model.Environment;
-import model.executable.command.ActionCommand;
 
 /**
  * sets color of the pen to that represented by index
@@ -9,7 +8,7 @@ import model.executable.command.ActionCommand;
  * @author zhuangbihan
  *
  */
-public class SetPenColor extends ActionCommand {
+public class SetPenColor extends DisplayCommand {
 
 	public SetPenColor() {
 		super(1);

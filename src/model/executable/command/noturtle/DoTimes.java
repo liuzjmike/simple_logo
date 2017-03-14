@@ -25,13 +25,11 @@ public class DoTimes extends ActionCommand {
 		Literal ret = new Literal(0);
 		ExecutableList list = ((ExecutableList) getParam(0));
 		String varName = ((Variable) list.get(0)).getName();
-		double limit = ((Literal) list.get(1)).getValue();
-		env.getVariablePool().alloc();
+		double limit = list.get(1).execute(env).getValue();
 		for (double i = 1; i <= limit; i++) {
 			env.getVariablePool().add(varName, new Literal(i));
 			ret = getParam(1).copy().execute(env);
 		}
-		env.getVariablePool().release();
 		return ret.getValue();
 	}
 

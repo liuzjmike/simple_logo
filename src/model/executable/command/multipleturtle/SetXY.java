@@ -20,5 +20,4 @@ public class SetXY extends MultipleCommand {
 	protected double turtleExecute(Environment env, Turtle turtle) {
 		return turtle.setXY(getParamValue(env, 0), getParamValue(env, 1));
 	}
-
 }

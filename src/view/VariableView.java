@@ -13,7 +13,7 @@ public class VariableView extends ScrollView implements SLogoObserver<List<Entry
     public static final String MAKE = "Make %s %s";
 	
 	public VariableView(Function<String, Double> guiHandler) {
-	    super("Variable", guiHandler);
+	    super("Variable", guiHandler, false);
 	}
 
     @Override
@@ -28,7 +28,9 @@ public class VariableView extends ScrollView implements SLogoObserver<List<Entry
 		Text text = new Text(entry.getKey());
 		TextField tf = new TextField(Double.toString(entry.getValue()));
 		tf.setOnAction(e -> execute(String.format(MAKE, text.getText(), tf.getText())));
-		return new HBox(text,tf);
+		HBox ret = new HBox(text, tf);
+		ret.setId("element");
+		return ret;
 	}
 
 }

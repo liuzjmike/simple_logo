@@ -11,8 +11,8 @@ public abstract class ArithCommand extends MathCommand {
 	
 	@Override
 	protected double run(Environment env) {
-		double result = 0;
-		for(int i = 0; i < paramsLength(); i++) {
+		double result = getParamValue(env, 0);
+		for(int i = 1; i < paramsLength(); i++) {
 			result = arithmetic(result, getParamValue(env, i));
 		}
 		return result;

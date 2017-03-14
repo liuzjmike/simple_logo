@@ -21,8 +21,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import model.info.PaletteInfo;
-
 public class XMLParserWriter {
 	
 	public static void saveState(File file, String root, Map<String,String> parameters) throws TransformerException, IOException {

@@ -49,6 +49,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     	    switchTurtle();
     	}
     	notifyObservers();
+    	activeIDs.forEach(id -> allTurtles.get(id).clearReset());
         return ret;
     }
     
@@ -97,10 +98,12 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     }
     
     public void tell(List<Integer> ids) {
+        List<Integer> backup = allActiveID();
     	activeIDs.clear();
     	activeIndex = -1;
     	for(int id: ids) {
     		if(id <= 0) {
+    		    activeIDs = backup;
     			throw new SLogoException(SLogoException.ILLEGAL_ID);
     		}
     		if(allTurtles.containsKey(id)) {
@@ -142,8 +145,8 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
         T ret = function.apply(current);
         if(notify) {
             notifyObservers();
+            current.clearReset();
         }
-        current.clearReset();
         return ret;
     }
     

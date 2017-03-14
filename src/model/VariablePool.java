@@ -19,11 +19,10 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Double>>> {
 	public static final int STACK_LIMIT = 1024;
     
     private Deque<Map<String, Literal>> myStack;
-    private int callStack;
     
     public VariablePool() {
         myStack = new ArrayDeque<>();
-        callStack = 0;
+        alloc();
     }
     
     public void add(String name, double value) {
@@ -31,37 +30,32 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Double>>> {
     }
     
     public void add(String name, Literal value) {
-        myStack.getFirst().put(name, value);
+        myStack.peek().put(name.toLowerCase(), value);
         notifyObservers();
     }
     
     public Literal get(String name) {
+        String key = name.toLowerCase();
         for(Map<String, Literal> scope: myStack) {
-            if(scope.containsKey(name)) {
-                return scope.get(name);
+            if(scope.containsKey(key)) {
+                return scope.get(key);
             }
         }
-        throw new SLogoException(SLogoException.NO_VARIABLE_IN_SCOPE);
+        return new Literal(0);
     }
     
     public void alloc() {
-        if(myStack.isEmpty() || callStack > 0) {
-            myStack.push(new HashMap<>());
-        }
-        callStack++;
-        if (callStack > STACK_LIMIT) {
+        myStack.push(new HashMap<>());
+        if (myStack.size() > STACK_LIMIT) {
         	throw new SLogoException(SLogoException.STACK_OVERFLOW);
         }
     }
     
     public void release() {
-        if(callStack == 0) {
+        if(myStack.size() <= 1) {
             throw new SLogoException(SLogoException.STACK_UNDERFLOW);
         }
-        if(callStack > 1) {
-            myStack.pop();
-        }
-        callStack--;
+        myStack.pop();
         notifyObservers();
     }
     

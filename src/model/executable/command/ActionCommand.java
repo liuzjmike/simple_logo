@@ -18,12 +18,18 @@ public abstract class ActionCommand extends AbstractCommand {
     	checkParams();
         double ret = 0;
         offset = 0;
+        env.getVariablePool().alloc();
         do {
-        	ret = run(env);
+        	ret = getResult(env, ret);
         	offset += numParams();
         } while(offset < getParams().size());
+        env.getVariablePool().release();
         return new Literal(ret);
     }
+	
+	protected double getResult(Environment env, double ret) {
+		return ret + run(env);
+	}
     
     protected Executable getParam(int index) {
     	return super.getParam(index+offset);

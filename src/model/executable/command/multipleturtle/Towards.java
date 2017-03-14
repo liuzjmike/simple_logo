@@ -12,8 +12,8 @@ import model.turtle.Turtle;
  */
 public class Towards extends MultipleCommand {
 
-	public Towards(int numParams) {
-		super(numParams);
+	public Towards() {
+		super(2);
 	}
 	
 	@Override

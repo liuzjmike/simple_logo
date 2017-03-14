@@ -13,22 +13,20 @@ import model.executable.command.ActionCommand;
  */
 public class Repeat extends ActionCommand {
 
+    public static final String REPCOUNT = ":repCount";
+
 	public Repeat() {
 		super(2);
 	}
-
-	public static final String REPCOUNT = ":repCount";
 
 	@Override
 	protected double run(Environment env) {
 		Literal ret = new Literal(0);
 		double count = getParamValue(env, 0);
-		env.getVariablePool().alloc();
 		for (int i = 1; i <= count; i++) {
-			env.getVariablePool().add(":repCount", i);
+			env.getVariablePool().add(REPCOUNT, i);
 			ret = getParam(1).copy().execute(env);
 		}
-        env.getVariablePool().release();
 		return ret.getValue();
 	}
 
