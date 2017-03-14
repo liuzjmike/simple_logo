@@ -27,6 +27,8 @@ public class OptionView extends ScrollView {
                        cf.createButton("New Workspace", e -> myHandler.newWorkspace()),
                        cf.createButton("Save Workspace", e -> myHandler.saveWorkspace()),
                        cf.createButton("Load Workspace", e -> myHandler.loadWorkspace()),
+                       cf.createButton("Save Library", e -> myHandler.saveLibrary()),
+                       cf.createButton("Load Library", e -> myHandler.loadLibrary()),
                        cf.createComboBox("Choose Language", LANGUAGES, (observable, oldValue, newValue) -> {
                            myHandler.setLanguage(newValue);
                        }));
