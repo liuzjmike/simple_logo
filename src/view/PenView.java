@@ -16,7 +16,7 @@ public class PenView extends ScrollView {
 	private ControlHandler myHandler;
 
 	public PenView(ControlHandler handler) {
-		super("Pen Setting", handler);
+		super("Pen Setting", handler, false);
 		myHandler = handler;
 		ControlFactory cf = new ControlFactory();
 		addAllElements(cf.createComboBox("Pen Size", THICKNESS, (observable, oldValue, newValue) -> {

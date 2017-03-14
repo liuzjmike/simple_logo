@@ -19,6 +19,7 @@ import view.GUI;
 
 public class Workspace {
 
+    public static final String TITLE = "SLogo";
     public static final String DATA_FILE_EXTENSION = "*.xml";
     public static final String ROOT_TAG = "Workspace";
     public static final String COLOR_TAG = "Color";
@@ -30,6 +31,7 @@ public class Workspace {
     private SLogoModel myModel;
 
     public Workspace(Stage stage) {
+        stage.setTitle(TITLE);
         myStage = stage;
         mySelector = new FileSelector(DATA_FILE_EXTENSION);
         myModel = new SLogoModel();
