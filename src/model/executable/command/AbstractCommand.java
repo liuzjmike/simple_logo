@@ -22,7 +22,8 @@ public abstract class AbstractCommand implements Command {
     @Override
     public Literal execute(Environment env) {
         //TODO: Unlimited Parameters
-    	checkParams();
+    	checkParamsLength();
+    	checkParamsGrouping();
         double ret = 0;
         offset = 0;
         do {
@@ -64,9 +65,24 @@ public abstract class AbstractCommand implements Command {
     }
     
     protected void checkParams() {
-    	if(myParams.size() < numParams || (numParams() != 0 && myParams.size() % numParams() != 0)) {
+    	checkParamsLength();
+    	checkParamsGrouping();
+    }
+    
+    protected void checkParamsLength() {
+    	if(myParams.size() < numParams) {
             throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
         }
+    }
+    
+    protected void checkParamsGrouping() {
+    	if(numParams() != 0 && myParams.size() % numParams() != 0) {
+    		throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
+    	}
+    }
+
+    protected List<Executable> getParams() {
+    	return myParams;
     }
     
     protected Executable getParam(int index) {
