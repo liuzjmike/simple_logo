@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.Environment;
 import model.executable.ExecutableList;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * Sets turtles that will follow commands hereafter Returns last value in
@@ -14,7 +14,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Tell extends AbstractCommand {
+public class Tell extends ActionCommand {
 
 	public Tell() {
 		super(1);

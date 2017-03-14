@@ -3,7 +3,7 @@ package model.executable.command;
 import model.Environment;
 import model.turtle.Turtle;
 
-public abstract class SingleCommand extends AbstractCommand {
+public abstract class SingleCommand extends ActionCommand {
 
 	public SingleCommand(int numParams) {
 		super(numParams);

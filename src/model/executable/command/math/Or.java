@@ -1,7 +1,7 @@
 package model.executable.command.math;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * Returns 1 if test1 or test2 are non-zero, otherwise 0
@@ -9,7 +9,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Or extends AbstractCommand {
+public class Or extends ActionCommand {
 
 	public Or() {
 		super(2);

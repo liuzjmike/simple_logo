@@ -1,7 +1,7 @@
 package model.executable.command.math;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * Returns 1 if test is 0 and 0 if test is non-zero
@@ -9,7 +9,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Not extends AbstractCommand {
+public class Not extends ActionCommand {
 
 	public Not() {
 		super(1);

@@ -1,7 +1,7 @@
 package model.executable.command.display;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * sets background color of screen to that represented by index
@@ -9,7 +9,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class SetPenSize extends AbstractCommand {
+public class SetPenSize extends ActionCommand {
 
 	public SetPenSize() {
 		super(1);

@@ -2,7 +2,7 @@ package model.executable.command.noturtle;
 
 import model.Environment;
 import model.executable.Literal;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * If expr is not 0, runs the trueCommands given in the first list, otherwise
@@ -12,7 +12,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class IfElse extends AbstractCommand {
+public class IfElse extends ActionCommand {
 
 	public IfElse() {
 		super(3);

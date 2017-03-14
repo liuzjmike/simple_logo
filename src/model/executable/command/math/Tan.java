@@ -1,7 +1,7 @@
 package model.executable.command.math;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 import util.Constants;
 
 /**
@@ -10,7 +10,7 @@ import util.Constants;
  * @author zhuangbihan
  *
  */
-public class Tan extends AbstractCommand {
+public class Tan extends ActionCommand {
 
 	public Tan() {
 		super(1);
