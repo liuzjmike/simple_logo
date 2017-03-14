@@ -12,7 +12,7 @@ public interface ControlHandler extends Function<String, Double> {
 	
 	public void loadWorkspace();
 	
-	public void saveCommands();
+	public void saveLibrary();
 	
-	public void loadCommands();
+	public void loadLibrary();
 }

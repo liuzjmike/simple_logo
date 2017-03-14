@@ -13,7 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.SLogoModel;
 import util.FileSelector;
-import util.SLogoException;
 import util.XMLParserWriter;
 import view.GUI;
 
@@ -95,15 +94,12 @@ public class Workspace {
         }
 
 		@Override
-		public void saveCommands() {
-			File dataFile = mySelector.saveTo(myStage);
-			if(dataFile != null) {
-				throw new SLogoException(SLogoException.INVALID_FILE);
-			}
+		public void saveLibrary() {
+			
 		}
 
 		@Override
-		public void loadCommands() {
+		public void loadLibrary() {
 			
 		}
     }
