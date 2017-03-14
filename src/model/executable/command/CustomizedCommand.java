@@ -6,7 +6,7 @@ import model.executable.ExecutableList;
 import model.executable.Literal;
 import model.executable.Variable;
 
-public class CustomizedCommand extends AbstractCommand {
+public class CustomizedCommand extends ActionCommand {
 	
 	private ExecutableList varParams, myBody;
 
@@ -23,7 +23,6 @@ public class CustomizedCommand extends AbstractCommand {
 
 	@Override
 	protected double run(Environment env) {
-	    env.getVariablePool().alloc();
 		for(int i = 0; i < varParams.size(); i++) {
 			Variable var = (Variable)varParams.get(i);
 			env.getVariablePool().add(var.getName(), getParam(i).execute(env));
@@ -32,7 +31,6 @@ public class CustomizedCommand extends AbstractCommand {
 		for(Executable exec : myBody) {
 			ret = exec.execute(env);
 		}
-		env.getVariablePool().release();
 		return ret.getValue();
 	}
 }

@@ -1,7 +1,7 @@
 package model.executable.command.math;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.MathCommand;
 
 /**
  * Reports the number Pi
@@ -9,7 +9,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Pi extends AbstractCommand {
+public class Pi extends MathCommand {
 
 	public Pi() {
 		super(0);

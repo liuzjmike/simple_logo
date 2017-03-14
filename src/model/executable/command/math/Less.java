@@ -1,8 +1,5 @@
 package model.executable.command.math;
 
-import model.Environment;
-import model.executable.command.AbstractCommand;
-
 /**
  * Returns 1 if the value of expr1 is strictly less than the value of expr2,
  * otherwise 0
@@ -10,15 +7,15 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Less extends AbstractCommand {
+public class Less extends LogicCommand {
 
 	public Less() {
 		super(2);
 	}
 
 	@Override
-	protected double run(Environment env) {
-		return (getParamValue(env, 0) < getParamValue(env, 1)) ? 1 : 0;
+	protected boolean logic(double arg0, double arg1) {
+		return arg0 < arg1;
 	}
 
 }

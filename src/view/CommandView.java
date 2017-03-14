@@ -10,7 +10,7 @@ import util.SLogoObserver;
 public class CommandView extends ScrollView implements SLogoObserver<List<String>> {
 	
 	public CommandView(Function<String, Double> guiHandler) {
-	    super("Command", guiHandler);
+	    super("Command", guiHandler, false);
 	}
 	
 	private void installHandler(Text myText) {

@@ -1,9 +1,8 @@
 package model.executable.command.display;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
 
-public class SetBackground extends AbstractCommand{
+public class SetBackground extends DisplayCommand{
 
 	public SetBackground() {
 		super(1);

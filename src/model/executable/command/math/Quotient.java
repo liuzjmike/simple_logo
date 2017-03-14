@@ -1,7 +1,5 @@
 package model.executable.command.math;
 
-import model.Environment;
-import model.executable.command.AbstractCommand;
 import util.SLogoException;
 
 /**
@@ -11,18 +9,18 @@ import util.SLogoException;
  * @author zhuangbihan
  *
  */
-public class Quotient extends AbstractCommand {
+public class Quotient extends ArithCommand {
 
 	public Quotient() {
 		super(2);
 	}
-	
+
 	@Override
-	protected double run(Environment env) {
-		if (getParamValue(env, 1) == 0) {
+	protected double arithmetic(double arg0, double arg1) {
+		if(arg1 == 0) {
 			throw new SLogoException(SLogoException.ZERO_DENOMINATOR);
 		}
-		return getParamValue(env, 0) / getParamValue(env, 1);
+		return arg0 / arg1;
 	}
 
 }

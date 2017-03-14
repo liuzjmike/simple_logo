@@ -10,6 +10,7 @@ import model.executable.Literal;
 import model.executable.Variable;
 import model.executable.command.Command;
 import model.executable.command.To;
+import model.executable.command.math.Sum;
 import util.RegexParser;
 import util.SLogoException;
 
@@ -64,10 +65,17 @@ public class Interpreter {
             expressions.pop();
             return ret;
         }
-//        else if(is(exp, GROUP_START)) {
-//            
-//        }
-        //TODO
+        else if(is(exp, GROUP_START)) {
+        	Command command = new Sum();
+        	if(!is(expressions.peek(), GROUP_END)) {
+        		command = env.getCommandPool().getCommand(expressions.pop());
+        	}
+            while(!is(expressions.peek(), GROUP_END)) {
+            	command.addParam(parse(expressions, env));
+            }
+            expressions.pop();
+            return command;
+        }
         else if(is(exp, VARIABLE)) {
             return new Variable(exp);
         } 

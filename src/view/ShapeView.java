@@ -19,14 +19,14 @@ public class ShapeView extends ScrollView implements ShapeInfo {
 	private List<ImageView> myShapes;
 	
 	public ShapeView(Function<String, Double> guiHandler) {
-		super("Shapes", "big-container", guiHandler);
+		super("Shapes", "big-container", guiHandler, false);
 		myShapes = new ArrayList<>();
 		setupShapes();
 	}
 	
 	@Override
 	public ImageView getShape(int index) {
-		return new ImageView(myShapes.get(index).getImage());
+		return new ImageView(myShapes.get(index % myShapes.size()).getImage());
 	}
 
 	private void setupShapes() {

@@ -6,7 +6,7 @@ import java.util.List;
 import model.Environment;
 import model.executable.ExecutableList;
 import model.executable.Literal;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * Only the turtles given in first list all run commands given in the second
@@ -15,7 +15,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Ask extends AbstractCommand {
+public class Ask extends ActionCommand {
 
 	public Ask() {
 		super(2);

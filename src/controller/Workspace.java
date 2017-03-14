@@ -19,11 +19,11 @@ import view.GUI;
 
 public class Workspace {
 
+    public static final String TITLE = "SLogo";
     public static final String DATA_FILE_EXTENSION = "*.xml";
-    
-    public static final String COLOR = "color";
-    public static final String LANGUAGE = "language";
-    public static final String WORKSPACE = "workspace";
+    public static final String ROOT_TAG = "Workspace";
+    public static final String COLOR_TAG = "Color";
+    public static final String LANGUAGE_TAG = "Language";
 
     private Stage myStage;
     private FileSelector mySelector;
@@ -31,6 +31,7 @@ public class Workspace {
     private SLogoModel myModel;
 
     public Workspace(Stage stage) {
+        stage.setTitle(TITLE);
         myStage = stage;
         mySelector = new FileSelector(DATA_FILE_EXTENSION);
         myModel = new SLogoModel();
@@ -74,10 +75,10 @@ public class Workspace {
             File dataFile = mySelector.saveTo(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = new HashMap<String,String>();
-                parameters.put(COLOR, myGUI.getBackgroundColor().toString());
-                parameters.put(LANGUAGE, myModel.getLanguage());
+                parameters.put(COLOR_TAG, myGUI.getBackgroundColor().toString());
+                parameters.put(LANGUAGE_TAG, myModel.getLanguage());
                 try {
-                    XMLParserWriter.saveState(dataFile, WORKSPACE, parameters);
+                    XMLParserWriter.saveState(dataFile, ROOT_TAG, parameters);
                 } catch (TransformerException | IOException e) {
                     new Alert(AlertType.ERROR, "Save failed").show();
                 }
@@ -88,8 +89,8 @@ public class Workspace {
             File dataFile = mySelector.open(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = XMLParserWriter.extractContent(dataFile, false);
-                myGUI.setBackgroundColor(Color.web(parameters.get(COLOR)));
-                myModel.setLanguage(parameters.get(LANGUAGE));
+                myGUI.setBackgroundColor(Color.web(parameters.get(COLOR_TAG)));
+                myModel.setLanguage(parameters.get(LANGUAGE_TAG));
             }
         }
 

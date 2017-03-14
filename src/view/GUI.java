@@ -28,8 +28,9 @@ public class GUI {
 
     public static final String STYLESHEET = "default.css";
 
-    public static final double SCREEN_RATIO = 0.9;
-    public static final double LEFT_CONSTRAINT = 80;
+    public static final double HEIGHT_RATIO = 0.9;
+    public static final double ASPECT_RATIO = 1.3;
+    public static final double LEFT_CONSTRAINT = 75;
     public static final double TOP_CONSTRAINT = 55;
 
     private Stage myStage;
@@ -94,8 +95,8 @@ public class GUI {
     private GridPane createRoot() {
         final GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         GridPane root = new GridPane();
-        root.setPrefWidth(gd.getDisplayMode().getWidth() * SCREEN_RATIO);
-        root.setPrefHeight(gd.getDisplayMode().getHeight() * SCREEN_RATIO);
+        root.setPrefHeight(gd.getDisplayMode().getHeight() * HEIGHT_RATIO);
+        root.setPrefWidth(root.getPrefHeight() * ASPECT_RATIO);
 
         ConstraintsFactory cf = new ConstraintsFactory();
         root.getColumnConstraints().addAll(cf.getColumnConstraints(LEFT_CONSTRAINT),
@@ -119,7 +120,7 @@ public class GUI {
 			}
         	
         });
-        myConsoleView = new ConsoleView(guiHandler);
+        myConsoleView = new ConsoleView(getPoolWidth(), guiHandler);
         myVariableView = new VariableView(guiHandler);
         myCommandView = new CommandView(guiHandler);
         myPaletteView = new PaletteView(guiHandler);

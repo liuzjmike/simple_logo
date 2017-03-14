@@ -1,7 +1,7 @@
 package model.executable.command.noturtle;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * Returns number of turtles created so far
@@ -9,7 +9,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Turtles extends AbstractCommand {
+public class Turtles extends ActionCommand {
 
 	public Turtles() {
 		super(0);

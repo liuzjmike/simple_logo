@@ -4,7 +4,7 @@ import model.Environment;
 import model.executable.ExecutableList;
 import model.executable.Literal;
 import model.executable.Variable;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * Runs command(s) for each value specified in the range, i.e., from (1 - limit)
@@ -14,7 +14,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class DoTimes extends AbstractCommand {
+public class DoTimes extends ActionCommand {
 
 	public DoTimes() {
 		super(2);
@@ -25,13 +25,11 @@ public class DoTimes extends AbstractCommand {
 		Literal ret = new Literal(0);
 		ExecutableList list = ((ExecutableList) getParam(0));
 		String varName = ((Variable) list.get(0)).getName();
-		double limit = ((Literal) list.get(1)).getValue();
-		env.getVariablePool().alloc();
+		double limit = list.get(1).execute(env).getValue();
 		for (double i = 1; i <= limit; i++) {
 			env.getVariablePool().add(varName, new Literal(i));
 			ret = getParam(1).copy().execute(env);
 		}
-		env.getVariablePool().release();
 		return ret.getValue();
 	}
 

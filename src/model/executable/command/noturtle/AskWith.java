@@ -3,7 +3,7 @@ package model.executable.command.noturtle;
 import java.util.List;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * Tell turtles matching given condition to run commands given in the second list
@@ -11,7 +11,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class AskWith extends AbstractCommand {
+public class AskWith extends ActionCommand {
 
 	public AskWith() {
 		super(2);

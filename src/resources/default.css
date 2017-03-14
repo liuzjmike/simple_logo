@@ -11,13 +11,8 @@
     -fx-spacing: 10;
 }
 
-#small-container {
-    -fx-alignment: center;
-    -fx-spacing: 20;
-}
-
 #text-color {
-    -fx-padding: 10;
+    -fx-padding: 5;
     -fx-alignment: center;
     -fx-spacing: 5;
 }
@@ -30,4 +25,12 @@
 #shape-legend {
     -fx-fit-height: 30;
     -fx-fit-width: 30;
+}
+
+#command-history {
+	-fx-spacing: 5;
+}
+
+#element {
+	-fx-spacing: 5;
 }

@@ -20,5 +20,4 @@ public class Forward extends MultipleCommand {
 	protected double turtleExecute(Environment env, Turtle turtle) {
 		return turtle.move(getParamValue(env, 0), env.getWidth(), env.getHeight());
 	}
-
 }

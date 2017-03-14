@@ -1,7 +1,7 @@
 package model.executable.command.math;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.MathCommand;
 
 /**
  * Returns negative of the values of expr
@@ -9,7 +9,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Minus extends AbstractCommand {
+public class Minus extends MathCommand {
 
 	public Minus() {
 		super(1);
@@ -17,7 +17,7 @@ public class Minus extends AbstractCommand {
 
 	@Override
 	protected double run(Environment env) {
-		return -1 * getParamValue(env, 0);
+		return -1 * getParamValue(env, lastParamIndex());
 	}
 
 }

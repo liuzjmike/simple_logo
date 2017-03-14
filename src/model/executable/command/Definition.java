@@ -2,7 +2,7 @@ package model.executable.command;
 
 import model.Environment;
 
-public class Definition extends AbstractCommand {
+public class Definition extends ActionCommand {
     
     private String myName;
     
