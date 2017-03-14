@@ -7,6 +7,8 @@ public class Constants {
 	public static final double ROUND_ANGLE = 360;
 	
 	public static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	
+	public static final String NEWLINE = "\n";
 
 	private Constants(){
 		

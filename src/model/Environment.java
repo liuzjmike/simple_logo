@@ -8,12 +8,14 @@ public class Environment {
     private CommandPool commandPool;
     private VariablePool variablePool;
     private Palette myPalette;
+    private Library myLibrary;
     private double myWidth, myHeight;
     
     public Environment(double width, double height) {
         turtlePool = new TurtlePool();
         commandPool = new CommandPool();
         variablePool = new VariablePool();
+        myLibrary = new Library(() -> variablePool.globalToString());
         myPalette = new Palette();
         myWidth = width;
         myHeight = height;
@@ -29,6 +31,10 @@ public class Environment {
     
     public VariablePool getVariablePool() {
         return variablePool;
+    }
+    
+    public Library getLibrary() {
+        return myLibrary;
     }
 
     public Palette getPalette() {
