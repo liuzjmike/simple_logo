@@ -6,7 +6,7 @@ import model.executable.ExecutableList;
 import model.executable.Literal;
 import model.executable.Variable;
 
-public class CustomizedCommand extends AbstractCommand {
+public class CustomizedCommand extends ActionCommand {
 	
 	private ExecutableList varParams, myBody;
 

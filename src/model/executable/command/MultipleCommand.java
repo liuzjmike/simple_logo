@@ -4,7 +4,7 @@ import model.Environment;
 import model.executable.Literal;
 import model.turtle.Turtle;
 
-public abstract class MultipleCommand extends AbstractCommand {
+public abstract class MultipleCommand extends ActionCommand {
 	
 	private boolean executed;
 	private Literal myValue;

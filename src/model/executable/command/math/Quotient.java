@@ -1,7 +1,7 @@
 package model.executable.command.math;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 import util.SLogoException;
 
 /**
@@ -11,7 +11,7 @@ import util.SLogoException;
  * @author zhuangbihan
  *
  */
-public class Quotient extends AbstractCommand {
+public class Quotient extends ActionCommand {
 
 	public Quotient() {
 		super(2);

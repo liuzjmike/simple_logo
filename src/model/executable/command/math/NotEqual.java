@@ -1,9 +1,9 @@
 package model.executable.command.math;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
-public class NotEqual extends AbstractCommand {
+public class NotEqual extends ActionCommand {
 
 	public NotEqual() {
 		super(2);

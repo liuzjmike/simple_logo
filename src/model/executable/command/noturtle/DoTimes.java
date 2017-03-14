@@ -4,7 +4,7 @@ import model.Environment;
 import model.executable.ExecutableList;
 import model.executable.Literal;
 import model.executable.Variable;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * Runs command(s) for each value specified in the range, i.e., from (1 - limit)
@@ -14,7 +14,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class DoTimes extends AbstractCommand {
+public class DoTimes extends ActionCommand {
 
 	public DoTimes() {
 		super(2);

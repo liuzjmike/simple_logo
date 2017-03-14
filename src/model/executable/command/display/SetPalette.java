@@ -1,7 +1,7 @@
 package model.executable.command.display;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * sets color corresponding at given index to given r g b color values
@@ -9,7 +9,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class SetPalette extends AbstractCommand {
+public class SetPalette extends ActionCommand {
 
 	public SetPalette() {
 		super(4);

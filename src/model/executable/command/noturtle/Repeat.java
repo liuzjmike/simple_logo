@@ -2,7 +2,7 @@ package model.executable.command.noturtle;
 
 import model.Environment;
 import model.executable.Literal;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * Runs command(s) given in the list the value of expr number of times Returns
@@ -11,7 +11,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Repeat extends AbstractCommand {
+public class Repeat extends ActionCommand {
 
 	public Repeat() {
 		super(2);

@@ -3,7 +3,7 @@ package model.executable.command;
 import model.Environment;
 import model.executable.ExecutableList;
 
-public class To extends AbstractCommand {
+public class To extends ActionCommand {
     
     private String myName;
 

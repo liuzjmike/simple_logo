@@ -2,7 +2,7 @@ package model.executable.command.noturtle;
 
 import model.Environment;
 import model.executable.Literal;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * If expr is not 0, runs the command(s) given in the list Returns the value of
@@ -11,7 +11,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class If extends AbstractCommand {
+public class If extends ActionCommand {
 
 	public If() {
 		super(2);

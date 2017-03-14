@@ -1,7 +1,7 @@
 package model.executable.command.math;
 
 import model.Environment;
-import model.executable.command.AbstractCommand;
+import model.executable.command.ActionCommand;
 
 /**
  * Returns sum of the values of expr1 and expr2
@@ -9,7 +9,7 @@ import model.executable.command.AbstractCommand;
  * @author zhuangbihan
  *
  */
-public class Sum extends AbstractCommand {
+public class Sum extends ActionCommand {
 
 	public Sum() {
 		super(2);
