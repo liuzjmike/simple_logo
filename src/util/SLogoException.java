@@ -6,7 +6,6 @@ public class SLogoException extends RuntimeException {
 	public static final String WRONG_NUM_PARAMS = "Wrong number of parameters.";
 	public static final String NO_PARAMS = "No parameters provided.";
 	public static final String MISSING_LIST = "Missing List bracket(s).";
-	public static final String NO_VARIABLE_IN_SCOPE = "Variable does not exist in this scope.";
 	public static final String NO_ACTIVE_TURTLE = "No turtle is active.";
 	
 	public static final String INSTANTIATION_ERROR = "Command is not found/instantiated.";

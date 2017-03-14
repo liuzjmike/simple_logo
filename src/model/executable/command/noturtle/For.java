@@ -28,12 +28,10 @@ public class For extends ActionCommand {
 		double start = ((Literal) list.get(1)).getValue();
 		double end = ((Literal) list.get(2)).getValue();
 		double incre = ((Literal) list.get(3)).getValue();
-		env.getVariablePool().alloc();
 		for (double i = start; i <= end; i += incre) {
 			env.getVariablePool().add(varName, new Literal(i));
 			ret = getParam(1).copy().execute(env);
 		}
-		env.getVariablePool().release();
 		return ret.getValue();
 	}
 

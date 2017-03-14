@@ -15,14 +15,15 @@ public abstract class ActionCommand extends AbstractCommand {
 
 	@Override
     public Literal execute(Environment env) {
-        //TODO: Unlimited Parameters
     	checkParams();
         double ret = 0;
         offset = 0;
+        env.getVariablePool().alloc();
         do {
         	ret = run(env);
         	offset += numParams();
         } while(offset < getParams().size());
+        env.getVariablePool().release();
         return new Literal(ret);
     }
     

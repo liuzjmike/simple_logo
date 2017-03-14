@@ -48,6 +48,10 @@ public abstract class AbstractCommand implements Command {
     	myParams.clear();
     }
     
+    protected int lastParamIndex() {
+        return myParams.size() - 1;
+    }
+    
     protected void checkParams() {
     	checkParamsLength();
     	checkParamsGrouping();

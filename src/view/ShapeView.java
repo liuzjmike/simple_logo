@@ -26,7 +26,7 @@ public class ShapeView extends ScrollView implements ShapeInfo {
 	
 	@Override
 	public ImageView getShape(int index) {
-		return new ImageView(myShapes.get(index).getImage());
+		return new ImageView(myShapes.get(index % myShapes.size()).getImage());
 	}
 
 	private void setupShapes() {

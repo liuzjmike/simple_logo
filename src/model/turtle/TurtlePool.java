@@ -49,6 +49,7 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
     	    switchTurtle();
     	}
     	notifyObservers();
+    	activeIDs.forEach(id -> allTurtles.get(id).clearReset());
         return ret;
     }
     
@@ -144,8 +145,8 @@ public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
         T ret = function.apply(current);
         if(notify) {
             notifyObservers();
+            current.clearReset();
         }
-        current.clearReset();
         return ret;
     }
     

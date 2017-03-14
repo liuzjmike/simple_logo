@@ -34,38 +34,40 @@ public class CommandPool extends SLogoObservable<List<String>>{
     }
     
     public void add(String name, Command command) {
-        userCommands.put(name, command);
-        myDefinitions.remove(name);
+        userCommands.put(name.toLowerCase(), command);
+        myDefinitions.remove(name.toLowerCase());
         notifyObservers();
     }
     
     public void define(String name, int numParams) {
-        myDefinitions.put(name, numParams);
+        myDefinitions.put(name.toLowerCase(), numParams);
         userCommands.remove(name);
     }
     
     public Command getCommand(String name) {
         String command = commandParser.getSymbol(name);
         if(command.equals(RegexParser.NO_MATCH)) {
-            if(userCommands.containsKey(name)) {
-                return userCommands.get(name).newInstance();
+            String key = name.toLowerCase();
+            if(userCommands.containsKey(key)) {
+                return userCommands.get(key).newInstance();
             }
-            else if(myDefinitions.containsKey(name)) {
-                return new Definition(name, myDefinitions.get(name));
+            else if(myDefinitions.containsKey(key)) {
+                return new Definition(key, myDefinitions.get(key));
             }
             else {
                 throw new SLogoException(SLogoException.INVALID_COMMAND);
             }
-        }
-        ResourceBundle resources = ResourceBundle.getBundle(Constants.DEFAULT_RESOURCE_PACKAGE
-                + DEFAULT_CLASSPATH_FILE);
-        Class<?> clazz;
-        try {
-            clazz = Class.forName(resources.getString(command));
-            return (Command)clazz.newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            System.out.println(command);
-            throw new SLogoException(SLogoException.INSTANTIATION_ERROR);
+        } else {
+            ResourceBundle resources = ResourceBundle.getBundle(Constants.DEFAULT_RESOURCE_PACKAGE
+                    + DEFAULT_CLASSPATH_FILE);
+            Class<?> clazz;
+            try {
+                clazz = Class.forName(resources.getString(command));
+                return (Command)clazz.newInstance();
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                System.out.println(command);
+                throw new SLogoException(SLogoException.INSTANTIATION_ERROR);
+            }
         }
     }
     
