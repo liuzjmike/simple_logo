@@ -1,6 +1,5 @@
 package model;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -9,16 +8,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import model.executable.Literal;
+import util.Constants;
 import util.SLogoException;
 import util.SLogoObservable;
 
 public class VariablePool extends SLogoObservable<List<Entry<String, Double>>> {
 	
 	public static final int STACK_LIMIT = 1024;
+    public static final String COMMAND = "Make %s %s";
     
-    private Deque<Map<String, Literal>> myStack;
+    private Deque<Map<String, Double>> myStack;
     
     public VariablePool() {
         myStack = new ArrayDeque<>();
@@ -26,19 +28,19 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Double>>> {
     }
     
     public void add(String name, double value) {
-        add(name, new Literal(value));
-    }
-    
-    public void add(String name, Literal value) {
         myStack.peek().put(name.toLowerCase(), value);
         notifyObservers();
     }
     
+    public void add(String name, Literal value) {
+        add(name, value.getValue());
+    }
+    
     public Literal get(String name) {
         String key = name.toLowerCase();
-        for(Map<String, Literal> scope: myStack) {
+        for(Map<String, Double> scope: myStack) {
             if(scope.containsKey(key)) {
-                return scope.get(key);
+                return new Literal(scope.get(key));
             }
         }
         return new Literal(0);
@@ -62,19 +64,30 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Double>>> {
     List<Entry<String, Double>> getVariables() {
         return notification();
     }
+    
+    public Map<String, Double> getGlobal() {
+        return myStack.getLast();
+    }
+    
+    public String globalToString() {
+        return mapToList(getGlobal()).stream()
+                                     .map(entry -> String.format(COMMAND, entry.getKey(), Double.toString(entry.getValue())))
+                                     .collect(Collectors.joining(Constants.NEWLINE));
+    }
 
     @Override
     protected List<Entry<String, Double>> notification() {
         List<Entry<String, Double>> ret = new ArrayList<>();
-        for(Map<String, Literal> stack: myStack) {
-            List<Entry<String, Double>> toAdd = new ArrayList<>();
-            for(String key: stack.keySet()) {
-                toAdd.add(new SimpleEntry<>(key, stack.get(key).getValue()));
-            }
-            toAdd.sort(Comparator.comparing(Entry::getValue));
-            ret.addAll(toAdd);
+        for(Map<String, Double> stack: myStack) {
+            ret.addAll(mapToList(stack));
         }
         return ret;
+    }
+    
+    private List<Entry<String, Double>> mapToList(Map<String, Double> map) {
+        return map.entrySet().stream()
+                  .sorted(Comparator.comparing(Entry::getKey))
+                  .collect(Collectors.toList());
     }
 
 }

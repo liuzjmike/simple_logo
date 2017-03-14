@@ -13,26 +13,30 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.SLogoModel;
 import util.FileSelector;
+import util.TextFileParser;
 import util.XMLParserWriter;
 import view.GUI;
 
 public class Workspace {
 
     public static final String TITLE = "SLogo";
-    public static final String DATA_FILE_EXTENSION = "*.xml";
+    public static final String CONFIG_EXTENSION = "*.xml";
+    public static final String LIBRARY_EXTENSION = "*.lib";
     public static final String ROOT_TAG = "Workspace";
     public static final String COLOR_TAG = "Color";
     public static final String LANGUAGE_TAG = "Language";
 
     private Stage myStage;
     private FileSelector mySelector;
+    private TextFileParser myParser;
     private GUI myGUI;
     private SLogoModel myModel;
 
     public Workspace(Stage stage) {
         stage.setTitle(TITLE);
         myStage = stage;
-        mySelector = new FileSelector(DATA_FILE_EXTENSION);
+        mySelector = new FileSelector(CONFIG_EXTENSION);
+        myParser = new TextFileParser(LIBRARY_EXTENSION);
         myModel = new SLogoModel();
         myGUI = new GUI(stage, new MyControlHandler());
         myModel.setSize(myGUI.getPoolWidth(), myGUI.getPoolHeight());
@@ -71,6 +75,7 @@ public class Workspace {
         }
 
         public void saveWorkspace() {
+            mySelector.setExtension(CONFIG_EXTENSION);
             File dataFile = mySelector.saveTo(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = new HashMap<String,String>();
@@ -85,6 +90,7 @@ public class Workspace {
         }
         
         public void loadWorkspace() {
+            mySelector.setExtension(CONFIG_EXTENSION);
             File dataFile = mySelector.open(myStage);
             if(dataFile != null) {
                 Map<String,String> parameters = XMLParserWriter.extractContent(dataFile, false);
@@ -95,12 +101,12 @@ public class Workspace {
 
 		@Override
 		public void saveLibrary() {
-			
+		    myParser.save(myModel.getLibrary(), myStage);
 		}
 
 		@Override
 		public void loadLibrary() {
-			
+		    myModel.interpret(myParser.load());
 		}
     }
     

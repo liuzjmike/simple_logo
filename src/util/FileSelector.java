@@ -11,7 +11,8 @@ public class FileSelector {
     FileChooser myChooser;
     
     public FileSelector(String extension) {
-        myChooser = makeFileChooser(extension);
+        myChooser = makeFileChooser();
+        setExtension(extension);
     }
     
     public File open() {
@@ -28,10 +29,13 @@ public class FileSelector {
         return myChooser.showSaveDialog(stage);
     }
     
-    private FileChooser makeFileChooser(String extension) {
+    public void setExtension(String extension) {
+        myChooser.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extension));
+    }
+    
+    private FileChooser makeFileChooser() {
         FileChooser result = new FileChooser();
         result.setInitialDirectory(new File(System.getProperty("user.dir")));
-        result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extension));
         return result;
     }
 

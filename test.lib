@@ -1,0 +1,2 @@
+Make :y 100.0
+to test [ :x ] [ fd :x ]

@@ -47,34 +47,21 @@ public class Interpreter {
     	}
     	ExecutableList ret = new ExecutableList();
     	while(!dq.isEmpty()) {
-    	    ret.add(parse(dq, env));
+    	    ret.add(parse(dq, env, false));
     	}
     	return ret;
     }
     
-    private Executable parse(Deque<String> expressions, Environment env) {
+    private Executable parse(Deque<String> expressions, Environment env, boolean record) {
         if(expressions.isEmpty()) {
         	throw new SLogoException(SLogoException.WRONG_NUM_PARAMS);
         }
-        String exp = expressions.pop();
+        String exp = nextToken(expressions, env, record);
         if(is(exp, LIST_START)) {
-            ExecutableList ret = new ExecutableList();
-            while(!is(expressions.peek(), LIST_END)) {
-                ret.add(parse(expressions, env));
-            }
-            expressions.pop();
-            return ret;
+            return parseList(expressions, env, record);
         }
         else if(is(exp, GROUP_START)) {
-        	Command command = new Sum();
-        	if(!is(expressions.peek(), GROUP_END)) {
-        		command = env.getCommandPool().getCommand(expressions.pop());
-        	}
-            while(!is(expressions.peek(), GROUP_END)) {
-            	command.addParam(parse(expressions, env));
-            }
-            expressions.pop();
-            return command;
+            return parseGroup(expressions, env, record);
         }
         else if(is(exp, VARIABLE)) {
             return new Variable(exp);
@@ -83,20 +70,10 @@ public class Interpreter {
             return new Literal(Double.parseDouble(exp));
         }
         else if(exp.toLowerCase().equals(TO)) {
-            String name = expressions.pop();
-            ExecutableList params = parseParam(expressions);
-            env.getCommandPool().define(name, params.size());
-            To to = new To(name);
-            to.addParam(params);
-            to.addParam(parse(expressions, env));
-            return to;
+            return parseTo(expressions, env);
         }
         else if(is(exp, COMMAND)) {
-            Command command = env.getCommandPool().getCommand(exp);
-            for(int i = 0; i < command.numParams(); i++) {
-                command.addParam(parse(expressions, env));
-            }
-            return command;
+            return parseCommand(exp, expressions, env, record);
         }
         else {
             throw new SLogoException(SLogoException.ILLEGAL_INPUT, exp);
@@ -107,15 +84,69 @@ public class Interpreter {
         return typeParser.getSymbol(exp).equals(category);
     }
     
-    private ExecutableList parseParam(Deque<String> expressions) {
-        if(!is(expressions.pop(), LIST_START)) {
+    private Executable parseList(Deque<String> expressions, Environment env, boolean record) {
+        ExecutableList ret = new ExecutableList();
+        while(!is(expressions.peek(), LIST_END)) {
+            ret.add(parse(expressions, env, record));
+        }
+        nextToken(expressions, env, record);
+        return ret;
+    }
+    
+    private Executable parseGroup(Deque<String> expressions, Environment env, boolean record) {
+        Command command = new Sum();
+        if(!is(expressions.peek(), GROUP_END)) {
+            command = env.getCommandPool().getCommand(nextToken(expressions, env, record));
+            while(!is(expressions.peek(), GROUP_END)) {
+                command.addParam(parse(expressions, env, record));
+            }
+        }
+        nextToken(expressions, env, record);
+        return command;
+    }
+    
+    private Executable parseTo(Deque<String> expressions, Environment env) {
+        try {
+            env.getLibrary().newRecord();
+            env.getLibrary().append(TO);
+            String name = nextToken(expressions, env, true);
+            ExecutableList params = parseParam(expressions, env);
+            env.getCommandPool().define(name, params.size());
+            To to = new To(name);
+            to.addParam(params);
+            to.addParam(parse(expressions, env, true));
+            return to;
+        } catch(SLogoException se) {
+            env.getLibrary().dumpLast();
+            throw se;
+        }
+    }
+    
+    private Executable parseCommand(String name, Deque<String> expressions, Environment env, boolean record) {
+        Command command = env.getCommandPool().getCommand(name);
+        for(int i = 0; i < command.numParams(); i++) {
+            command.addParam(parse(expressions, env, record));
+        }
+        return command;
+    }
+    
+    private ExecutableList parseParam(Deque<String> expressions, Environment env) {
+        if(!is(nextToken(expressions, env, true), LIST_START)) {
             throw new SLogoException(SLogoException.MISSING_LIST);
         }
         ExecutableList params = new ExecutableList();
         String exp;
-        while(!is((exp = expressions.pop()), LIST_END)) {
+        while(!is((exp = nextToken(expressions, env, true)), LIST_END)) {
             params.add(new Variable(exp));
         }
         return params;
+    }
+    
+    private String nextToken(Deque<String> expressions, Environment env, boolean record) {
+        String token = expressions.pop();
+        if(record) {
+            env.getLibrary().append(token);
+        }
+        return token;
     }
 }
