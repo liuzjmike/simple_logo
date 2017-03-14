@@ -1,7 +1,7 @@
 package model.executable.command.math;
 
 import model.Environment;
-import model.executable.command.ActionCommand;
+import model.executable.command.MathCommand;
 
 /**
  * Returns natural log of expr
@@ -9,7 +9,7 @@ import model.executable.command.ActionCommand;
  * @author zhuangbihan
  *
  */
-public class Log extends ActionCommand {
+public class Log extends MathCommand {
 
 	public Log() {
 		super(1);
@@ -17,7 +17,7 @@ public class Log extends ActionCommand {
 
 	@Override
 	protected double run(Environment env) {
-		return Math.log(getParamValue(env, 0));
+		return Math.log(getParamValue(env, lastParamIndex()));
 	}
 
 }

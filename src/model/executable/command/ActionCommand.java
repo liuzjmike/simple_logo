@@ -15,7 +15,6 @@ public abstract class ActionCommand extends AbstractCommand {
 
 	@Override
     public Literal execute(Environment env) {
-        //TODO: Unlimited Parameters
     	checkParams();
         double ret = 0;
         offset = 0;

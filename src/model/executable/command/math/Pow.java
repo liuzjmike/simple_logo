@@ -1,7 +1,7 @@
 package model.executable.command.math;
 
 import model.Environment;
-import model.executable.command.ActionCommand;
+import model.executable.command.MathCommand;
 
 /**
  * Returns base raised to the power of the exponent
@@ -9,7 +9,7 @@ import model.executable.command.ActionCommand;
  * @author zhuangbihan
  *
  */
-public class Pow extends ActionCommand {
+public class Pow extends MathCommand {
 
 	public Pow() {
 		super(2);
@@ -17,7 +17,6 @@ public class Pow extends ActionCommand {
 
 	@Override
 	protected double run(Environment env) {
-		return Math.pow(getParamValue(env, 0), getParamValue(env, 1));
+		return Math.pow(getParamValue(env, lastParamIndex()-1), getParamValue(env, lastParamIndex()));
 	}
-
 }

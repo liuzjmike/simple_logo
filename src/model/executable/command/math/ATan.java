@@ -1,24 +1,19 @@
 package model.executable.command.math;
 
-import model.Environment;
-import model.executable.command.ActionCommand;
-import util.Constants;
-
 /**
  * Returns arctangent of degrees
  * 
  * @author zhuangbihan
  *
  */
-public class ATan extends ActionCommand {
+public class ATan extends TrigCommand {
 
 	public ATan() {
 		super(1);
 	}
 
 	@Override
-	protected double run(Environment env) {
-		return Constants.resolveNaN(Math.atan(getParamValue(env, 0)) * Constants.DEGREES_PER_RADIAN);
+	protected double trig(double arg) {
+		return Math.atan(arg);
 	}
-
 }
