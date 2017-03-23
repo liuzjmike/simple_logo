@@ -10,23 +10,24 @@ Hours in total: 150
 ## Each person's role in developing the project
 
 #### Mike Liu: 
-1) 
+1. Designed the class hierarchy and Observer pattern used in the project.
+2. Designed Interfaces including ControlHandler, Executable, Command, Turtle, SLogoObserver and all interfaces in model.info package except ShapeInfo.
+3. Implemented all classes in model root package, model.executable package, model.turtle package, view.factory package, util package except RegexParser and XMLParserWriter,
+AbstractCommand, CustomizedCommand, Declaration and To in model.executable.command package, and View and ScrollView in view package.
+4. Heavily refactored Workspace, GUI, ConsoleView, CommandView and VariableView. Slightly refactored TurtleView and PoolView.
 
 #### Bihan Zhuang: 
-1) Together designed the class hierarchy.
-
-2) Designed, implemented, and refactored the Command hierarchy and resource files. Unlimited parameters.
-
-3) Wrote Interpreter, RegexParser, error handling, some Info files, and CommandSaver.
-
-4) PaletteView, ShapeView, ViewSupplier.
+1. Together designed the class hierarchy.
+2. Designed, implemented, and refactored the Command hierarchy and resource files. Unlimited parameters.
+3. Wrote Interpreter, RegexParser, error handling, some Info files, and CommandSaver.
+4. PaletteView, ShapeView, ViewSupplier.
 
 #### Wei-Ting Yeh:
-1) Wrote TurtleView, PoolView, and PenView
+1. Wrote TurtleView, PoolView, and PenView
+2. Worked on some parts of GUI
 
-2) Worked on some parts of GUI
-
-#### Sarah Zhou: Front end and controller
+#### Sarah Zhou
+Implemented Workspace, GUI, ConsoleView, CommandView and VariableView.
 
 ## Resources used
 Oracle, StackOverflow
@@ -55,7 +56,7 @@ Classpath.properties, Syntax.properties, all the language resource files, and de
 * Click any command in the command history field to run it again. 
 
 ## Known bugs, crashes, or problems with the project's functionality
-Incomplete error handling for tell commands
+No known bugs.
 
 ## Extra features included in the project
 * to see the state of the turtle 
