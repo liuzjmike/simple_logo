@@ -2,18 +2,24 @@ package model.executable.command;
 
 import model.Environment;
 
-public class Definition extends ActionCommand {
+/**
+ * Represents the declaration of a command, which is
+ * executed as the implemented command at run time.
+ * @author Mike Liu
+ *
+ */
+public class Declaration extends ActionCommand {
     
     private String myName;
     
-    public Definition(String name, int numParams) {
+    public Declaration(String name, int numParams) {
         super(numParams);
         myName = name;
     }
     
     @Override
-    public Definition newInstance() {
-        return new Definition(myName, numParams());
+    public Declaration newInstance() {
+        return new Declaration(myName, numParams());
     }
 
     @Override

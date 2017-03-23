@@ -14,6 +14,12 @@ import model.executable.command.math.Sum;
 import util.RegexParser;
 import util.SLogoException;
 
+/**
+ * Interprets user input.
+ * @author Mike Liu
+ * @author Bihan Zhuang
+ * 
+ */
 public class Interpreter {
 	
     public static final String DEFAULT_SYNTAX = "Syntax";
@@ -36,6 +42,13 @@ public class Interpreter {
 		typeParser.setPattern(DEFAULT_SYNTAX);
 	}
     
+	/**
+	 * Parse a raw user input <code>commands</code> into an 
+	 * expression tree.
+	 * @param commands
+	 * @param env
+	 * @return the root of the expression tree.
+	 */
     public Executable parse(String commands, Environment env) {
     	Deque<String> dq = new ArrayDeque<>();
     	for (String s : commands.split(typeParser.getRegex(NEWLINE))) {
@@ -111,7 +124,7 @@ public class Interpreter {
             env.getLibrary().append(TO);
             String name = nextToken(expressions, env, true);
             ExecutableList params = parseParam(expressions, env);
-            env.getCommandPool().define(name, params.size());
+            env.getCommandPool().declare(name, params.size());
             To to = new To(name);
             to.addParam(params);
             to.addParam(parse(expressions, env, true));

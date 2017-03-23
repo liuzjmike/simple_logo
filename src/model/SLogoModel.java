@@ -9,6 +9,12 @@ import model.info.PoolInfo;
 import model.info.TurtleInfo;
 import util.SLogoObserver;
 
+/**
+ * Encompasses the back-end of the IDE and responsible
+ * for external communication.
+ * @author Mike Liu
+ *
+ */
 public class SLogoModel {
     
     public static final double DEFAULT_WIDTH = 800;
@@ -44,8 +50,8 @@ public class SLogoModel {
     }
     
     public void setSize(double width, double height) {
-        myEnv.setWidth(width);
-        myEnv.setHeight(height);
+        myEnv.setPoolWidth(width);
+        myEnv.setPoolHeight(height);
     }
     
     public void addPoolObserver(SLogoObserver<PoolInfo> so) {

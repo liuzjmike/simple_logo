@@ -11,6 +11,12 @@ import java.util.stream.Collectors;
 import util.CollectionTransformer;
 import util.Constants;
 
+/**
+ * Provides <code>String</code> representation of user-defined
+ * commands and global variables.
+ * @author Mike Liu
+ * 
+ */
 public class Library {
     
     public static final String VARIABLE_COMMAND = "Make %s %s";

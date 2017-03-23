@@ -13,6 +13,11 @@ import util.CollectionTransformer;
 import util.SLogoException;
 import util.SLogoObservable;
 
+/**
+ * Stores variables in dynamic scope.
+ * @author Mike Liu
+ *
+ */
 public class VariablePool extends SLogoObservable<List<Entry<String, Double>>> {
 	
 	public static final int STACK_LIMIT = 1024;
