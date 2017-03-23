@@ -18,6 +18,6 @@ public class Forward extends MultipleCommand {
 
 	@Override
 	protected double turtleExecute(Environment env, Turtle turtle) {
-		return turtle.move(getParamValue(env, 0), env.getWidth(), env.getHeight());
+		return turtle.move(getParamValue(env, 0), env.getPoolWidth(), env.getPoolHeight());
 	}
 }

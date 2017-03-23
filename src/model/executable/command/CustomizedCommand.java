@@ -6,6 +6,11 @@ import model.executable.ExecutableList;
 import model.executable.Literal;
 import model.executable.Variable;
 
+/**
+ * Represents a user-defined command
+ * @author Mike Liu
+ *
+ */
 public class CustomizedCommand extends ActionCommand {
 	
 	private ExecutableList varParams, myBody;

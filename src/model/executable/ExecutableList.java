@@ -7,8 +7,8 @@ import java.util.List;
 import model.Environment;
 
 /**
- * Represents a SLogo list
- * When execute is called, returns the value of the final command executed
+ * Contains Executables in sequence.
+ * When execute is called, returns the value of the final command executed.
  * @author Mike Liu
  *
  */

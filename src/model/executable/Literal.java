@@ -2,6 +2,11 @@ package model.executable;
 
 import model.Environment;
 
+/**
+ * Represents a constant double value.
+ * @author Mike Liu
+ *
+ */
 public class Literal implements Executable {
 	
 	double myVal;

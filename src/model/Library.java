@@ -9,6 +9,12 @@ import java.util.stream.Collectors;
 
 import util.Constants;
 
+/**
+ * Provides <code>String</code> representation of user-defined
+ * commands and global variables.
+ * @author Mike Liu
+ * 
+ */
 public class Library {
 
     Deque<List<String>> myLibrary;
