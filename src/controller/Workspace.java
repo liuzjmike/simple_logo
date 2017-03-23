@@ -17,6 +17,10 @@ import util.TextFileParser;
 import util.XMLParserWriter;
 import view.GUI;
 
+/**
+ * Coordinates the visual representation and back-end
+ * functionalities of the SLogo IDE.
+ */
 public class Workspace {
 
     public static final String TITLE = "SLogo";
@@ -43,10 +47,14 @@ public class Workspace {
         setUpObservers();
     }
 
+    /**
+     * Display the graphical user interface to the stage.
+     */
     public void show() {
         myGUI.show();
     }
 
+    // Links front-end observers to observable in the backend model
     private void setUpObservers() {
         myModel.addPoolObserver(myGUI.getPoolObserver());
         myModel.addVariableObserver(myGUI.getVariableObserver());
@@ -58,6 +66,7 @@ public class Workspace {
         return new Workspace(new Stage());
     }
     
+    // Defines a specific type of control handler for our purpose
     private class MyControlHandler implements ControlHandler {
         
         @Override

@@ -2,6 +2,9 @@ package model;
 
 import model.turtle.TurtlePool;
 
+/**
+ * Contains the data of the IDE.
+ */
 public class Environment {
     
     private TurtlePool turtlePool;
@@ -21,39 +24,76 @@ public class Environment {
         myHeight = height;
     }
 
+    /**
+     * Returns the TurtlePool.
+     * @return
+     */
     public TurtlePool getTurtlePool() {
         return turtlePool;
     }
     
+    /**
+     * Returns the CommandPool.
+     * @return
+     */
     public CommandPool getCommandPool() {
         return commandPool;
     }
     
+    /**
+     * Returns the VariablePool.
+     * @return
+     */
     public VariablePool getVariablePool() {
         return variablePool;
     }
     
+    /**
+     * Returns the library of global variables and
+     * user defined commands.
+     * @return
+     */
     public Library getLibrary() {
         return myLibrary;
     }
 
+    /**
+     * Returns the palette.
+     * @return
+     */
     public Palette getPalette() {
         return myPalette;
     }
     
-    public void setWidth(double w) {
+    /**
+     * Sets the width of the TurtlePool.
+     * @param w
+     */
+    public void setPoolWidth(double w) {
     	myWidth = w;
     }
     
-    public void setHeight(double h) {
+    /**
+     * Sets the height of the TurtlePool.
+     * @param h
+     */
+    public void setPoolHeight(double h) {
     	myHeight = h;
     }
     
-    public double getWidth() {
+    /**
+     * Gets the width of the TurtlePool.
+     * @return
+     */
+    public double getPoolWidth() {
     	return myWidth;
     }
     
-    public double getHeight() {
+    /**
+     * Gets the height of the TurtlePool.
+     * @return
+     */
+    public double getPoolHeight() {
     	return myHeight;
     }
 }

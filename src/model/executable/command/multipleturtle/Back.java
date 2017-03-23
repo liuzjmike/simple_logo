@@ -18,7 +18,7 @@ public class Back extends MultipleCommand {
 
 	@Override
 	protected double turtleExecute(Environment env, Turtle turtle) {
-		return turtle.move(-1*getParamValue(env, 0), env.getWidth(), env.getHeight());
+		return turtle.move(-1*getParamValue(env, 0), env.getPoolWidth(), env.getPoolHeight());
 	}
 
 }

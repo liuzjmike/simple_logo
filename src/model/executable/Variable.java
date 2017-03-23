@@ -2,6 +2,11 @@ package model.executable;
 
 import model.Environment;
 
+/**
+ * Represents a variable.
+ * @author Mike Liu
+ *
+ */
 public class Variable implements Executable {
 	
 	String myName;

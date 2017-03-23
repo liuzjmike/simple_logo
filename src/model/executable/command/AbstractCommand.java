@@ -7,6 +7,11 @@ import model.Environment;
 import model.executable.Executable;
 import util.SLogoException;
 
+/**
+ * 
+ * @author Mike Liu
+ *
+ */
 public abstract class AbstractCommand implements Command {
 
     private List<Executable> myParams;
