@@ -11,9 +11,9 @@ import javafx.scene.shape.Line;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.info.PaletteInfo;
+import model.info.ShapeInfo;
 import model.info.TurtleInfo;
 import model.turtle.TurtleHist;
-import model.turtle.info.ShapeInfo;
 import util.Constants;
 
 public class TurtleView {

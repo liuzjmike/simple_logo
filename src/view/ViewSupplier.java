@@ -1,7 +1,7 @@
 package view;
 
 import model.info.PaletteInfo;
-import model.turtle.info.ShapeInfo;
+import model.info.ShapeInfo;
 
 public interface ViewSupplier {
 	
