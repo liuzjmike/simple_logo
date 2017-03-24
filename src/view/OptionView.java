@@ -10,7 +10,6 @@ import view.factory.ControlFactory;
 
 /**
  * 
- * @author Sarah Zhou
  * @author Mike Liu
  *
  */

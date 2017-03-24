@@ -144,10 +144,10 @@ public class GUI {
         scene.setOnKeyPressed(e -> {
             KeyCode code = e.getCode();
             if(!myConsoleView.handleKeyInput(code)) {
-                myPoolView.handleKeyInput(code, myStage);
+                myPoolView.handleKeyPressed(code, myStage);
             }
         });
-        scene.setOnKeyReleased(e -> myPoolView.handleRelease(e.getCode(), myStage));
+        scene.setOnKeyReleased(e -> myPoolView.handleKeyReleased(e.getCode(), myStage));
         return scene;
     }
 
