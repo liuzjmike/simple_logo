@@ -10,6 +10,11 @@ import java.util.Collection;
 
 import javafx.stage.Stage;
 
+/**
+ * Provides support for loading and saving text files.
+ * @author Mike Liu
+ *
+ */
 public class TextFileParser {
 
     private FileSelector mySelector;

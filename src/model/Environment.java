@@ -4,6 +4,8 @@ import model.turtle.TurtlePool;
 
 /**
  * Contains the data of the IDE.
+ * @author Mike Liu
+ * 
  */
 public class Environment {
     

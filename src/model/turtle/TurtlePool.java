@@ -16,6 +16,11 @@ import model.info.TurtleInfo;
 import util.SLogoException;
 import util.SLogoObservable;
 
+/**
+ * The area that turtles move in.
+ * @author Mike Liu
+ *
+ */
 public class TurtlePool extends SLogoObservable<PoolInfo> implements PoolInfo {
 	
 	public static final int INITIAL_ID = 1;

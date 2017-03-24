@@ -6,6 +6,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Represents a list that is observable.
+ * @author Mike Liu
+ *
+ * @param <E>
+ */
 public class SObservableList<E> extends SLogoObservable<List<E>> implements Iterable<E> {
     
     private List<E> myList;

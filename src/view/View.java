@@ -4,6 +4,11 @@ import java.util.function.Function;
 
 import javafx.scene.Parent;
 
+/**
+ * 
+ * @author Mike Liu
+ *
+ */
 public abstract class View<T extends Parent> {
     
     private String myName;

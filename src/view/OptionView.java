@@ -8,6 +8,12 @@ import javafx.stage.Stage;
 import util.SLogoException;
 import view.factory.ControlFactory;
 
+/**
+ * 
+ * @author Sarah Zhou
+ * @author Mike Liu
+ *
+ */
 public class OptionView extends ScrollView {
     
     public static final List<String> LANGUAGES = Arrays.asList(

@@ -1,5 +1,10 @@
 package model.turtle;
 
+/**
+ * Records a piece of positional and pen information
+ * @author Mike Liu
+ *
+ */
 public class TurtleHist {
     
     private double myX, myY;

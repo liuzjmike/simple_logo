@@ -20,6 +20,9 @@ import view.GUI;
 /**
  * Coordinates the visual representation and back-end
  * functionalities of the SLogo IDE.
+ * @author Sarah Zhou
+ * @author Mike Liu
+ * 
  */
 public class Workspace {
 

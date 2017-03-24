@@ -52,7 +52,7 @@ public class Library {
     public String toString() {
         StringBuilder sb = new StringBuilder(
                 new CollectionTransformer()
-                .mapToList(myGlobal.get())
+                .mapToSortedList(myGlobal.get())
                 .stream()                
                 .map(entry -> String.format(VARIABLE_COMMAND, entry.getKey(), Double.toString(entry.getValue())))
                 .collect(Collectors.joining(Constants.NEWLINE)));

@@ -8,7 +8,7 @@ import model.executable.Executable;
 import util.SLogoException;
 
 /**
- * 
+ * Provides a skeletal implementation of the <code>Command</code> interface
  * @author Mike Liu
  *
  */

@@ -2,6 +2,11 @@ package model.info;
 
 import javafx.scene.shape.Line;
 
+/**
+ * An object that contains the states of a pen
+ * @author Mike Liu
+ *
+ */
 public interface PenInfo {
 
     public int getColor();

@@ -16,6 +16,12 @@ import model.info.TurtleInfo;
 import model.turtle.TurtleHist;
 import util.Constants;
 
+/**
+ * 
+ * @author Wei-Ting Yeh
+ * @author Mike Liu
+ *
+ */
 public class TurtleView {
 
     public static final double DEFAULT_WIDTH = 40;

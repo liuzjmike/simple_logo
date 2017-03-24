@@ -24,6 +24,12 @@ import util.SLogoException;
 import util.SLogoObserver;
 import view.factory.ConstraintsFactory;
 
+/**
+ * 
+ * @author Sarah Zhou
+ * @author Mike Liu
+ *
+ */
 public class GUI {
 
     public static final String STYLESHEET = "default.css";

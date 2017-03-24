@@ -5,6 +5,13 @@ import model.executable.ExecutableList;
 import model.executable.command.ActionCommand;
 import model.executable.command.Command;
 
+/**
+ * Defines a user-defined command with variables given in the first
+ * list as parameters and expression given in the second list as body.
+ * Returns 1.
+ * @author Mike Liu
+ *
+ */
 public class To extends ActionCommand {
     
     private String myName;

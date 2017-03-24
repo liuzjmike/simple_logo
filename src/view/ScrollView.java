@@ -6,6 +6,11 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * 
+ * @author Mike Liu
+ *
+ */
 public class ScrollView extends View<ScrollPane> {
     
     private VBox myBox;

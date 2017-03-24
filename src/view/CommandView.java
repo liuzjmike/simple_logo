@@ -7,6 +7,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import util.SLogoObserver;
 
+/**
+ * 
+ * @author Sarah Zhou
+ * @author Mike Liu
+ *
+ */
 public class CommandView extends ScrollView implements SLogoObserver<List<String>> {
 	
 	public CommandView(Function<String, Double> guiHandler) {

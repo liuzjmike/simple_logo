@@ -1,5 +1,10 @@
 package util;
 
+/**
+ * Constant values used in SLogo.
+ * @author Mike Liu
+ *
+ */
 public class Constants {
 	
 	public static final double DEGREES_PER_RADIAN = 180 / Math.PI;

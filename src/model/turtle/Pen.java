@@ -5,6 +5,11 @@ import javafx.scene.shape.Line;
 import model.info.PaletteInfo;
 import model.info.PenInfo;
 
+/**
+ * An object that represents the pen of a turtle
+ * @author Mike Liu
+ *
+ */
 public class Pen implements PenInfo {
     
     public static final double DEFAULT_SIZE = 1;

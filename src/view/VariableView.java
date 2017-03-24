@@ -8,6 +8,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import util.SLogoObserver;
 
+/**
+ * 
+ * @author Sarah Zhou
+ * @author Mike Liu
+ *
+ */
 public class VariableView extends ScrollView implements SLogoObserver<List<Entry<String, Double>>> {
     
     public static final String MAKE = "Make %s %s";

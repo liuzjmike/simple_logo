@@ -6,6 +6,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
+/**
+ * Provides support for opening and saving a file.
+ * @author Mike Liu
+ *
+ */
 public class FileSelector {
     
     FileChooser myChooser;

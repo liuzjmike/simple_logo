@@ -3,6 +3,12 @@ package util;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents an observable object.
+ * @author Mike Liu
+ *
+ * @param <T>
+ */
 public abstract class SLogoObservable<T> {
     
     private Set<SLogoObserver<T>> myObservers;

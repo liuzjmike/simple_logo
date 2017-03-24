@@ -20,6 +20,12 @@ import util.TextFileParser;
 import view.factory.ConstraintsFactory;
 import view.factory.ControlFactory;
 
+/**
+ * 
+ * @author Sarah Zhou
+ * @author Mike Liu
+ *
+ */
 public class ConsoleView extends View<GridPane> {
 
     public static final double LEFT_CONSTRAINT = 91;

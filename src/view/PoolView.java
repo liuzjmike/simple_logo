@@ -20,6 +20,12 @@ import model.info.PoolInfo;
 import model.info.TurtleInfo;
 import util.SLogoObserver;
 
+/**
+ * 
+ * @author Wei-Ting Yeh
+ * @author Mike Liu
+ *
+ */
 public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 
 	public static final String TURTLE_IMAGE = "TurtleImage.png";

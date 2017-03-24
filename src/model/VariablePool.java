@@ -76,7 +76,7 @@ public class VariablePool extends SLogoObservable<List<Entry<String, Double>>> {
         List<Entry<String, Double>> ret = new ArrayList<>();
         CollectionTransformer transformer = new CollectionTransformer();
         for(Map<String, Double> stack: myStack) {
-            ret.addAll(transformer.mapToList(stack));
+            ret.addAll(transformer.mapToSortedList(stack));
         }
         return ret;
     }
