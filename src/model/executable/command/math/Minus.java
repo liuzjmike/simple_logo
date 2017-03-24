@@ -1,7 +1,6 @@
 package model.executable.command.math;
 
 import model.Environment;
-import model.executable.command.MathCommand;
 
 /**
  * Returns negative of the values of expr

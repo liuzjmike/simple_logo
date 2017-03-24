@@ -1,6 +1,5 @@
 package model.executable.command.singleturtle;
 
-import model.executable.command.SingleCommand;
 import model.turtle.Turtle;
 
 /**

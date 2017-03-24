@@ -9,7 +9,7 @@ import model.executable.ExecutableList;
 import model.executable.Literal;
 import model.executable.Variable;
 import model.executable.command.Command;
-import model.executable.command.To;
+import model.executable.command.customize.To;
 import model.executable.command.math.Sum;
 import util.RegexParser;
 import util.SLogoException;

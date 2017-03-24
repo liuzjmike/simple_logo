@@ -13,8 +13,6 @@ public interface Command extends Executable {
 	
 	public void addParam(Executable exec);
 	
-	public void clearParams();
-	
 	/**
 	 * Instantiates a Command of the same type.
 	 * Parameters of the original Command are not copied.

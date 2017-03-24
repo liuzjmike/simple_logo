@@ -57,12 +57,12 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
             }
 
 			@Override
-			public void addTurtleIV(ImageView iv) {
+			public void addTurtleImage(ImageView iv) {
 				getRoot().getChildren().add(iv);
 			}
 
 			@Override
-			public void removeTurtleIV(ImageView iv) {
+			public void removeTurtleImage(ImageView iv) {
 				getRoot().getChildren().remove(iv);
 			}
         };
@@ -127,7 +127,7 @@ public class PoolView extends View<Pane> implements SLogoObserver<PoolInfo> {
 				TurtleView turtle = new TurtleView(turtleImage, turtles.get(key), drawer,
 						getRoot().getPrefWidth() / 2, getRoot().getPrefHeight() / 2);
 				myTurtles.put(key, turtle);
-				drawer.addTurtleIV(turtleImage);
+				drawer.addTurtleImage(turtleImage);
 			}
 		}
 	}

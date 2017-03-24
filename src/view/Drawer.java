@@ -11,7 +11,7 @@ interface Drawer {
     
     void removeLines(Collection<Line> lines);
     
-    void addTurtleIV(ImageView iv);
+    void addTurtleImage(ImageView iv);
     
-    void removeTurtleIV(ImageView iv);
+    void removeTurtleImage(ImageView iv);
 }

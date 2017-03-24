@@ -1,7 +1,8 @@
-package model.executable.command;
+package model.executable.command.math;
 
 import model.Environment;
 import model.executable.Literal;
+import model.executable.command.AbstractCommand;
 
 public abstract class MathCommand extends AbstractCommand {
 

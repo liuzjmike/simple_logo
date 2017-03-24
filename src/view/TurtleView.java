@@ -74,11 +74,11 @@ public class TurtleView {
             }
         }
         if(turtleImageIndex != myTurtle.getShape()){
-        	drawer.removeTurtleIV(myImage);
+        	drawer.removeTurtleImage(myImage);
             turtleImageIndex = myTurtle.getShape();
             myImage = shapeInfo.getShape(turtleImageIndex);
             processImage(myTurtle);
-            drawer.addTurtleIV(myImage);
+            drawer.addTurtleImage(myImage);
         }   
         setXY(myTurtle.getX(), myTurtle.getY());
         if(myTurtle.isReset()) {

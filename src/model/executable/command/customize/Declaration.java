@@ -1,6 +1,8 @@
-package model.executable.command;
+package model.executable.command.customize;
 
 import model.Environment;
+import model.executable.command.ActionCommand;
+import model.executable.command.Command;
 
 /**
  * Represents the declaration of a command, which is

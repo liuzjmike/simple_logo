@@ -1,7 +1,6 @@
 package model.executable.command.multipleturtle;
 
 import model.Environment;
-import model.executable.command.MultipleCommand;
 import model.turtle.Turtle;
 
 /**

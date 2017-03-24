@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import model.executable.command.Command;
-import model.executable.command.Declaration;
+import model.executable.command.customize.Declaration;
 import util.Constants;
 import util.RegexParser;
 import util.SLogoException;
@@ -29,6 +29,7 @@ public class CommandPool extends SLogoObservable<List<String>>{
     private Map<String, Command> userCommands;
     private Map<String, Integer> myDefinitions;
     private RegexParser commandParser;
+    private ResourceBundle myResources;
     
     private String myLanguage;
     
@@ -36,6 +37,7 @@ public class CommandPool extends SLogoObservable<List<String>>{
         userCommands = new HashMap<>();
         myDefinitions = new HashMap<>();
         commandParser = new RegexParser();
+        myResources = ResourceBundle.getBundle(Constants.DEFAULT_RESOURCE_PACKAGE + DEFAULT_CLASSPATH_FILE);
         setLanguage(DEFAULT_LANGUAGE);
     }
     
@@ -70,27 +72,9 @@ public class CommandPool extends SLogoObservable<List<String>>{
     public Command getCommand(String name) {
         String command = commandParser.getSymbol(name);
         if(command.equals(RegexParser.NO_MATCH)) {
-            String key = name.toLowerCase();
-            if(userCommands.containsKey(key)) {
-                return userCommands.get(key).newInstance();
-            }
-            else if(myDefinitions.containsKey(key)) {
-                return new Declaration(key, myDefinitions.get(key));
-            }
-            else {
-                throw new SLogoException(SLogoException.INVALID_COMMAND);
-            }
+            return getCustomizedCommand(name);
         } else {
-            ResourceBundle resources = ResourceBundle.getBundle(Constants.DEFAULT_RESOURCE_PACKAGE
-                    + DEFAULT_CLASSPATH_FILE);
-            Class<?> clazz;
-            try {
-                clazz = Class.forName(resources.getString(command));
-                return (Command)clazz.newInstance();
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-                System.out.println(command);
-                throw new SLogoException(SLogoException.INSTANTIATION_ERROR, command);
-            }
+            return getBuiltInCommand(command);
         }
     }
     
@@ -132,5 +116,29 @@ public class CommandPool extends SLogoObservable<List<String>>{
         List<String> ret = new ArrayList<>(userCommands.keySet());
         Collections.sort(ret);
         return Collections.unmodifiableList(ret);
+    }
+    
+    private Command getCustomizedCommand(String name) {
+        String key = name.toLowerCase();
+        if(userCommands.containsKey(key)) {
+            return userCommands.get(key).newInstance();
+        }
+        else if(myDefinitions.containsKey(key)) {
+            return new Declaration(key, myDefinitions.get(key));
+        }
+        else {
+            throw new SLogoException(SLogoException.INVALID_COMMAND);
+        }
+    }
+    
+    private Command getBuiltInCommand(String name) {
+        Class<?> clazz;
+        try {
+            clazz = Class.forName(myResources.getString(name));
+            return (Command)clazz.newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            System.out.println(name);
+            throw new SLogoException(SLogoException.INSTANTIATION_ERROR, name);
+        }
     }
 }

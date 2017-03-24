@@ -48,11 +48,6 @@ public abstract class AbstractCommand implements Command {
         myParams.add(exec);
     }
     
-    @Override
-    public void clearParams() {
-    	myParams.clear();
-    }
-    
     protected int lastParamIndex() {
     	return myParams.size()-1;
     }
