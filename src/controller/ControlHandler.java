@@ -5,6 +5,10 @@ import java.util.function.Function;
 /**
  * A class can implement the ControlHandler class when it needs to 
  * delegate the control of the workspace.
+ * The <code>apply</code> method inherited from Function is used to
+ * execute user input
+ * @author Mike Liu
+ * 
  */
 public interface ControlHandler extends Function<String, Double> {
 	
