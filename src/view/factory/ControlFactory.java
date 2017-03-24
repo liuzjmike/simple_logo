@@ -9,6 +9,11 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
+/**
+ * Generates JavaFX UI Controls
+ * @author Mike Liu
+ *
+ */
 public class ControlFactory {
 
     public Button createButton(String text, EventHandler<ActionEvent> handler) {

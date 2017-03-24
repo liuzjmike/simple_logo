@@ -4,6 +4,11 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 
+/**
+ * Generates layout constraints for <code>GridPane</code>
+ * @author Mike Liu
+ *
+ */
 public class ConstraintsFactory {
 
     public ColumnConstraints getColumnConstraints(double percent) {
