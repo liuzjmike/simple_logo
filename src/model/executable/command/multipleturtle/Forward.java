@@ -5,7 +5,7 @@ import model.turtle.Turtle;
 
 /**
  * Moves turtle forward in its current heading by pixels distance
- * returns the value of pixels
+ * Returns the value of pixels
  * @author zhuangbihan
  *
  */

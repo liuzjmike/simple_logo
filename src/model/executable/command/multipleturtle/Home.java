@@ -4,20 +4,20 @@ import model.Environment;
 import model.turtle.Turtle;
 
 /**
- * Erases turtle's trails and sends it to the home position
+ * Moves turtle to the center of the screen (0, 0)
  * Returns the distance turtle moved
  * @author Bihan Zhuang
  *
  */
-public class ClearScreen extends MultipleCommand {
+public class Home extends MultipleCommand {
 
-	public ClearScreen() {
+	public Home() {
 		super(0);
 	}
-
+	
 	@Override
 	protected double turtleExecute(Environment env, Turtle turtle) {
-		return turtle.reset();
+		return turtle.home();
 	}
 
 }

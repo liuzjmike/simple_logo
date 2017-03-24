@@ -7,6 +7,11 @@ import java.util.List;
 import model.info.PenInfo;
 import util.Constants;
 
+/**
+ * Provides a skeletal implementation of the <code>Turtle</code> interface
+ * @author Mike Liu
+ *
+ */
 public abstract class AbstractTurtle implements Turtle {
 
     private double myX;
@@ -62,12 +67,8 @@ public abstract class AbstractTurtle implements Turtle {
         return isReset;
     }
 
-    @Override
-    public PenInfo getPenInfo() {
-        return myPen;
-    }
-
     /*****Translational movement*****/
+    
     @Override
     public double move(double dist, double width, double height) {
         clearHist();
@@ -113,6 +114,10 @@ public abstract class AbstractTurtle implements Turtle {
         return ret;
     }
     
+    protected boolean inBounds(double x, double y, double wRadius, double hRadius) {
+        return x >= -wRadius && x < wRadius && y >= -hRadius && y < hRadius;
+    }
+    
     private void clearHist() {
         lastMove.clear();
         logHist();
@@ -123,6 +128,7 @@ public abstract class AbstractTurtle implements Turtle {
     }
 
     /*****Rotational movement*****/
+    
     @Override
     public double turn(double degree) {
         myHeading = (myHeading + degree) % Constants.ROUND_ANGLE;
@@ -148,6 +154,12 @@ public abstract class AbstractTurtle implements Turtle {
     }
 
     /*****Visual property*****/
+    
+    @Override
+    public PenInfo getPenInfo() {
+        return myPen;
+    }
+    
     @Override
     public Pen getPen() {
         return myPen;

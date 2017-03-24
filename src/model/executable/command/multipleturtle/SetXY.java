@@ -6,7 +6,7 @@ import model.turtle.Turtle;
 /**
  * Moves turtle to an absolute screen position, where (0, 0) is the center of the screen
  * Returns the distance turtle moved
- * @author zhuangbihan
+ * @author Bihan Zhuang
  *
  */
 public class SetXY extends MultipleCommand {

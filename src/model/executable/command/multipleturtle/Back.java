@@ -6,7 +6,7 @@ import model.turtle.Turtle;
 /**
  * Moves turtle backward in its current heading by pixels distance
  * Returns the value of pixels
- * @author zhuangbihan
+ * @author Bihan Zhuang
  *
  */
 public class Back extends MultipleCommand {

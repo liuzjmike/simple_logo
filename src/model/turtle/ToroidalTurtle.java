@@ -1,5 +1,10 @@
 package model.turtle;
 
+/**
+ * Implementation of the <code>Turtle</code> interface that moves in a toroidal way
+ * @author Mike Liu
+ *
+ */
 public class ToroidalTurtle extends AbstractTurtle {
     
     public ToroidalTurtle(Pen pen) {
@@ -21,10 +26,6 @@ public class ToroidalTurtle extends AbstractTurtle {
         dy -= getY() - oldY;
         moveOn(switchSide(getX(), dx, wRadius), switchSide(getY(), dy, hRadius), getPen().isDown());
         move(dx, dy, wRadius, hRadius);
-    }
-    
-    private boolean inBounds(double x, double y, double wRadius, double hRadius) {
-        return x >= -wRadius && x < wRadius && y >= -hRadius && y < hRadius;
     }
     
     private TurtleHist getInboundPos(double x, double y, double wRadius, double hRadius) {
