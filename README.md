@@ -1,13 +1,9 @@
-# CompSci 308 SLogo Project 
-Wei-Ting Yeh, Mike Liu, Bihan Zhuang, Sarah Zhou
+# Simple Logo
+Mike Liu, Bihan Zhuang, Wei-Ting Yeh, Sarah Zhou  
+Feb 21 ~ March 10, 2017  
+Time Spent: ~150 hours
 
-Date started: 2/21
-
-Date finished: 3/10
-
-Hours in total: 150
-
-## Each person's role in developing the project
+## Roles
 
 #### Mike Liu: 
 1. Designed the class hierarchy and Observer pattern used in the project.
@@ -30,18 +26,20 @@ AbstractCommand, CustomizedCommand, Declaration and To in model.executable.comma
 Implemented Workspace, GUI, ConsoleView, CommandView and VariableView.
 
 ## Resources used
-Oracle, StackOverflow
+Java 8 Documentations  
+[StackOverflow](http://stackoverflow.com/)
 
-## Files used to start the project
-Main.java
+## Get Started
+Program is started by running Main.java
 
-## Files used to test the project
-All the provided .logo files.
+## Testing
+Example code that can be used test this program are in data directory.
 
-## Data or resource files required by the project
-Classpath.properties, Syntax.properties, all the language resource files, and default.css	
+## Resource Files
+Resource files for input processing and reflection as well as default.css for GUI are in resources package.  
+Input translation are in resources.languages package.
 
-## Information about using the program
+## How to use the program
 * To graphically move the turtle in the pool, there are two ways. One thing the user has to do first in either way is to click on the turtle to set it active. The active turtle will be larger. One way after that is to use “w, a, s, d” keys to move forward, turn left, backwards, and turn right. The other way is to simply drag the turtle around with your mouse. To view the current properties of the turtle, press “I” to get a popup window. Once the user releases “I”, the window disappears.
 * Use the “set” command to save user-defined variables and they will show up in the “Variable” tab.
 * All user-defined commands will show up in the “Command” tab. Click on them to run them again.
@@ -55,21 +53,5 @@ Classpath.properties, Syntax.properties, all the language resource files, and de
 * All return values of all commands will be printed under the corresponding command.
 * Click any command in the command history field to run it again. 
 
-## Known bugs, crashes, or problems with the project's functionality
-No known bugs.
-
-## Extra features included in the project
-* to see the state of the turtle 
-* to see palettes of images/colors with numbers
-* to set, save, and load workspace preferences
-* to create multiple workspaces
-* to select active turtles graphically and toggle whether or not to graphically identify the currently active turtles in a workspace's display window
-* to move the current turtle(s) graphically
-* to change the current pen's properties graphically
-* recognize these additional commands 
-* grouping: allow variable number of parameters to procedures where appropriate by using parentheses
-* scope: allow dynamic variable scope and local variables
-* recursion: allow user defined commands to include recursive calls
-
-## Impressions of the assignment
-Challenging!
+## Bugs
+None detected.
